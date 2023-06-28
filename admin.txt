@@ -1,0 +1,16 @@
+admin
+admin@mysite.com
+myadmin
+
+
+- Bars percentage of categories   Done
+
+- circle number of clients & stores   Done
+
+- Syria number of Stores   Done
+
+- best of 3 Stores
+
+-number of posts   Done
+
+- Stores
