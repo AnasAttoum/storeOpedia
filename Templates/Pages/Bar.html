@@ -1,0 +1,148 @@
+{% extends 'Pages/Map.html' %}
+{% load static %}
+{% block Bar %}
+<head>
+  <link rel="stylesheet" type="text/css" href="{% static 'Bar.css' %}"/>
+</head>
+
+<!--------------------------------------START The Number Of Stores In Each Category---------------------->
+<div id="content-main" class=col-12 >
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body pad table-responsive">
+<div id="css-script-menu">
+
+    <div class="css-script-center">
+    </div>
+  
+  </div>
+ 
+      <h1 class="TitleMe" style="margin-top:10px;margin-left:25px; font-size: xx-large;">The Number Of Stores In Each Category</h1>
+  
+      <!-- css bar graph -->
+  
+      <div class="css_bar_graph">
+  
+        
+  
+        <!-- y_axis labels -->
+  
+        <ul class="y_axis">
+  
+          <li>100%</li>
+          <li>80%</li>
+          <li>60%</li>
+          <li>40%</li>
+          <li>20%</li>
+          <li>0%</li>
+  
+        </ul>
+  
+        
+  
+        <!-- x_axis labels -->
+  
+        <ul class="x_axis">
+  
+          <li>Food</li>
+          <li>Beauty</li>
+          <li>Electronics</li>
+          <li>vehicles</li>
+          <li>E-States</li>
+          <li>Cafe</li>
+          <li>Clothes</li>
+          <li>Shoes</li>
+          <li>Malls</li>
+          <li>Electrics</li>
+  
+        </ul>
+  
+        
+  
+        <!-- graph -->
+  
+        <div class="graph">
+  
+          <!-- grid -->
+  
+          <ul class="grid">
+  
+            <li><!-- 100 --></li>
+  
+            <li><!-- 80 --></li>
+  
+            <li><!-- 60 --></li>
+  
+            <li><!-- 40 --></li>
+  
+            <li><!-- 20 --></li>
+  
+            <li class="bottom"><!-- 0 --></li>
+  
+          </ul>
+  
+          
+  
+          <!-- bars -->
+  
+          <!-- 250px = 100% -->
+  
+          <ul>
+  
+            <li class="bar nr_1 red" style="height: 125px;"><div class="top"></div><div class="bottom"></div><span>50%</span></li>
+  
+            <li class="bar nr_2 pink" style="height: 225px;"><div class="top"></div><div class="bottom"></div><span>90%</span></li>
+  
+            <li class="bar nr_3 gray" style="height: 75px;"><div class="top"></div><div class="bottom"></div><span>30%</span></li>
+  
+            <li class="bar nr_4 purple" style="height: 100px;"><div class="top"></div><div class="bottom"></div><span>40%</span></li>
+  
+            <li class="bar nr_5 blue" style="height: 150px;"><div class="top"></div><div class="bottom"></div><span>60%</span></li>
+            
+            <li class="bar nr_6 orange" style="height: 150px;"><div class="top"></div><div class="bottom"></div><span>60%</span></li>
+            
+            <li class="bar nr_7 green" style="height: 150px;"><div class="top"></div><div class="bottom"></div><span>60%</span></li>
+            
+            <li class="bar nr_8 brown" style="height: 150px;"><div class="top"></div><div class="bottom"></div><span>60%</span></li>
+            
+            <li class="bar nr_9 lightBlue" style="height: 150px;"><div class="top"></div><div class="bottom"></div><span>60%</span></li>
+            
+            <li class="bar nr_10 yellow" style="height: 150px;"><div class="top"></div><div class="bottom"></div><span>60%</span></li>
+  
+          </ul>	
+  
+        </div>
+  
+        
+  
+        <!-- graph label -->
+  
+        <!-- <div class="label"><span>Graph: </span>Gain (in percent)</div> -->
+  
+      
+  
+      </div><script>
+  
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  
+  
+  
+    ga('create', 'UA-46156385-1', 'cssscript.com');
+  
+    ga('send', 'pageview');
+  </script>
+  <!--------------------------------------END The Number Of Stores In Each Category----------------------->
+ 
+
+</div>
+</div>
+</div>
+</div>
+
+{% endblock %}

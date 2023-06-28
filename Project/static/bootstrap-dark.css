@@ -1,0 +1,77 @@
+/* .tab-content input, textarea {
+    background-color: #343a40 !important;
+    color: white !important;
+    border: none !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+    margin: auto !important;
+}
+
+brand-link navbar-success:hover{
+    background-color: #00bc8c !important;
+}
+
+#id_tags {
+    display: block;
+    width: 100%;
+    padding: 10px;
+}
+
+#changelist-search .form-group {
+    margin: 10px !important;
+}
+
+.alert-success a{
+color: #ffffff !important;
+} */
+
+/* [class*="accent-"] a.btn-success {
+    color: red;
+  } */
+  /* .h5, h5 {
+    font-size: 1.25rem;
+  } */
+
+  /* -------------------------------------------MY EDITS------------------------------------------------ */
+/* Project */
+.main-footer .float-right {
+    visibility: hidden;
+  }
+.btn-group > .btn-group:not(:first-child) > .btn, .btn-group > .btn:not(:first-child) {
+   display: none;
+}
+
+body:not(.layout-fixed) .main-sidebar {
+    position: fixed;
+  }
+h1 picture img {
+    width: 150px;
+  }
+
+  .main-footer{
+    text-align: center;
+  }
+  /* thead {
+    position: relative;
+    top: -20px;
+    left: -6px;
+  } */
+  .content-wrapper{
+    min-height: 735px;
+  }
+
+
+/* a.nav-link{
+  display: none;
+} */
+ul:nth-child(1) li.nav-item:nth-child(1) {
+  display: none;
+}
+
+
+
+
+
+  
+    

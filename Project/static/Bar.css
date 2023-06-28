@@ -1,0 +1,927 @@
+.TitleMe{
+  position: relative;
+  text-align: center;
+  font-size: 3rem;
+  background: linear-gradient(to right, #9776b9 20%, #6d4e8f 40%, #406992 60%, #6d97c0 80%);
+  background-size: 200% auto;
+  color: #000;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  font-weight: 700;
+
+  margin-bottom: 30px;
+
+  animation: animate 2s linear infinite;
+}
+
+@keyframes animate{
+  to{
+      background-position: 200% center;
+  }
+}
+
+@media (max-width: 760px){
+  .TitleMe{
+      position: relative;
+      top: 450px;
+  }
+  .a{
+      position: relative;
+      top: 400px;
+  }
+}
+
+@media (max-width: 500px){
+  .TitleMe{
+      font-size: 1.5rem;
+  }
+}
+
+/* ------------------------------------START The Number Of Stores In Each Category-------------------- */
+  
+div.css_bar_graph {
+  
+  width: 1030px;
+
+  height: 358px;
+
+  padding: 40px 20px 10px 70px;
+
+  /* --- font --- */
+
+  font-size: 13px;
+
+  font-family: arial, sans-serif;
+
+  font-weight: normal;
+
+  color: #444444;
+
+  background-color: #ffffff;
+
+  position: relative;
+  top: 0;
+  left: 60px;
+
+  /* margin-left: auto;
+  margin-right: auto; */
+  margin-left: 0;
+  margin-right: 0;
+
+  border: 1px solid #d5d5d5;
+
+  /* --- css3 --- */
+
+  border-radius: 10px;
+
+  -webkit-border-radius: 10px;
+
+  -moz-border-radius: 10px;
+
+}
+
+
+
+/* ------ hyperlinks ------ */
+
+
+
+div.css_bar_graph a {
+
+  color: #444444;
+
+  text-decoration: none;
+
+}
+
+
+
+/* ------ lists ------ */
+
+
+
+div.css_bar_graph ul {
+
+  margin: 0px;
+
+  padding: 0px;
+
+  list-style-type: none;
+
+}
+
+
+
+div.css_bar_graph li {
+
+  margin: 0px;
+
+  padding: 0px;
+
+}
+
+
+
+/* ==================== Y-AXIS LABELS ==================== */
+
+/* ------ base ------ */
+
+
+
+div.css_bar_graph ul.y_axis {
+
+  width: 50px;
+
+  position: absolute;
+
+  top: 40px;
+
+  left: 10px;
+
+  text-align: right;
+
+}
+
+
+
+/* ------ labels ------ */
+
+
+
+div.css_bar_graph ul.y_axis li {
+
+  width: 100%;
+
+  height: 49px;	/* 50px including border */
+
+  float: left;
+
+  color: #888888;
+
+  /* --- alignment correction --- */
+
+  border-top: 1px solid transparent;
+
+  position: relative;
+
+  top: -13px;	/* value = font height */
+
+}
+
+
+
+/* ==================== X-AXIS LABELS  ==================== */
+
+/* ------ base ------ */
+
+
+
+div.css_bar_graph ul.x_axis {
+
+  width: 100%;
+
+  height: 50px;
+
+  position: absolute;
+
+  bottom: 0px;
+
+  left: 90px;
+
+  text-align: center;
+
+}
+
+
+
+/* ------ labels ------ */
+
+
+
+div.css_bar_graph ul.x_axis li {
+
+  display: inline;
+
+  width: 90px;
+
+  float: left;
+
+}
+
+
+
+/* ==================== GRAPH LABEL  ==================== */
+
+/* ------ base ------ */
+
+
+
+div.css_bar_graph div.label {
+
+  width: 100%;
+
+  height: 50px;
+
+  float: left;
+
+  margin-top: 20px;
+
+  text-align: center;
+
+}
+
+
+
+div.css_bar_graph div.label span { font-weight: bold; }
+
+
+
+/* ==================== GRAPH  ==================== */
+
+/* ------ base ------ */
+
+
+
+div.css_bar_graph div.graph {
+
+  width: 100%;
+
+  height: 100%;
+
+  float: left;
+
+}
+
+
+
+/* ------ grid ------ */
+
+
+
+div.css_bar_graph div.graph ul.grid { width: 100%; }
+
+
+
+/* ------ IE grid ------ */
+
+
+
+div.css_bar_graph div.graph li {
+
+  width: 100%;
+
+  height: 49px;	/* 50px including border */
+
+  float: left;
+
+  border-top: 1px solid #e5e5e5;
+
+}
+
+
+
+/* ------ other browsers grid ------ */
+
+
+
+div.css_bar_graph div.graph li:nth-child(odd) {
+
+  width: 100%;
+
+  height: 49px;	/* 50px including border */
+
+  float: left;
+
+  border-top: 1px solid #e5e5e5;
+
+  background-color: #f8f8f8;
+
+}
+
+
+
+div.css_bar_graph div.graph li:nth-child(even) {
+
+  width: 100%;
+
+  height: 49px;	/* 50px including border */
+
+  float: left;
+
+  border-top: 1px solid #e5e5e5;
+
+}
+
+
+
+/* ------ bottom grid element ------ */
+
+
+
+div.css_bar_graph div.graph li.bottom {
+
+  border-top: 1px solid #d5d5d5;
+
+  background-color: #eeeeee;
+
+  height: 19px;
+
+}
+
+
+
+/* ==================== BARS COMMON  ==================== */
+
+/* ------ common styles ------ */
+
+
+
+div.css_bar_graph div.graph li.bar {
+
+  width: 50px;
+
+  float: left;
+
+  position: absolute;
+
+  bottom: 70px;
+
+  text-align: center;
+
+  /* --- css3 --- */
+
+    /* --- transitions --- */
+
+  -webkit-transition: all 0.15s ease-in-out;
+
+  -moz-transition: all 0.15s ease-in-out;
+
+  -o-transition: all 0.15s ease-in-out;
+
+  -ms-transition: all 0.15s ease-in-out;
+
+  transition: all 0.15s ease-in-out;
+
+}
+
+
+
+/* ------ bar top circle ------ */
+
+
+
+div.css_bar_graph div.graph li.bar div.top {
+
+  width: 100%;
+
+  height: 20px;
+
+  margin-top: -10px;
+
+  /* --- css3 --- */
+
+  -moz-border-radius: 50px/20px;
+
+  -webkit-border-radius: 50px 20px;
+
+  border-radius: 50px/20px;
+
+  /* --- transitions --- */
+
+  -webkit-transition: all 0.15s ease-in-out;
+
+  -moz-transition: all 0.15s ease-in-out;
+
+  -o-transition: all 0.15s ease-in-out;
+
+  -ms-transition: all 0.15s ease-in-out;
+
+  transition: all 0.15s ease-in-out;
+
+}
+
+
+
+/* ------ bar bottom circle ------ */
+
+
+
+div.css_bar_graph div.graph li.bar div.bottom {
+
+  width: 100%;
+
+  height: 20px;
+
+  position: absolute;
+
+  bottom: -10px;
+
+  left: 0px;
+
+  /* --- css3 --- */
+
+  -moz-border-radius: 50px/20px;
+
+  -webkit-border-radius: 50px 20px;
+
+  border-radius: 50px/20px;
+
+  /* --- transitions --- */
+
+  -webkit-transition: all 0.15s ease-in-out;
+
+  -moz-transition: all 0.15s ease-in-out;
+
+  -o-transition: all 0.15s ease-in-out;
+
+  -ms-transition: all 0.15s ease-in-out;
+
+  transition: all 0.15s ease-in-out;
+
+}
+
+
+
+/* ------ bar top label ------ */
+
+
+
+div.css_bar_graph div.graph li.bar span {
+
+  position: relative;
+
+  top: -50px;
+
+  padding: 3px 5px 3px 5px;
+
+  z-index: 100;
+
+  background-color: #eeeeee;
+
+  border: 1px solid #bebebe;
+
+  /* --- css3 --- */
+
+  border-radius: 3px;
+
+  -webkit-border-radius: 3px;
+
+  -moz-border-radius: 3px;
+
+  /* --- gradient --- */
+
+  background-image: linear-gradient(top, #ffffff, #f1f1f1 1px, #ebebeb); /* W3C */
+
+ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f1f1f1', endColorstr='#ebebeb'); /* IE5.5 - 7 */
+
+ -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f1f1f1', endColorstr='#ebebeb'); /* IE8 */
+
+  background: -ms-linear-gradient(top, #ffffff, #f1f1f1 1px, #ebebeb); /* IE9 */
+
+  background: -moz-linear-gradient(top, #ffffff, #f1f1f1 1px, #ebebeb); /* Firefox */
+
+  background: -o-linear-gradient(top, #ffffff, #f1f1f1 1px, #ebebeb); /* Opera 11  */
+
+  background: -webkit-linear-gradient(top, #ffffff, #f1f1f1 1px, #ebebeb); /* Chrome 11  */
+
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ffffff), color-stop(0.05, #f1f1f1), color-stop(1, #ebebeb)); /* Chrome 10, Safari */
+
+  /* --- shadow --- */
+
+  text-shadow: 0px 1px 0px rgba(255,255,255,1);
+
+  box-shadow: 0px 1px 0px rgba(0,0,0,0.1);
+
+  -webkit-box-shadow: 0px 1px 0px rgba(0,0,0,0.1);
+
+  -moz-box-shadow: 0px 1px 0px rgba(0,0,0,0.1);
+
+  /* --- transitions --- */
+
+  -webkit-transition: all 0.15s ease-in-out;
+
+  -moz-transition: all 0.15s ease-in-out;
+
+  -o-transition: all 0.15s ease-in-out;
+
+  -ms-transition: all 0.15s ease-in-out;
+
+  transition: all 0.15s ease-in-out;
+
+}
+
+
+
+/* ------ bars positions ------ */
+
+
+
+div.css_bar_graph div.graph li.nr_1 { left: 110px; }
+
+
+
+div.css_bar_graph div.graph li.nr_2 { left: 200px; }
+
+
+
+div.css_bar_graph div.graph li.nr_3 { left: 290px; }
+
+
+
+div.css_bar_graph div.graph li.nr_4 { left: 380px; }
+
+
+
+div.css_bar_graph div.graph li.nr_5 { left: 470px; }
+
+
+
+div.css_bar_graph div.graph li.nr_6 { left: 560px; }
+
+
+
+div.css_bar_graph div.graph li.nr_7 { left: 650px; }
+
+
+
+div.css_bar_graph div.graph li.nr_8 { left: 740px; }
+
+
+
+div.css_bar_graph div.graph li.nr_9 { left: 830px; }
+
+
+
+div.css_bar_graph div.graph li.nr_10 { left: 920px; }
+
+
+
+
+
+/* ==================== BLUE BAR  ==================== */
+
+/* ------ base ------ */
+
+div.css_bar_graph div.graph li.blue {
+
+/* body of the bar-------------------------------------------------------------------------------------------------------------------body of the bar */
+
+
+  background: #0077b6;
+
+}
+
+
+
+
+/* ------ top ------ */
+
+
+
+div.css_bar_graph div.graph li.blue div.top { background: #2299d8; }
+
+
+
+/* ------ bottom ------ */
+
+
+
+div.css_bar_graph div.graph li.blue div.bottom { background: #005594; }
+/* -------------------------------------------------------------------------------------------------------------------bottom of the bar */
+
+
+
+
+/* ==================== GREEN BAR  ==================== */
+
+/* ------ base ------ */
+
+
+
+div.css_bar_graph div.graph li.green {
+
+  background: #608d00;	/* --- IE --- */
+
+  background: #4ad66d;
+
+}
+
+
+
+/* ------ top ------ */
+
+
+
+div.css_bar_graph div.graph li.green div.top { background: #6cf88f; }
+
+
+
+/* ------ bottom ------ */
+
+
+
+div.css_bar_graph div.graph li.green div.bottom { background: #28b44b; }
+
+
+
+/* ==================== ORANGE BAR  ==================== */
+
+/* ------ base ------ */
+
+
+
+div.css_bar_graph div.graph li.orange {
+
+  background: #ff9000;	/* --- IE --- */
+
+  background: rgba(255,144,0,0.8);
+
+}
+
+
+
+/* ------ top ------ */
+
+
+
+div.css_bar_graph div.graph li.orange div.top { background: #ffc24c; }
+
+
+
+/* ------ bottom ------ */
+
+
+
+div.css_bar_graph div.graph li.orange div.bottom { background: #ff9000; }
+
+
+
+/* ==================== PURPLE BAR  ==================== */
+
+/* ------ base ------ */
+
+
+
+div.css_bar_graph div.graph li.purple {
+
+  background: #7d47ba;	/* --- IE --- */
+
+  background: rgba(125,71,186,0.8);
+
+}
+
+
+
+/* ------ top ------ */
+
+
+
+div.css_bar_graph div.graph li.purple div.top { background: #b592dd; }
+
+
+
+/* ------ bottom ------ */
+
+
+
+div.css_bar_graph div.graph li.purple div.bottom { background: #7d47ba; }
+
+
+
+/* ==================== RED BAR  ==================== */
+
+/* ------ base ------ */
+
+
+
+div.css_bar_graph div.graph li.red {
+
+  background: #d23648;	/* --- IE --- */
+
+  background: #ff4a47;
+
+}
+
+/* ------ top ------ */
+div.css_bar_graph div.graph li.red div.top { background: #ff6c69; }
+
+/* ------ bottom ------ */
+div.css_bar_graph div.graph li.red div.bottom { background: #df2825; }
+
+
+/* ==================== PINK BAR  ==================== */
+
+/* ------ base ------ */
+
+
+
+div.css_bar_graph div.graph li.pink {
+
+  background: #d23648;	/* --- IE --- */
+
+  background: #ffa5ab;
+
+}
+
+
+
+/* ------ top ------ */
+
+
+
+div.css_bar_graph div.graph li.pink div.top { background: #ffc7cd; }
+
+
+
+/* ------ bottom ------ */
+
+
+
+div.css_bar_graph div.graph li.pink div.bottom { background: #ee949a; }
+
+/* ==================== GRAY BAR  ==================== */
+/* ------ base ------ */
+div.css_bar_graph div.graph li.gray {
+  background: #bfa3ab;
+}
+
+/* ------ top ------ */
+div.css_bar_graph div.graph li.gray div.top { background: #dfc5cd; }
+
+/* ------ bottom ------ */
+div.css_bar_graph div.graph li.gray div.bottom { background: #9d8189; }
+
+/* ==================== BLACK BAR  ==================== */
+/* ------ base ------ */
+div.css_bar_graph div.graph li.black {
+  background: #00171f;
+}
+
+/* ------ top ------ */
+div.css_bar_graph div.graph li.black div.top { background: #22393f; }
+
+/* ------ bottom ------ */
+div.css_bar_graph div.graph li.black div.bottom { background: #00050d; }
+
+
+/* ==================== ORANGE BAR  ==================== */
+/* ------ base ------ */
+div.css_bar_graph div.graph li.orange {
+  background: #ff9770;
+}
+
+/* ------ top ------ */
+div.css_bar_graph div.graph li.orange div.top { background: #ffb992; }
+
+/* ------ bottom ------ */
+div.css_bar_graph div.graph li.orange div.bottom { background: #dd7550; }
+
+
+/* ==================== YELLOW BAR  ==================== */
+/* ------ base ------ */
+div.css_bar_graph div.graph li.yellow {
+  background: #fdd85d;
+}
+
+/* ------ top ------ */
+div.css_bar_graph div.graph li.yellow div.top { background: #fffa7f; }
+
+/* ------ bottom ------ */
+div.css_bar_graph div.graph li.yellow div.bottom { background: #dbb63b; }
+
+/* ==================== BROWN BAR  ==================== */
+/* ------ base ------ */
+div.css_bar_graph div.graph li.brown {
+  background: #bc8a5f;
+}
+
+/* ------ top ------ */
+div.css_bar_graph div.graph li.brown div.top { background: #deac7f; }
+
+/* ------ bottom ------ */
+div.css_bar_graph div.graph li.brown div.bottom { background: #9a683d; }
+
+/* ==================== LIGHTBLUE BAR  ==================== */
+/* ------ base ------ */
+div.css_bar_graph div.graph li.lightBlue {
+  background: #7bdff2;
+}
+
+/* ------ top ------ */
+div.css_bar_graph div.graph li.lightBlue div.top { background: #9dfff4; }
+
+/* ------ bottom ------ */
+div.css_bar_graph div.graph li.lightBlue div.bottom { background: #59bdd0; }
+/* ==================== HOVERS  ==================== */
+
+
+
+div.css_bar_graph div.graph li.blue:hover {
+
+  cursor: pointer;
+  background: #005594;
+
+}
+
+
+
+div.css_bar_graph div.graph li.green:hover {
+
+  cursor: pointer;
+
+  background: #28b44b;
+
+}
+
+
+
+div.css_bar_graph div.graph li.orange:hover {
+
+  cursor: pointer;
+
+  background: #ff9000;
+
+}
+
+
+
+div.css_bar_graph div.graph li.purple:hover {
+
+  cursor: pointer;
+
+  background: #7d47ba;
+
+}
+
+
+
+div.css_bar_graph div.graph li.red:hover {
+
+  cursor: pointer;
+
+  background: #df2825;
+
+}
+
+div.css_bar_graph div.graph li.pink:hover {
+
+  cursor: pointer;
+
+  background: #ee949a;
+
+}
+
+
+div.css_bar_graph div.graph li.gray:hover {
+
+  cursor: pointer;
+
+  background: #9d8189;
+
+}
+
+div.css_bar_graph div.graph li.black:hover {
+
+  cursor: pointer;
+
+  background: #00050d;
+
+}
+
+div.css_bar_graph div.graph li.orange:hover {
+  cursor: pointer;
+  background: #dd7550;
+}
+
+div.css_bar_graph div.graph li.yellow:hover {
+  cursor: pointer;
+  background: #dbb63b;
+}
+
+div.css_bar_graph div.graph li.brown:hover {
+  cursor: pointer;
+  background: #9a683d;
+}
+
+div.css_bar_graph div.graph li.lightBlue:hover {
+  cursor: pointer;
+  background: #59bdd0;
+}
+
+
+div.css_bar_graph div.graph li.bar:hover span {
+
+  cursor: pointer;
+
+  top: -60px;
+
+  padding: 10px;
+
+  margin: 0px;
+
+}
+
+
+/* ------------------------------------END The Number Of Stores In Each Category-------------------- */
+

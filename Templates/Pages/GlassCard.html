@@ -1,0 +1,21 @@
+{% extends 'Pages/DonutChart.html' %}
+{% load static %}
+{% block GlassCard %}
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'GlassCard.css' %}"/>
+</head>
+<div style="display:inline-block">
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="cardMe">
+    <h2 class="header">Number Of Posts That Added This Month :</h2>
+    <p class="text">150 &nbsp;&nbsp; P o s t s</p>
+    <!-- <img alt='Services' src={props.source} class="img"/> -->
+    </div>
+</div>
+
+
+{% block Map %}
+{% endblock %}
+
+{% endblock %}

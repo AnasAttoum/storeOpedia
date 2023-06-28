@@ -1,0 +1,89 @@
+
+
+.cardMe{
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(4px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 30px;
+  width: 20rem;
+  height: 10rem;
+  position: relative;
+  top: 150px;
+  /* left: 700px; */
+  /* margin-left: 150px; */
+  margin-left: 45px;
+  margin-right: 45px;
+}
+
+.circle{
+  position: absolute;
+  /* top: 150px; */
+  /* left: 200px; */
+  /* margin-top: -390px; */
+  margin-left: 150px;
+  margin-top: 160px;
+  height: 6rem;
+  width: 6rem;
+  border-radius: 50%;
+  background: deepskyblue;
+  transform: translate(-9rem, 6rem);
+}
+
+.circle:nth-child(2){
+  transform: translate(10.5rem, -3.5rem);
+  background: deeppink;
+}
+
+.header{
+  text-align: center;
+  font-size: 18px;
+  background-image: linear-gradient(to right, #6d4e8f, #406992);
+  -webkit-text-fill-color: transparent;
+  background-clip: unset;
+  -webkit-background-clip: text;
+}
+
+.text{
+  text-align: center;
+  background-image: linear-gradient(to right, #6d4e8f, #406992);
+  -webkit-text-fill-color: transparent;
+  background-clip: unset;
+  -webkit-background-clip: text;
+  font-size: 20px;
+  font-weight: 800;
+  position: relative;
+  top: 20px;
+}
+
+.img{
+  width: 130px;
+  height: 130px;
+  display: block;
+  margin: 0 auto;
+  margin-top: 60px;
+}
+
+@media (max-width: 760px){
+  .cardMe{
+      top: 500px;
+  }
+  .circle{
+      margin-top: 660px;
+  }
+}
+
+@media (max-width: 470px){
+  .circle{
+      display: none;
+  }
+  .cardMe{
+      position: relative;
+      width: 100%;
+      left: -100px;
+  }
+  .text{
+      position: relative;
+      left: -30px;
+  }
+}
