@@ -11,6 +11,7 @@ from rest_framework.views import *
 from django.contrib import auth
 from datetime import datetime
 
+
 def Overview(request):
 
     context = {
@@ -18,6 +19,7 @@ def Overview(request):
         'usersNumber': len(UserProfile.objects.filter(is_owner = False)),
         'ownerPercentage' : int(len(UserProfile.objects.filter(is_owner = True)) / len(UserProfile.objects.filter())*100),
         'usersPercentage' : 100 - int(len(UserProfile.objects.filter(is_owner = True)) / len(UserProfile.objects.filter())*100),
+        'PostNumber' : len(Store.objects.all())
     }
     return render( request , 'pages/Bar.html' , context)
 
