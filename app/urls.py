@@ -13,6 +13,7 @@ urlpatterns=[
 
     path( 'profile/<int:userId>' , views.edit , name='edit' ),  #NOT DONE IN FLUTTER
 
+    path( 'delete/<int:userId>' , views.delete , name='delete' ),  #NOT DONE IN FLUTTER
 
     path( 'AddStore/<int:userId>' , views.addStore , name='addStore' ),  #NOT DONE IN FLUTTER
 
@@ -26,7 +27,7 @@ urlpatterns=[
     
     path( 'shops/<int:userId>' , views.lookupStores , name='lookupStores' ),
     
-    path( 'verifyPassword/<int:userId>' , views.editPassword , name='editPassword' ),
+    path( 'verifyPassword/<int:userId>' , views.editPassword , name='editPassword' ),   #NOT DONE IN FLUTTER
 
     
 

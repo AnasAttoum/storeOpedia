@@ -13,6 +13,10 @@ class UserProfile(models.Model):
     is_owner=models.BooleanField(default=0)
     def __str__(self):
         return self.user.username
+    
+    class Meta:
+        verbose_name_plural="User Profiles"
+        verbose_name="User Profile"
 
     
 class Store(models.Model):
@@ -39,6 +43,10 @@ class Store(models.Model):
     def __str__(self):
         return self.name
     
+    class Meta:
+        verbose_name_plural="Stores"
+        verbose_name="Store"
+    
 class Post(models.Model):
     title=models.CharField(max_length=20)
     description = models.CharField(max_length=150)
@@ -50,6 +58,10 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+    
+    class Meta:
+        verbose_name_plural="Posts"
+        verbose_name="Post"
 
 class Followed_Stores(models.Model):
     user=models.ForeignKey(UserProfile,on_delete=models.CASCADE)
@@ -58,8 +70,8 @@ class Followed_Stores(models.Model):
         return "Followed_Stores"
     
     class Meta:
-        verbose_name_plural="Followed_Stores"
-        verbose_name="Followed_Store"
+        verbose_name_plural="Followed Stores"
+        verbose_name="Followed Store"
 
 class Rated_Stores(models.Model):
     user=models.ForeignKey(UserProfile,on_delete=models.CASCADE)
@@ -67,8 +79,8 @@ class Rated_Stores(models.Model):
     def __str__(self):
         return "Rated_Stores"
     class Meta:
-        verbose_name_plural="Rated_Stores"
-        verbose_name="Rated_Store"
+        verbose_name_plural="Rated Stores"
+        verbose_name="Rated Store"
 
 class Fav_Stores(models.Model):
     user=models.ForeignKey(UserProfile,on_delete=models.CASCADE)
@@ -76,8 +88,8 @@ class Fav_Stores(models.Model):
     def __str__(self):
         return "Fav_Stores"
     class Meta:
-        verbose_name_plural="Fav_Stores"
-        verbose_name="Fav_Store"
+        verbose_name_plural="Favorite Stores"
+        verbose_name="Favorite Store"
     
 class Liked_Posts(models.Model):
     user=models.ForeignKey(UserProfile,on_delete=models.CASCADE)
@@ -85,5 +97,5 @@ class Liked_Posts(models.Model):
     def __str__(self):
         return self.post.title
     class Meta:
-        verbose_name_plural="Liked_Posts"
-        verbose_name="Liked_Post"
+        verbose_name_plural="Liked Posts"
+        verbose_name="Liked Post"

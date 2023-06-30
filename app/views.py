@@ -300,22 +300,15 @@ def delete(request , userId):
         # print(user)
         # print(request.user)
         
-
-    
         user.delete()
-        userPro.delete()
-        return JsonResponse({'message':" User has been deleted successfully"})
+        return JsonResponse({'message':" User has been deleted successfully"},status = 200)
     else:
         return JsonResponse({'message':"Access Denied"})
     
 
 @api_view(['PUT'])
 def edit(request , userId):
-    # print('BACK START')
     body_unicode = request.body.decode()
-    # print('body_unicode :')
-    # print(body_unicode)
-    
     body = json.loads(body_unicode)  
     print('request.body :')
     print(request.body)
@@ -325,23 +318,10 @@ def edit(request , userId):
     email = body['email']
     password = body['password']
     phoneNumber = body['phoneNumber']
-    # print('FROM REQUEST')
-    # print(userName)
-    # print(id)
-    # print(userId)
-    # print('id')
-    # print(id)
-    # print('userId')
-    # print(userId)
-    # print('if')
+
     if(int(id)==userId):
-        # print('if')
         user = User.objects.get(id=userId)
         userPro = UserProfile.objects.get(user_id=userId)
-        # print('FROM DATABASE')
-        # print(user.username)
-        # print(userName)
-        # print(user.username)
         user.username = userName
         userPro.phone = phoneNumber
         # print(user.username)

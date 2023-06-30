@@ -71,9 +71,9 @@ h1 picture img {
 } */
 
 
-.sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active, .sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active {
+/* .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active, .sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active {
   display: none;
-}
+} */
 
 #jazzy-sidebar .nav-sidebar > .nav-item:nth-child(1) {
   display: none;

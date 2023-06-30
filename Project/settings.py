@@ -229,6 +229,15 @@ JAZZMIN_SETTINGS = {
         "users.User": "fas fa-user",
         "auth.Group": "fas fa-users",
         "admin.LogEntry": "fas fa-file",
+
+        # "app.fav_stores": "fas fa-chevron-circle-right",
+        "app.followed_stores":"fa fa-user-plus",
+        "app.post":"fa fa-envelope-open",
+        "app.liked_Posts":"fa fa-heart",
+        "app.rated_stores":"fa fa-star",
+        "app.store":"fas fa-store",
+        "app.userprofile":"fa fa-user",
+        
     },
     # # Icons that are used when one is not manually specified
     "default_icon_parents": "fas fa-chevron-circle-right",
@@ -243,7 +252,7 @@ JAZZMIN_SETTINGS = {
     #############
     # Relative paths to custom CSS/JS scripts (must be present in static files)
     # Uncomment this line once you create the bootstrap-dark.css file
-    "custom_css": "bootstrap-dark.css",
+    "custom_css": "bootstrap.css",
     # "custom_css": "bootstrap-dark.css",
     "custom_js": 'admin.js',
     # Whether to show the UI customizer on the sidebar
@@ -257,7 +266,7 @@ JAZZMIN_SETTINGS = {
     "changeform_format_overrides": {
         "auth.user": "vertical_tabs",
         "auth.group": "vertical_tabs",
-
+        
     },
     # "language_chooser": True,
 }
