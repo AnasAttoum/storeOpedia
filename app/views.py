@@ -24,7 +24,7 @@ def Overview(request):
         'Value1': 53,
         'Percentage1': (53*245)/100,
     }
-    return render( request , 'pages/Bar.html' , context)
+    return render( request , 'Pages/Bar.html' , context)
 
 
 @csrf_exempt
