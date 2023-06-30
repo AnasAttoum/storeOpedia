@@ -2,15 +2,24 @@
 {% load static %}
 {% block GlassCard %}
 <head>
-    <link rel="stylesheet" type="text/css" href="{% static 'GlassCard.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'Glass.css' %}"/>
 </head>
-<div style="display:inline-block">
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="cardMe">
-    <h2 class="header">Number Of Posts That Added To The Site :</h2>
-    <p class="text">{{PostNumber}} &nbsp;&nbsp; P o s t s</p>
-    <!-- <img alt='Services' src={props.source} class="img"/> -->
+<div id="content-main" class='col-12' style="max-width:33%;">
+    <div class="col-12"  style="width:390px;">
+        <div class="">
+            <div class="card-body pad table-responsive" style="overflow: hidden;margin: auto;background-color:rgb(244, 246, 249);height: 440px;">
+
+                <div style="display: flex;flex-wrap: nowrap;">
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="cardMe">
+                        <h2 class="header">Number Of Posts That Added To The Site :</h2>
+                        <p class="text">{{PostNumber}} &nbsp;&nbsp; P o s t s</p>
+                        <!-- <img alt='Services' src={props.source} class="img"/> -->
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

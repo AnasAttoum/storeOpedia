@@ -2,15 +2,15 @@
 {% load static %}
 {% block Bar %}
 <head>
-  <link rel="stylesheet" type="text/css" href="{% static 'Bar.css' %}"/>
+  <link rel="stylesheet" type="text/css" href="{% static 'BarCSS.css' %}"/>
 </head>
 
 <!--------------------------------------START The Number Of Stores In Each Category---------------------->
 <div id="content-main" class=col-12 >
     <div class="col-12">
-      <div class="card">
+      <div class="card" style="margin-top: 25px;">
         <div class="card-body pad table-responsive">
-<div id="css-script-menu">
+<div id="css-script-menu" style="width: 20px;">
 
     <div class="css-script-center">
     </div>
@@ -21,7 +21,7 @@
   
       <!-- css bar graph -->
   
-      <div class="css_bar_graph">
+      <div class="css_bar_graph" style="width:88%;overflow: hidden;" >
   
         
   
@@ -89,7 +89,7 @@
   
           <ul>
   
-            <li class="bar nr_1 red" style="height: 125px;"><div class="top"></div><div class="bottom"></div><span>50%</span></li>
+            <li class="bar nr_1 red" style="height: {{Percentage1}}px"><div class="top"></div><div class="bottom"></div><span>{{Value1}}%</span></li>
   
             <li class="bar nr_2 pink" style="height: 225px;"><div class="top"></div><div class="bottom"></div><span>90%</span></li>
   

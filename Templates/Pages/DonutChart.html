@@ -2,21 +2,20 @@
 {% load static %}
 {% block DonutChart %}
 <head>
-    <link rel="stylesheet" type="text/css" href="{% static 'DonutChart.css' %}"/>
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'DonutChart.css' %}"/> -->
     <script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-core.min.js"></script>
     <script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-pie.min.js"></script>
 </head>
 
-<div id="content-main" class='col-12' style="max-width:33%;">
-    <div class="col-12"  style="width:390px;">
-      <div class="card">
-        <div class="card-body pad table-responsive" style="overflow: hidden;margin: auto;">
+<div id="content-main" class='col-12' style="max-width:33%;height: 440px;">
+  <div class="col-12"  style="width:390px;">
+    <div class="card">
+      <div class="card-body pad table-responsive" style="overflow: hidden;margin: auto;">
 
-
-            <div id="container" style="width: 330px;height: 400px;"></div>
+        
+          <div id="container" style="width: 105%;height: 400px;"></div>
     <script>
-
-anychart.onDocumentReady(function () {
+  anychart.onDocumentReady(function () {
   // add data
   var data = anychart.data.set([
     ['Client', '{{usersNumber}}' , '{{usersPercentage}}'],
@@ -63,7 +62,7 @@ anychart.onDocumentReady(function () {
   label
     .useHtml(true)
     .text(
-      '<span style = "color: #313136; font-size:15px;"><strong><span style="color:#fde74c">Owners</span> & <span style = "color: #5bc0eb">Clients</span></strong></span>'
+      '<span style = "color: #313136; font-size:100%;"><strong><span style="color:#fde74c">Owners</span> & <span style = "color: #5bc0eb">Clients</span></strong></span>'
     )
     .position('center')
     .anchor('center')

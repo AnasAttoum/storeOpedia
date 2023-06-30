@@ -22,6 +22,7 @@ brand-link navbar-success:hover{
     margin: 10px !important;
 }
 
+
 .alert-success a{
 color: #ffffff !important;
 } */
@@ -65,13 +66,15 @@ h1 picture img {
 /* a.nav-link{
   display: none;
 } */
-ul:nth-child(1) li.nav-item:nth-child(1) {
+/* ul:nth-child(1) li.nav-item:nth-child(1) {
+  display: none;
+} */
+
+
+.sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active, .sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active {
   display: none;
 }
 
-
-
-
-
-  
-    
+#jazzy-sidebar .nav-sidebar > .nav-item:nth-child(1) {
+  display: none;
+}

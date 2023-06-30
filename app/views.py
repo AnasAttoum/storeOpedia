@@ -19,7 +19,10 @@ def Overview(request):
         'usersNumber': len(UserProfile.objects.filter(is_owner = False)),
         'ownerPercentage' : int(len(UserProfile.objects.filter(is_owner = True)) / len(UserProfile.objects.filter())*100),
         'usersPercentage' : 100 - int(len(UserProfile.objects.filter(is_owner = True)) / len(UserProfile.objects.filter())*100),
-        'PostNumber' : len(Store.objects.all())
+        'PostNumber' : len(Store.objects.all()),
+        # 'TALL': 245,
+        'Value1': 53,
+        'Percentage1': (53*245)/100,
     }
     return render( request , 'pages/Bar.html' , context)
 
@@ -115,8 +118,8 @@ def signUpOwners(request):
         name = None
         address = None
         category = None
-        opening = datetime.now().time()
-        closing = datetime.now().time()
+        opening = None
+        closing = None
         phone = None
         rate = 0
         
@@ -133,25 +136,22 @@ def signUpOwners(request):
         name = body['storeName']
         address = body['storeLocation']
         category = body['storeCategory']
-        # opening = body['startWorkTime']
-        # closing = body['endWorkTime']
+        opening = body['startWorkTime']
+        closing = body['endWorkTime']
         phone = body['shopPhoneNumber']
 
        #check values
         # print(phoneNumber)
-
-        if userName and email and password and phoneNumber:
+        if userName and email and password and phoneNumber and name and address and category and opening and closing and phone:
             if User.objects.filter(username=userName).exists():
                 # print(body)
                 # return HttpResponse('<h1>This Username is taken</h1>')
-                # print('1')
                 return JsonResponse({'message':"UserName Already Exists"})
 
             else:#CHECK IF EMAIL IS TAKEN
                 
                 if User.objects.filter(email=email).exists():
                     # return HttpResponse('<h1>this email is taken</h1>')
-                    # print('2')
                     return JsonResponse({'message':'Email Already Exists'})
 
                 else:
@@ -558,4 +558,6 @@ def lookupStores(request , userId):
         print('6')
         return JsonResponse({'message':"Access Denied"})
 
+
+# def verifyPassword(request):
 

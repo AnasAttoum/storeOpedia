@@ -1,14 +1,13 @@
 .cardMe{
-  /* background: rgba(0, 0, 0, 0.25); */
-  background: red;
+  background: rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(4px);
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   padding: 30px;
-  width: 20rem;
+  width: 22rem;
   height: 10rem;
   position: relative;
-  top: 150px;
+  top: 120px;
   /* left: 700px; */
   /* margin-left: 150px; */
   margin-left: 45px;
@@ -21,7 +20,7 @@
   /* left: 200px; */
   /* margin-top: -390px; */
   margin-left: 150px;
-  margin-top: 160px;
+  margin-top: 130px;
   height: 6rem;
   width: 6rem;
   border-radius: 50%;
@@ -30,17 +29,24 @@
 }
 
 .circle:nth-child(2){
-  transform: translate(10.5rem, -3.5rem);
+  /* transform: translate(5.5rem, -3.5rem);
+  background: deeppink; */
+  /* transform: translate(2rem, -3rem); */
+  top: -130px;
+  /* left: 250px; */
+  right: -120px;
   background: deeppink;
+  
 }
 
 .header{
   text-align: center;
-  font-size: 18px;
+  font-size: 16px;
   background-image: linear-gradient(to right, #6d4e8f, #406992);
   -webkit-text-fill-color: transparent;
   background-clip: unset;
   -webkit-background-clip: text;
+  font-weight: 700;
 }
 
 .text{
@@ -50,7 +56,7 @@
   background-clip: unset;
   -webkit-background-clip: text;
   font-size: 20px;
-  font-weight: 800;
+  font-weight: 900;
   position: relative;
   top: 20px;
 }
@@ -86,3 +92,11 @@
       left: -30px;
   }
 }
+/* 
+.div.content:container(width> 1116px){
+  .cardMe{
+    width: 10rem;
+    height: 20rem;
+    top: 50px;
+  }
+} */

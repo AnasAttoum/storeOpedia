@@ -244,6 +244,7 @@ JAZZMIN_SETTINGS = {
     # Relative paths to custom CSS/JS scripts (must be present in static files)
     # Uncomment this line once you create the bootstrap-dark.css file
     "custom_css": "bootstrap-dark.css",
+    # "custom_css": "bootstrap-dark.css",
     "custom_js": 'admin.js',
     # Whether to show the UI customizer on the sidebar
     "show_ui_builder": True,

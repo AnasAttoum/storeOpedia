@@ -25,6 +25,8 @@ urlpatterns=[
     path( 'follow/<int:userId>/<int:storeId>' , views.followedStore , name='followedStore' ),   #NOT DONE IN FLUTTER
     
     path( 'shops/<int:userId>' , views.lookupStores , name='lookupStores' ),
+    
+    # path( 'verifyPassword' , views.verifyPassword , name='verifyPassword' ),
 
     
 
