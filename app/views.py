@@ -507,26 +507,26 @@ def lookupStores(request , userId):
     body = json.loads(body_unicode)  
     id = body['ownerID']
     # print('bb')
-    print('1')
+    # print('1')
     if(int(id)==userId):
-        print('2')
+        # print('2')
 
         user = User.objects.get(id=userId)
         userPro = UserProfile.objects.get(user_id=user.id)
         if(userPro.is_owner):
             store=Store.objects.filter(owner=userPro)
 
-            print('3')
+            # print('3')
             stores=[
                     {'shopID':str(store[0].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone , 'shopCategory':store[0].category , 'shopName':store[0].name , 'shopPhoneNumber':store[0].phone , 'location':store[0].address , 'startWorkTime':str(store[0].opening) , 'endWorkTime':str(store[0].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':'test' , 'rate':0 ,'followesNumber':0 },
                     {'shopID':str(store[1].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,'shopCategory':store[1].category , 'shopName':store[1].name , 'shopPhoneNumber':store[1].phone , 'location':store[1].address , 'startWorkTime':str(store[1].opening) , 'endWorkTime':str(store[1].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':'test' , 'rate':0 , 'followesNumber':0 },
                 ]
-            print('4')
-            print(
-                {
-                'shops':stores,
-                'message':"Succeed"}
-            )
+            # print('4')
+            # print(
+            #     {
+            #     'shops':stores,
+            #     'message':"Succeed"}
+            # )
             return JsonResponse({
                 'shops':stores,
                 'message':"Succeed"},status =200)
@@ -552,12 +552,29 @@ def lookupStores(request , userId):
             #         return JsonResponse({'message':"Access Denied"})
                     
         else:
-            print('5')
+            # print('5')
             return JsonResponse({'message':"Access Denied"})
     else:
-        print('6')
+        # print('6')
         return JsonResponse({'message':"Access Denied"})
 
+@csrf_exempt
+@api_view(['POST'])
+def editPassword(request , userId):
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode)  
+    id = body['id']
+    password = body['password']
 
-# def verifyPassword(request):
+    if(int(id)==userId):
+
+        user = User.objects.get(id=userId)
+        # if(password == user.password):
+        if(user.check_password(password)):
+            return JsonResponse({'message':'Matched'},status = 200)
+        else:
+            return JsonResponse({'message':'MisMatched'})
+
+    else:
+        return JsonResponse({'message':'Access Denied'})
 
