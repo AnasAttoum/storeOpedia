@@ -9,11 +9,11 @@ urlpatterns=[
 
     path( 'login' , views.login , name='logIn' ),
 
-    path( '<int:userId>' , views.delete , name='delete' ),  #NOT DONE IN FLUTTER
+    path( 'delete/<int:userId>' , views.delete , name='delete' ),  #NOT DONE IN FLUTTER
+    # path( '<int:userId>' , views.delete , name='delete' ),  #NOT DONE IN FLUTTER
 
     path( 'profile/<int:userId>' , views.edit , name='edit' ),  #NOT DONE IN FLUTTER
 
-    path( 'delete/<int:userId>' , views.delete , name='delete' ),  #NOT DONE IN FLUTTER
 
     path( 'AddStore/<int:userId>' , views.addStore , name='addStore' ),  #NOT DONE IN FLUTTER
 

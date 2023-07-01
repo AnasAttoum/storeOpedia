@@ -210,20 +210,15 @@ def signUpOwners(request):
 @csrf_exempt
 @api_view(['POST'])
 def login(request):
-    # print('BACK START')
+
     if request.method == 'POST':
-       #get values from form
+
         body_unicode = request.body.decode()
         body = json.loads(body_unicode)  
 
-        # userName = body['userName']
         email = body['email'].lower()
         password = body['password']
-        # print(email)
-        # print(password)
-        # print('body:')
-        # print(body)
-        # print(User.objects.get(email=email).Exists())
+
         try:
             # print('try')
             if(User.objects.get(email = email) != None):
@@ -497,11 +492,16 @@ def lookupStores(request , userId):
             store=Store.objects.filter(owner=userPro)
 
             # print('3')
-            stores=[
-                    {'shopID':str(store[0].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone , 'shopCategory':store[0].category , 'shopName':store[0].name , 'shopPhoneNumber':store[0].phone , 'location':store[0].address , 'startWorkTime':str(store[0].opening) , 'endWorkTime':str(store[0].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':'test' , 'rate':0 ,'followesNumber':0 },
-                    {'shopID':str(store[1].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,'shopCategory':store[1].category , 'shopName':store[1].name , 'shopPhoneNumber':store[1].phone , 'location':store[1].address , 'startWorkTime':str(store[1].opening) , 'endWorkTime':str(store[1].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':'test' , 'rate':0 , 'followesNumber':0 },
-                ]
-            # print('4')
+            # stores1=[
+            #         {'shopID':str(store[0].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone , 'shopCategory':store[0].category , 'shopName':store[0].name , 'shopPhoneNumber':store[0].phone , 'location':store[0].address , 'startWorkTime':str(store[0].opening) , 'endWorkTime':str(store[0].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':'test' , 'rate':0 ,'followesNumber':0 },
+            #         {'shopID':str(store[1].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,'shopCategory':store[1].category , 'shopName':store[1].name , 'shopPhoneNumber':store[1].phone , 'location':store[1].address , 'startWorkTime':str(store[1].opening) , 'endWorkTime':str(store[1].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':'test' , 'rate':0 , 'followesNumber':0 },
+            #     ]
+            # print(len(store))
+            stores = []
+            for i in range(0,len(store)):
+                x = {'shopID':str(store[i].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone , 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':'test' , 'rate':0 ,'followesNumber':0 },
+                stores += x
+                # stores.append(x)
             # print(
             #     {
             #     'shops':stores,
@@ -510,27 +510,7 @@ def lookupStores(request , userId):
             return JsonResponse({
                 'shops':stores,
                 'message':"Succeed"},status =200)
-        
-            #         print('yep')
-            #         # store=Store.objects.get(owner=userPro)
-            #         store=list(Store.objects.filter(owner=userPro).values('name', 'description'))
-
-            #         # response = dict(store=list(Store.objects.filter(owner=userPro).values('name', 'description')))
-
-            #         # print(response)
-            #         print(store)
-            #         # print(response[0])
-            #         # print(store[0])
-            #         return JsonResponse({
-            #             'shops': [
-            #                 {'shopID':str(store.id) , 'shopCategory':store.category , 'shopName':store.name , 'shopPhoneNumber':store.phone , 'location':store.address , 'startWorkTime':store.opening , 'endWorkTime':store.closing , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':'test' , 'rate':0 },
-            #                 {'shopID':str(store.id) , 'shopCategory':store.category , 'shopName':store.name , 'shopPhoneNumber':store.phone , 'location':store.address , 'startWorkTime':store.opening , 'endWorkTime':store.closing , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':'test' , 'rate':0 },
-            #             ],
-            #             'message':"Succeed"},status = 200)
-
-            #     else:
-            #         return JsonResponse({'message':"Access Denied"})
-                    
+                
         else:
             # print('5')
             return JsonResponse({'message':"Access Denied"})
