@@ -9,13 +9,15 @@ urlpatterns=[
 
     path( 'login' , views.login , name='logIn' ),
 
-    path( 'delete/<int:userId>' , views.delete , name='delete' ),  #NOT DONE IN FLUTTER
-    # path( '<int:userId>' , views.delete , name='delete' ),  #NOT DONE IN FLUTTER
+    path( 'delete/<int:userId>' , views.delete , name='delete' ),  
+    # path( '<int:userId>' , views.delete , name='delete' ),  
 
-    path( 'profile/<int:userId>' , views.edit , name='edit' ),  #NOT DONE IN FLUTTER
+    path( 'profile/<int:userId>' , views.edit , name='edit' ),
 
 
-    path( 'AddStore/<int:userId>' , views.addStore , name='addStore' ),  #NOT DONE IN FLUTTER
+    path( 'AddStore/<int:userId>' , views.addStore , name='addStore' ),  
+    path( 'delete/store/<int:userId>' , views.deleteStore , name='deleteStore' ),  
+
 
     path( 'AddPost/<int:storeId>' , views.addPost , name='addPost' ),   #NOT DONE IN FLUTTER
 
@@ -27,7 +29,7 @@ urlpatterns=[
     
     path( 'shops/<int:userId>' , views.lookupStores , name='lookupStores' ),
     
-    path( 'verifyPassword/<int:userId>' , views.editPassword , name='editPassword' ),   #NOT DONE IN FLUTTER
+    path( 'verifyPassword/<int:userId>' , views.editPassword , name='editPassword' ), 
 
     
 

@@ -420,6 +420,31 @@ def addStore(request , userId):
         return JsonResponse({'message':"Access Denied"}) 
     
 @csrf_exempt
+@api_view(['DELETE'])
+def deleteStore(request , userId):
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode)  
+    id = body['id']
+    storeId = body['shopID']
+
+    if(int(id)==userId):
+        user = User.objects.get(id=userId)
+        userPro = UserProfile.objects.get(user_id=userId)
+        if userPro.is_owner :
+            if len(Store.objects.filter(owner=userPro))==1 :
+                userPro.is_owner=False
+                userPro.save()
+
+            store = Store.objects.get(id=storeId)
+            store.delete()
+            return JsonResponse({'message':"Deleted Successfully"},status = 200)
+        else:
+            return JsonResponse({'message':"Access Denied"}) 
+    else:
+        return JsonResponse({'message':"Access Denied"}) 
+
+
+@csrf_exempt
 @api_view(['POST'])
 def addPost(request,storeId):
     if request.method == 'POST':
