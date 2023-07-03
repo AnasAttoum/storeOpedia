@@ -313,19 +313,47 @@ def edit(request , userId):
     
     id = body['id']
     userName = body['userName']
-    email = body['email']
+    # email = body['email']
     password = body['password']
     phoneNumber = body['phoneNumber']
 
     if(int(id)==userId):
         user = User.objects.get(id=userId)
         userPro = UserProfile.objects.get(user_id=userId)
-        user.username = userName
-        userPro.phone = phoneNumber
-        # print(user.username)
-        user.save()
-        userPro.save()
-        # print(user.username)
+        
+        if userName != user.username:
+            if User.objects.filter(username=userName).exists():
+                return JsonResponse({'message':"UserName Already Exists"})
+            else:
+                user.username = userName
+                userPro.phone = phoneNumber
+                if password:
+                    user.set_password(password)
+                # print(user.username)
+                user.save()
+                userPro.save()
+                # print(user.username)
+                auth.login(request, user)
+
+                return JsonResponse({'message':"Done"},status = 200)
+        else:
+            userPro.phone = phoneNumber
+            if password:
+                user.set_password(password)
+            # print(user.username)
+            user.save()
+            userPro.save()
+            # print(user.username)
+            auth.login(request, user)
+
+            return JsonResponse({'message':"Done"},status = 200)
+            
+        # user.username = userName
+        # userPro.phone = phoneNumber
+        # # print(user.username)
+        # user.save()
+        # userPro.save()
+        # # print(user.username)
 
         # auth.login(request, user)
         # print('end')
@@ -337,7 +365,7 @@ def edit(request , userId):
                         'password':user.password
                     }})
 
-    return JsonResponse({'message':"ERROR"})
+    return JsonResponse({'message':"Access Denied"})
 
 # def admin2(request):
 #     return render( request , 'login.html' )
