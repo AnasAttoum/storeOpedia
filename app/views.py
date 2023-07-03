@@ -195,13 +195,16 @@ def signUpOwners(request):
                         #                      'shopID':str(store.id) , 'shopCategory':store.category , 'shopName':store.name , 'shopPhoneNumber':store.phone , 'location':store.address , 'startWorkTime':store.opening , 'endWorkTime':store.closing , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':'test' , 'rate':0 ,
                         #                       'message':'Owner was Created' })
                         return JsonResponse({ 'ownerID':str(user.id), 'ownerName':user.username , 'ownerEmail':user.email , 'ownerPhoneNumber':userProfile.phone ,
-                                             'shopID':str(store.id) , 'shopCategory':store.category , 'shopName':store.name , 'shopPhoneNumber':store.phone , 'location':store.address , 'startWorkTime':store.opening , 'endWorkTime':store.closing , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':'test' , 'rate':0 ,
-                                              'message':'Owner was Created' },
-                                              status = 201)
+                                                'shopID':str(store.id) , 'shopCategory':store.category , 'shopName':store.name , 'shopPhoneNumber':store.phone , 'location':store.address , 'startWorkTime':store.opening , 'endWorkTime':store.closing , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':'test' , 'rate':0 ,
+                                                'message':'Owner was Created' },
+                                                status = 201)
                         
                     else:
                         # return HttpResponse('<h1>invalid email</h1>')
                         return JsonResponse({'message':'Invalid email'})
+        else:
+            return JsonResponse({'message':'Invalid Values'})
+
     else :
         return JsonResponse({'message':'ERROR NOT POST'})
     # return HttpResponse('<h1>Done</h1>')
@@ -385,7 +388,7 @@ def addStore(request , userId):
                         insta=insta,profile_photo=profile_photo,cover_photo=cover_photo,
                         rate=rate)
             store.save()
-            return JsonResponse({'message':"Your Store Have Been Added Successfully"})
+            return JsonResponse({'message':"Your Store Have Been Added Successfully"},status = 200)
         return JsonResponse({'message':"Access Denied"}) 
     
 @csrf_exempt
