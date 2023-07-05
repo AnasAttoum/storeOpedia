@@ -91,15 +91,6 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'AnasAttoum$storeOpediaDB',
-#         'USER': 'AnasAttoum',
-#         'PASSWORD': 'Anas.12321',
-#         'HOST': 'AnasAttoum.mysql.pythonanywhere-services.com',
-#     }
-# }
 
 
 # Password validation
