@@ -13,6 +13,7 @@ urlpatterns=[
     # path( '<int:userId>' , views.delete , name='delete' ),  
 
     path( 'profile/<int:userId>' , views.edit , name='edit' ),
+    path( 'profile/store/<int:userId>' , views.editStore , name='edit' ),
 
 
     path( 'AddStore/<int:userId>' , views.addStore , name='addStore' ),  
