@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-c$a4w$kb1yy@^9(qpq^@)@c7j#9hv$t*x$zm6=vdrkf!qp96g0
 DEBUG = True
 
 ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['AnasAttoum.pythonanywhere.com']
 
 
 # Application definition
@@ -90,6 +91,15 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'AnasAttoum$storeOpediaDB',
+#         'USER': 'AnasAttoum',
+#         'PASSWORD': 'Anas.12321',
+#         'HOST': 'AnasAttoum.mysql.pythonanywhere-services.com',
+#     }
+# }
 
 
 # Password validation

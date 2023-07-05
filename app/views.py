@@ -301,7 +301,7 @@ def delete(request , userId):
         user.delete()
         return JsonResponse({'message':" User has been deleted successfully"},status = 200)
     else:
-        return JsonResponse({'message':"Access Denied"})
+        return JsonResponse({'message':"Access Denied"},status = 400)
     
 
 @api_view(['PUT'])
