@@ -504,16 +504,45 @@ def addPost(request,storeId):
         body = json.loads(body_unicode)  
         
         id = body['id']
-        title = body['title']
+        storeID = body['shopID']
+        title = body['name']
         description = body['description']
         price = body['price']
         photos = body['photos']
+        print('aaaa')
 
-        if(int(id)==storeId):
+        if(int(storeID)==storeId):
+            print('jbkjb')
             store=Store.objects.get(id=storeId)
+            print('jbksssssjb')
+
             post = Post(title=title,description=description,price=price,photos=photos,owner=store)
+            print('sss')
+
             post.save()
-            return JsonResponse({'message':"Your Post Have Been Added Successfully"}) 
+            return JsonResponse({'message':"Your Post Have Been Added Successfully"},status = 200) 
+        else:
+            return JsonResponse({'message':"Access Denied"},status = 400) 
+        
+# @csrf_exempt
+# @api_view(['DELETE'])
+# def deletePost(request , storeId):
+#     body_unicode = request.body.decode()
+#     body = json.loads(body_unicode)  
+#     id = body['id']
+#     storeID = body['shopID']
+#     postId = body['postID']
+
+#     if(int(id)==storeId):
+#         post = Post.objects.get(i)
+#         .delete()
+#         return JsonResponse({'message':"Deleted Successfully"},status = 200)
+#     else:
+#         return JsonResponse({'message':"Access Denied"},status = 400) 
+#     # else:
+#     #     return JsonResponse({'message':"Access Denied"},status = 400) 
+
+
         
 @csrf_exempt
 @api_view(['POST'])
