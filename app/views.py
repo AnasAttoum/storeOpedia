@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework.views import *
 from django.contrib import auth
 from datetime import datetime
+from django.db.models import Q
 
 
 def Overview(request):
@@ -671,3 +672,29 @@ def editPassword(request , userId):
     else:
         return JsonResponse({'message':'Access Denied'},status = 400)
 
+
+@csrf_exempt
+@api_view(['POST'])
+def showStores(request , userId):
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode)  
+    id = body['id']
+
+    if(int(id)==userId):
+        user = User.objects.get(id=userId)
+        userPro = UserProfile.objects.get(user_id=user.id)
+
+        stores = []
+        store=Store.objects.filter(~Q(owner=userPro))
+        for i in range(0,len(store)):
+            
+            x = {
+                'shopID':str(store[i].id) ,
+                # 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
+                'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':'test' , 'rate':0 ,'followesNumber':0 },
+            stores += x
+        return JsonResponse({"stores":stores , 'message':'Done'},status = 200)
+
+
+    else:
+        return JsonResponse({'message':'Access Denied'},status = 400)

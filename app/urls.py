@@ -31,7 +31,9 @@ urlpatterns=[
     
     path( 'shops/<int:userId>' , views.lookupStores , name='lookupStores' ),
     
-    path( 'verifyPassword/<int:userId>' , views.editPassword , name='editPassword' ), 
+    path( 'verifyPassword/<int:userId>' , views.editPassword , name='editPassword' ),
+
+    path( 'show/stores/<int:userId>' , views.showStores , name='showStores' ), 
 
     
 
