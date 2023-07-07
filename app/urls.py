@@ -21,7 +21,7 @@ urlpatterns=[
 
 
     path( 'AddPost/<int:storeId>' , views.addPost , name='addPost' ),   #NOT DONE IN FLUTTER
-    # path( 'delete/post/<int:storeId>' , views.deletePost , name='deletePost' ),   #NOT DONE IN FLUTTER
+    path( 'delete/post/<int:postId>' , views.deletePost , name='deletePost' ),   #NOT DONE IN FLUTTER
 
     path( 'like/<int:userId>/<int:postId>' , views.likePost , name='likePost' ),    #NOT DONE IN FLUTTER
 
