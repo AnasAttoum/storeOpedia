@@ -510,20 +510,23 @@ def addPost(request,storeId):
         description = body['description']
         price = body['price']
         photos = body['photos']
-        print('aaaa')
 
         if(int(storeID)==storeId):
-            print('jbkjb')
-            store=Store.objects.get(id=storeId)
-            print('jbksssssjb')
-
-            post = Post(title=title,description=description,price=price,photos=photos,owner=store)
-            print('sss')
-
-            post.save()
-            return JsonResponse({'message':"Your Post Have Been Added Successfully"},status = 200) 
+            user = User.objects.get(id=id)
+            userPro = UserProfile.objects.get(user_id=id)
+            if userPro.is_owner :
+                store=Store.objects.get(id=storeId)
+                if store.owner == userPro:
+                    post = Post(title=title,description=description,price=price,photos=photos,owner=store)
+                    post.save()
+                    return JsonResponse({'message':"Your Post Have Been Added Successfully"},status = 200) 
+                
+                else:
+                    return JsonResponse({'message':"Access Denied1"},status = 400)
+            else:
+                return JsonResponse({'message':"Access Denied2"},status = 400)
         else:
-            return JsonResponse({'message':"Access Denied"},status = 400) 
+            return JsonResponse({'message':"Access Denied3"},status = 400) 
         
 # @csrf_exempt
 # @api_view(['DELETE'])
