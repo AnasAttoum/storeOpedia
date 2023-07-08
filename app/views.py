@@ -576,6 +576,9 @@ def addStore(request , userId):
         id = body['id']
         if(int(id)==userId):
             user2=UserProfile.objects.get(user_id=userId)
+            if user2.is_owner==False:
+                user2.is_owner=True
+                user2.save()
             owner = user2
             name = body['name']
             description = body['description']
@@ -770,6 +773,40 @@ def showStores(request , userId):
                 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':'test' , 'rate':0 ,'followesNumber':0 },
             stores += x
         return JsonResponse({"stores":stores , 'message':'Done'},status = 200)
+
+
+    else:
+        return JsonResponse({'message':'Access Denied'},status = 400)
+    
+@csrf_exempt
+@api_view(['POST'])
+def showPostsOwner(request , storeId):
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode) 
+
+    id = body['id']
+    storeID = body['shopID']
+
+    if(int(storeID)==storeId):
+        # user = User.objects.get(id=id)
+        userPro = UserProfile.objects.get(user_id=id)
+
+        if userPro.is_owner:
+            store = Store.objects.get(id=storeId)
+            if store.owner == userPro:
+                posts = []
+                post=Post.objects.filter(owner=storeId)
+                for i in range(0,len(post)):
+                    
+                    x = {
+                        'postID':str(post[i].id),
+                        'title':post[i].title,
+                        'description':post[i].description,
+                        'price':str(post[i].price),
+                        'photos':str(post[i].photos)
+                        },
+                    posts += x
+                return JsonResponse({"posts":posts , 'message':'Done'},status = 200)
 
 
     else:

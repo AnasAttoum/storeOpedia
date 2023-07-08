@@ -36,6 +36,7 @@ urlpatterns=[
     
 
     path( 'show/stores/<int:userId>' , views.showStores , name='showStores' ), 
+    path( 'show/posts/owner/<int:storeId>' , views.showPostsOwner , name='showPostsOwner' ), 
 
     
 
