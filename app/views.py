@@ -304,6 +304,64 @@ def delete(request , userId):
     else:
         return JsonResponse({'message':"Access Denied"},status = 400)
     
+@csrf_exempt
+@api_view(['DELETE'])
+def deleteStore(request , userId):
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode)  
+    id = body['id']
+    storeId = body['shopID']
+
+    if(int(id)==userId):
+        user = User.objects.get(id=userId)
+        userPro = UserProfile.objects.get(user_id=userId)
+        if userPro.is_owner :
+            if len(Store.objects.filter(owner=userPro))==1 :
+                userPro.is_owner=False
+                userPro.save()
+
+            store = Store.objects.get(id=storeId)
+            store.delete()
+            return JsonResponse({'message':"Deleted Successfully"},status = 200)
+        else:
+            return JsonResponse({'message':"Access Denied"},status = 400) 
+    else:
+        return JsonResponse({'message':"Access Denied"},status = 400) 
+
+
+@csrf_exempt
+@api_view(['DELETE'])
+def deletePost(request , postId):
+    print('hi')
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode)  
+    id = body['id']
+    storeId = body['shopID']
+    postID = body['postID']
+    print('e')
+
+    if(int(postID)==postId):
+        # user = User.objects.get(id=id)
+        userPro = UserProfile.objects.get(user_id=id)
+        print('d')
+
+        if userPro.is_owner:
+            print('a')
+            store = Store.objects.get(id = storeId)
+            print('b')
+            post = Post.objects.get(id = postId)
+            print('c')
+            
+            if post.owner == store:
+                post.delete()
+                return JsonResponse({'message':"Deleted Successfully"},status = 200)
+        else:
+            return JsonResponse({'message':"Access Denied"},status = 400) 
+    else:
+        return JsonResponse({'message':"Access Denied"},status = 400) 
+
+
+
 
 @api_view(['PUT'])
 def edit(request , userId):
@@ -417,6 +475,80 @@ def editStore(request , userId):
     else:
         return JsonResponse({'message' : 'Access Denied'} , status = 400)
 
+
+@api_view(['PUT'])
+def editPost(request , userId):
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode)  
+    
+    id = body['id']
+    storeId = body['shopID']
+
+    profile_photo = body['shopProfileImage']
+    cover_photo = body['shopCoverImage']
+    name = body['shopName']
+    description = body['shopDescription']
+    phone = body['shopPhoneNumber']
+    opening = body['startWorkTime']
+    closing = body['endWorkTime']
+    insta = body['insta']
+    facebook = body['facebook']
+    address = body['location']
+    category = body['shopCategory']
+
+    if int(id)==userId :
+        user = User.objects.get(id=userId)
+        userPro = UserProfile.objects.get(user_id=userId)
+
+        if userPro.is_owner:  
+            store = Store.objects.get(id=storeId)
+
+            if store.owner == userPro:
+                store.name =name
+                store.description = description
+                store.address = address
+                store.category = category
+                store.opening = opening
+                store.closing = closing
+                store.phone = phone
+                store.profile_photo = profile_photo
+                store.cover_photo = cover_photo
+                store.insta = insta
+                store.facebook = facebook
+                store.save()
+                return JsonResponse({'message' : 'Done'} , status = 200)
+            else:
+                return JsonResponse({'message' : 'you cant edit this store'} , status = 400)
+        else:
+            return JsonResponse({'message' : 'You dont have any store yet'} , status = 400)
+    else:
+        return JsonResponse({'message' : 'Access Denied'} , status = 400)
+
+
+@csrf_exempt
+@api_view(['POST'])
+def editPassword(request , userId):
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode)  
+    id = body['id']
+    password = body['password']
+
+    if(int(id)==userId):
+
+        user = User.objects.get(id=userId)
+        # if(password == user.password):
+        if(user.check_password(password)):
+            # print('Matched')
+            return JsonResponse({'message':'Matched'},status = 200)
+        else:
+            # print('MisMatched')
+            return JsonResponse({'message':'MisMatched'},status = 400)
+
+    else:
+        return JsonResponse({'message':'Access Denied'},status = 400)
+
+
+
 @csrf_exempt
 @api_view(['POST'])
 def addStore(request , userId):
@@ -466,29 +598,6 @@ def addStore(request , userId):
             return JsonResponse({'message':"Your Store Have Been Added Successfully"},status = 200)
         return JsonResponse({'message':"Access Denied"}) 
     
-@csrf_exempt
-@api_view(['DELETE'])
-def deleteStore(request , userId):
-    body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
-    id = body['id']
-    storeId = body['shopID']
-
-    if(int(id)==userId):
-        user = User.objects.get(id=userId)
-        userPro = UserProfile.objects.get(user_id=userId)
-        if userPro.is_owner :
-            if len(Store.objects.filter(owner=userPro))==1 :
-                userPro.is_owner=False
-                userPro.save()
-
-            store = Store.objects.get(id=storeId)
-            store.delete()
-            return JsonResponse({'message':"Deleted Successfully"},status = 200)
-        else:
-            return JsonResponse({'message':"Access Denied"},status = 400) 
-    else:
-        return JsonResponse({'message':"Access Denied"},status = 400) 
 
 
 @csrf_exempt
@@ -528,38 +637,6 @@ def addPost(request,storeId):
         else:
             return JsonResponse({'message':"Access Denied3"},status = 400) 
         
-@csrf_exempt
-@api_view(['DELETE'])
-def deletePost(request , postId):
-    print('hi')
-    body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
-    id = body['id']
-    storeId = body['shopID']
-    postID = body['postID']
-    print('e')
-
-    if(int(postID)==postId):
-        # user = User.objects.get(id=id)
-        userPro = UserProfile.objects.get(user_id=id)
-        print('d')
-
-        if userPro.is_owner:
-            print('a')
-            store = Store.objects.get(id = storeId)
-            print('b')
-            post = Post.objects.get(id = postId)
-            print('c')
-            
-            if post.owner == store:
-                post.delete()
-                return JsonResponse({'message':"Deleted Successfully"},status = 200)
-        else:
-            return JsonResponse({'message':"Access Denied"},status = 400) 
-    else:
-        return JsonResponse({'message':"Access Denied"},status = 400) 
-
-
         
 @csrf_exempt
 @api_view(['POST'])
@@ -666,27 +743,6 @@ def lookupStores(request , userId):
         # print('6')
         return JsonResponse({'message':"Access Denied"})
 
-@csrf_exempt
-@api_view(['POST'])
-def editPassword(request , userId):
-    body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
-    id = body['id']
-    password = body['password']
-
-    if(int(id)==userId):
-
-        user = User.objects.get(id=userId)
-        # if(password == user.password):
-        if(user.check_password(password)):
-            # print('Matched')
-            return JsonResponse({'message':'Matched'},status = 200)
-        else:
-            # print('MisMatched')
-            return JsonResponse({'message':'MisMatched'},status = 400)
-
-    else:
-        return JsonResponse({'message':'Access Denied'},status = 400)
 
 
 @csrf_exempt
