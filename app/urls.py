@@ -15,7 +15,6 @@ urlpatterns=[
     path( 'delete/<int:userId>' , views.delete , name='delete' ),  
     path( 'delete/store/<int:userId>' , views.deleteStore , name='deleteStore' ),  
     path( 'delete/post/<int:postId>' , views.deletePost , name='deletePost' ),   
-    # path( '<int:userId>' , views.delete , name='delete' ),  
 
 
     path( 'profile/<int:userId>' , views.edit , name='edit' ),

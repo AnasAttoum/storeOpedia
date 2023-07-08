@@ -477,53 +477,57 @@ def editStore(request , userId):
 
 
 @api_view(['PUT'])
-def editPost(request , userId):
+def editPost(request , postId):
+    id = None
+    title=None
+    storeID=None
+    postID=None
+    description = None
+    price=None
+    photos=None
+
     body_unicode = request.body.decode()
     body = json.loads(body_unicode)  
     
     id = body['id']
     storeId = body['shopID']
+    postID = body['postID']
+    title = body['name']
+    description = body['description']
+    price = body['price']
+    photos = body['photos']
 
-    profile_photo = body['shopProfileImage']
-    cover_photo = body['shopCoverImage']
-    name = body['shopName']
-    description = body['shopDescription']
-    phone = body['shopPhoneNumber']
-    opening = body['startWorkTime']
-    closing = body['endWorkTime']
-    insta = body['insta']
-    facebook = body['facebook']
-    address = body['location']
-    category = body['shopCategory']
+    if(int(postID)==postId):
+        user = User.objects.get(id=id)
+        userPro = UserProfile.objects.get(user_id=id)
 
-    if int(id)==userId :
-        user = User.objects.get(id=userId)
-        userPro = UserProfile.objects.get(user_id=userId)
-
-        if userPro.is_owner:  
-            store = Store.objects.get(id=storeId)
+        if userPro.is_owner :
+            store=Store.objects.get(id=storeId)
 
             if store.owner == userPro:
-                store.name =name
-                store.description = description
-                store.address = address
-                store.category = category
-                store.opening = opening
-                store.closing = closing
-                store.phone = phone
-                store.profile_photo = profile_photo
-                store.cover_photo = cover_photo
-                store.insta = insta
-                store.facebook = facebook
-                store.save()
-                return JsonResponse({'message' : 'Done'} , status = 200)
-            else:
-                return JsonResponse({'message' : 'you cant edit this store'} , status = 400)
-        else:
-            return JsonResponse({'message' : 'You dont have any store yet'} , status = 400)
-    else:
-        return JsonResponse({'message' : 'Access Denied'} , status = 400)
+                post = Post.objects.get(id=postId)
 
+                if post.owner == store:
+                    if title: post.title = title
+
+                    if description: post.description = description
+
+                    if price: post.price = price
+
+                    if photos: post.photos = photos
+
+                    post.save()
+                    return JsonResponse({'message':"Your Post Have Been Edit Successfully"},status = 200) 
+                
+                else:
+                    return JsonResponse({'message':"You are not the owner of this post"},status = 400) 
+            else:
+                return JsonResponse({'message':"You can not edit the post because you do not owner the store that the post belong to it"},status = 400)
+        else:
+            return JsonResponse({'message':"Access Denied"},status = 400)
+    else:
+        return JsonResponse({'message':"Access Denied"},status = 400)
+    
 
 @csrf_exempt
 @api_view(['POST'])
