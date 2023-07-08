@@ -24,14 +24,9 @@ urlpatterns=[
 
 
     path( 'AddStore/<int:userId>' , views.addStore , name='addStore' ),  
-    path( 'AddPost/<int:storeId>' , views.addPost , name='addPost' ),   
-
-
-    path( 'like/<int:userId>/<int:postId>' , views.likePost , name='likePost' ),   
-
-    path( 'fav/<int:userId>/<int:storeId>' , views.favStore , name='favStore' ),    
-    path( 'follow/<int:userId>/<int:storeId>' , views.followedStore , name='followedStore' ),  
+    path( 'AddPost/<int:storeId>' , views.addPost , name='addPost' ),    
     
+
     path( 'shops/<int:userId>' , views.lookupStores , name='lookupStores' ),
     
 
@@ -39,7 +34,9 @@ urlpatterns=[
     path( 'show/posts/owner/<int:storeId>' , views.showPostsOwner , name='showPostsOwner' ), 
 
     
-
+    path( 'like/<int:userId>/<int:postId>' , views.likePost , name='likePost' ),   
+    path( 'fav/<int:userId>/<int:storeId>' , views.favStore , name='favStore' ),    
+    path( 'follow/<int:userId>/<int:storeId>' , views.followedStore , name='followedStore' ), 
 
 
 
