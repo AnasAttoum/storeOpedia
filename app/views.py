@@ -607,9 +607,7 @@ def addStore(request , userId):
         id = body['id']
         if(int(id)==userId):
             user2=UserProfile.objects.get(user_id=userId)
-            if user2.is_owner==False:
-                user2.is_owner=True
-                user2.save()
+            
             owner = user2
             name = body['name']
             description = body['description']
@@ -633,6 +631,9 @@ def addStore(request , userId):
                         insta=insta,profile_photo=profile_photo,cover_photo=cover_photo,
                         rate=rate)
             store.save()
+            if user2.is_owner==False:
+                user2.is_owner=True
+                user2.save()
             return JsonResponse({'message':"Your Store Have Been Added Successfully"},status = 200)
         return JsonResponse({'message':"Access Denied"}) 
     
