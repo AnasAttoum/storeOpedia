@@ -616,6 +616,7 @@ def addPost(request,storeId):
         description = None
         price=None
         photos=None
+        category=None
 
         body_unicode = request.body.decode()
         body = json.loads(body_unicode)  
@@ -626,6 +627,7 @@ def addPost(request,storeId):
         description = body['description']
         price = body['price']
         photos = body['photos']
+        category = body['category']
 
         if(int(storeID)==storeId):
             user = User.objects.get(id=id)
@@ -633,7 +635,7 @@ def addPost(request,storeId):
             if userPro.is_owner :
                 store=Store.objects.get(id=storeId)
                 if store.owner == userPro:
-                    post = Post(title=title,description=description,price=price,photos=photos,owner=store)
+                    post = Post(title=title,description=description,price=price,category=category,photos=photos,owner=store)
                     post.save()
                     return JsonResponse({'message':"Your Post Have Been Added Successfully"},status = 200) 
                 

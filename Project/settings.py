@@ -189,13 +189,13 @@ CORS_ALLOW_HEADERS = [
 JAZZMIN_SETTINGS = {
     "site_title": "My Administration",
     "site_header": "your_site_header",
-    "site_brand": "administration",
+    "site_brand": "Store Opedia",
     "site_icon": "Pic/Loc.png",
     # Add your own branding here
     "site_logo": 'Pic/Loc.png',
-    "welcome_sign": "Welcome to the Commercial Services Administration",
+    "welcome_sign": "Welcome to the Store Opedia Administration",
     # Copyright on the footer
-    "copyright": "Commercial Services",
+    "copyright": "Store Opedia",
     "user_avatar": None,
     ############
     # Top Menu #
@@ -236,6 +236,7 @@ JAZZMIN_SETTINGS = {
         "app.post":"fa fa-envelope-open",
         "app.liked_Posts":"fa fa-heart",
         "app.rated_stores":"fa fa-star",
+        "app.saved_posts":"fa fa-bookmark",
         "app.store":"fas fa-store",
         "app.userprofile":"fa fa-user",
         
@@ -253,7 +254,7 @@ JAZZMIN_SETTINGS = {
     #############
     # Relative paths to custom CSS/JS scripts (must be present in static files)
     # Uncomment this line once you create the bootstrap-dark.css file
-    "custom_css": "bootstrap.css",
+    "custom_css": "bootstrap-dark.css",
     # "custom_css": "bootstrap-dark.css",
     "custom_js": 'admin.js',
     # Whether to show the UI customizer on the sidebar
