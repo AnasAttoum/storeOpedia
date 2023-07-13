@@ -814,7 +814,7 @@ def postsofFollowedStore(request , userId):
                         'photos':str(post[i].photos)
                         },
                     posts += x
-            return JsonResponse({"posts":sorted(posts, key=lambda a: a["postID"]) , 'message':'Done'},status = 200)
+            return JsonResponse({"posts":sorted(posts, key=lambda a: a["postID"],reverse=True) , 'message':'Done'},status = 200)
             
         return JsonResponse({'message':'You dont have any followed store yet'},status = 400)
 
