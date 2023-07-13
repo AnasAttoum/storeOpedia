@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
-from .models import UserProfile , Store , Post ,Liked_Posts ,Fav_Stores,Followed_Stores
+from .models import UserProfile , Store , Post ,Liked_Posts ,Fav_Stores,Followed_Stores, Inbox
 import re
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -26,6 +26,37 @@ def Overview(request):
         'Percentage1': (53*245)/100,
     }
     return render( request , 'Pages/Bar.html' , context)
+
+def InboxesPage(request):
+    return render( request , 'Pages/In.html')
+
+@csrf_exempt
+@api_view(['POST'])
+def Inboxes(request,userId):
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode)  
+        
+    id = None
+    type = None
+    description = None
+    photo = None
+
+    id = body['id']
+    type = body['type']
+    description = body['description']
+    photo = body['photo']
+    
+    if int(id)==userId:
+        print('hvjh')
+        userPro = UserProfile.objects.get(user_id = userId)
+        print('hvk')
+        inbox = Inbox( owner = userPro , type = type , description = description , photo = photo)
+        print('1')
+        inbox.save()
+        print('2')
+        return JsonResponse({'message':'Message sent successfuly. we will reply as soon as possible'}, status = 200)
+    
+    return JsonResponse({'message':'Access Denied'}, status = 400)
 
 
 @csrf_exempt
@@ -750,6 +781,42 @@ def showPostsOwner(request , storeId):
                         },
                     posts += x
                 return JsonResponse({"posts":posts , 'message':'Done'},status = 200)
+
+
+    else:
+        return JsonResponse({'message':'Access Denied'},status = 400)
+    
+
+@csrf_exempt
+@api_view(['POST'])
+def postsofFollowedStore(request , userId):
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode) 
+
+    id = body['id']
+
+    if(int(id)==userId):
+        userPro = UserProfile.objects.get(user_id=id)
+
+        if Followed_Stores.objects.filter(user = userPro):
+            followedStore = Followed_Stores.objects.filter(user = userPro)
+            posts = []
+
+            for j in range(0,len(followedStore)):
+                post=Post.objects.filter(owner=followedStore[j].store)
+                for i in range(0,len(post)):
+                    
+                    x = {
+                        'postID':str(post[i].id),
+                        'title':post[i].title,
+                        'description':post[i].description,
+                        'price':str(post[i].price),
+                        'photos':str(post[i].photos)
+                        },
+                    posts += x
+            return JsonResponse({"posts":sorted(posts, key=lambda a: a["postID"]) , 'message':'Done'},status = 200)
+            
+        return JsonResponse({'message':'You dont have any followed store yet'},status = 400)
 
 
     else:

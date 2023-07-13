@@ -1,0 +1,51 @@
+{% extends 'InboxesPage.html' %}
+{% load static %}
+{% block in %}
+<head>
+      <link rel="stylesheet" type="text/css" href="{% static 'Inbox.css' %}"/>
+  </head>
+<div id="content-main" class='col-12' style="max-width:100%;height: 440px;">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body pad table-responsive" style="overflow: hidden;margin: auto;">
+
+                <div class='card'>
+                    <div class='card_header'>
+                        <span>
+                            <i class="fas fa-user"></i>
+                            <small>1,234</small>
+                        </span>
+                        <a href="#follow"> Follow</a>
+                    </div>  
+                    
+                    <div class='name'>
+                        <h4>Anas Attoum</h4>
+                        <small> Male &nbsp;&&nbsp; Age 22</small>
+                    </div>
+    
+                    <div class='card_img'>
+                        <img src="Images/Me.jpg" alt="profile"/>
+                    </div>
+                </div>
+    
+                <div class='card_body'>
+                    <p> Contacts info: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rating</p>
+                    <span class='email'>Email:</span><span class='email2'>AnasAttoum.12321@gmail.com</span>
+                    <span class='phone'>Phone Number:</span><span class='phone2'>None Yet</span>
+                </div>
+                
+                <!-- {/* <h1 class='initials}>MS</h1> */} -->
+                <a href="#message" class='btn'>
+                    <small>Message </small>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</div>
+          
+
+
+
+{% endblock %}

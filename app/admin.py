@@ -2,7 +2,7 @@ from typing import Any, List, Optional, Tuple, Union
 from django.contrib import admin
 from django.db.models.query import QuerySet
 from django.http.request import HttpRequest
-from .models import UserProfile , Store , Post ,Followed_Stores, Rated_Stores , Fav_Stores , Liked_Posts , User , Saved_Posts
+from .models import UserProfile , Store , Post ,Followed_Stores, Rated_Stores , Fav_Stores , Liked_Posts , User , Saved_Posts , Inbox
 
 admin.site.unregister(User)
 class CustomUserAdmin(admin.ModelAdmin):
@@ -115,3 +115,4 @@ class Rated_StoresAdmin(admin.ModelAdmin):
 admin.site.register(Rated_Stores , Rated_StoresAdmin)
 
 admin.site.register(Saved_Posts)
+admin.site.register(Inbox)

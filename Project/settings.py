@@ -208,7 +208,8 @@ JAZZMIN_SETTINGS = {
             # {"model": "auth.User"},
             # {"model": "app.UserProfile"},
             # {"model": "app.Store"},
-        {"name": "Overview", "url": "/admin/Overview"},
+        {"name": "Overview", "url": "/admin/overview"},
+        {"name": "Inbox", "url": "/admin/inbox"},
         # {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
 
         # {"model":"app.Post",'name':'omom',"url": "/admin/Home","permissions": [True]},
@@ -254,7 +255,9 @@ JAZZMIN_SETTINGS = {
     #############
     # Relative paths to custom CSS/JS scripts (must be present in static files)
     # Uncomment this line once you create the bootstrap-dark.css file
-    "custom_css": "bootstrap-dark.css",
+    "custom_css": "bootstrap.css",
+    
+
     # "custom_css": "bootstrap-dark.css",
     "custom_js": 'admin.js',
     # Whether to show the UI customizer on the sidebar

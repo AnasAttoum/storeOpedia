@@ -119,3 +119,19 @@ class Saved_Posts(models.Model):
     class Meta:
         verbose_name_plural="Saved Posts"
         verbose_name="Saved Post"
+
+
+class Inbox(models.Model):
+    owner=models.ForeignKey(UserProfile,on_delete=models.CASCADE)
+    type= models.CharField(max_length=20)
+    description = models.CharField(max_length=500)
+    photo=models.ImageField(upload_to='photos/Inbox/%Y/%m/%d/')
+    creation_date=models.DateTimeField(default=datetime.now)
+
+
+    def __str__(self):
+        return self.type
+    
+    class Meta:
+        verbose_name_plural="Inboxes"
+        verbose_name="inbox"

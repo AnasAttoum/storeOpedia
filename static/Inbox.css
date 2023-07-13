@@ -1,0 +1,245 @@
+/* .cards{
+    min-height: 100vh;
+    background: linear-gradient(0deg, #dee0e2 0%, #748394 100% );
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+} */
+
+.card{
+    background: linear-gradient(45deg, #252a3f 0%, #131522 100%);
+    width: 25em;
+    min-height: 20em;
+    border-radius: 7em 5px 5em 5px;
+    color: #fff;
+    position: fixed;
+    margin: auto;
+    top: 6%;
+    left: 3%;
+    box-shadow: 0px 0px 40px #1f1f1f;
+    z-index: 9999999991;
+}
+
+.card_header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2em 1.5em 1em 3.5em;
+}
+
+.card a{
+    color: #fff;
+    text-decoration: none;
+}
+
+.card_profile{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 5em;
+}
+
+.card img{
+    width: 4.5em;
+    height: 4.5em;
+    border-radius: 50%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 3px solid #1f1f1f;
+}
+
+.card_img{
+    background: linear-gradient(45deg, #a544ff 100%);
+    border-radius: 50%;
+    width: 5.3em;
+    height: 5.3em;
+    position: absolute;
+    right: -1.4em;
+    top: 7.6em;
+    transform: translate(-50%, -50%);
+}
+
+.name{
+    position: absolute;
+    left: -1em;
+    top: 5em;
+    padding: 0.7em 2.5em;
+    border-radius: 5px 3em 5px 3em;
+    border-radius: 5px 3em 5px 3em;
+    background: #eef0f2;
+    color: #131522;
+    box-shadow: 15px 5px 25px #101010;
+}
+
+.card_profile h4{
+    margin: 0;
+}
+
+.card_body{
+    padding: 1em 1.5em;
+    margin-bottom: 1em;
+}
+
+.card_body p{
+    letter-spacing: 2px;
+    font-size: 0.8em;
+    line-height: 30px;
+    position: fixed;
+    left: 5%;
+    top: 220px;
+    color: #a544ff;
+    z-index: 9999999992;
+}
+
+.email{
+    letter-spacing: 2px;
+    font-size: 0.8em;
+    line-height: 30px;
+    position: fixed;
+    left: 7%;
+    top: 250px;
+    color: #a544ff;
+    z-index: 9999999992;
+}
+
+.email2{
+    letter-spacing: 2px;
+    font-size: 0.7em;
+    line-height: 30px;
+    position: fixed;
+    left: 12%;
+    top: 250px;
+    color: whitesmoke;
+    z-index: 9999999992;
+}
+
+.phone{
+    letter-spacing: 2px;
+    font-size: 0.8em;
+    line-height: 30px;
+    position: fixed;
+    left: 7%;
+    top: 280px;
+    color: #a544ff;
+    z-index: 9999999992;
+}
+.phone2{
+    letter-spacing: 2px;
+    font-size: 0.7em;
+    line-height: 30px;
+    position: fixed;
+    left: 17%;
+    top: 280px;
+    color: whitesmoke;
+    z-index: 9999999992;
+}
+
+.initials{
+    color: #2c314a;
+    font-size: 8em;
+    position: fixed;
+    margin: 0;
+    bottom: 0;
+    left: 0.1em;
+    z-index: 0;
+}
+
+.btn{
+    position: fixed;
+    bottom: 15em;
+    left: 15rem;
+    padding: 1.5em;
+    background: linear-gradient(45deg, #a544ff 0%, #5d2cfe 100%);
+    /* background: linear-gradient(to right, #6d4e8f, #406992); */
+    border-radius: 5px 5px 3em 5px;
+    box-shadow: 0px 0px 15px #a544ff;
+    transition: 0.4s;
+    z-index: 9999999992;
+    color: whitesmoke;
+}
+
+.btn:hover{
+    transform: translateY(-8px);
+}
+ /* ------------------------------right coloumn---------------------------- */
+ .lastProdTxt{
+    position: fixed;
+    top: 7%;
+    right: 25px;
+
+    z-index: 9999999991;
+    
+    word-spacing: 3px;
+    letter-spacing: 1px;
+    /* border: 1px solid red; */
+ }
+ .tit{
+    background: linear-gradient(45deg, #a544ff 0%, #5d2cfe 100%);
+    background-size: 200% auto;
+    /* color: #000; */
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+ }
+
+
+ .card_header2{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2em 1.5em 1em 3.5em;
+    background-color: #252a3f;
+    /* border: 1px solid red; */
+    
+}
+
+  .mid{
+    background: linear-gradient(45deg, #252a3f 0%, #131522 100%);
+    width: 25em;
+    min-height: 35em;
+    border-radius: 10px 5px 2em 5px;
+    color: #fff;
+    
+    position: fixed;
+    margin: auto;
+    bottom: 5%;
+    left: 38%;
+
+    padding-bottom: 0px;
+    /* padding-top: 50px; */
+
+
+    box-shadow: 0px 0px 40px #1f1f1f;
+    z-index: 9999999991;
+
+  }
+
+  .comments{
+    /* border: 1px solid red; */
+    width: 120%;
+    height: 400px;
+    position: relative;
+    left: -25px;
+    overflow-x: hidden;
+  }
+
+  .addCommentBox{
+    margin-top: 12px;
+    margin-left: 20px;
+
+    width: 300px;
+    height: 50px;
+    border-radius: 10px 5px 2em 5px;
+
+  }
+
+  .addCommentBtn{
+    margin-left: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+  }

@@ -2,7 +2,9 @@ from django.urls import path
 from . import views
 
 urlpatterns=[
-    path( 'admin/Overview' , views.Overview , name='overview' ),   #NOT DONE IN FLUTTER
+    path( 'admin/overview' , views.Overview , name='overview' ),   
+    path( 'admin/inbox' , views.InboxesPage , name='inboxesPage' ),   
+    path( 'inbox/<int:userId>' , views.Inboxes , name='inboxes' ),   
 
 
     path( 'users/signup' , views.signUpUsers , name='signUpUsers' ),
@@ -32,11 +34,12 @@ urlpatterns=[
 
     path( 'show/stores/<int:userId>' , views.showStores , name='showStores' ), 
     path( 'show/posts/owner/<int:storeId>' , views.showPostsOwner , name='showPostsOwner' ), 
+    path( 'show/posts/followedStores/<int:userId>' , views.postsofFollowedStore , name='postsofFollowedStore' ), 
 
     
     path( 'like/<int:userId>/<int:postId>' , views.likePost , name='likePost' ),   
     path( 'fav/<int:userId>/<int:storeId>' , views.favStore , name='favStore' ),    
-    path( 'follow/<int:userId>/<int:storeId>' , views.followedStore , name='followedStore' ), 
+    path( 'follow/<int:userId>/<int:storeId>' , views.followedStore , name='followedStore' ),
 
 
 
