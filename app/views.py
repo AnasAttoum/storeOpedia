@@ -174,6 +174,10 @@ def signUpOwners(request):
 
        #check values
         # print(phoneNumber)
+        if opening=='':
+            opening = '08:00:00'
+        if closing=='':
+            closing = '20:00:00'
         if userName and email and password and phoneNumber and name and address and category and opening and closing and phone:
             if User.objects.filter(username=userName).exists():
                 # print(body)

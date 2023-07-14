@@ -255,7 +255,7 @@ JAZZMIN_SETTINGS = {
     #############
     # Relative paths to custom CSS/JS scripts (must be present in static files)
     # Uncomment this line once you create the bootstrap-dark.css file
-    "custom_css": "bootstrap.css",
+    "custom_css": "bootstrap-dark.css",
     
 
     # "custom_css": "bootstrap-dark.css",
