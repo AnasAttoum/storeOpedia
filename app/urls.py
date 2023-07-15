@@ -8,7 +8,7 @@ urlpatterns=[
     path( 'admin/inbox' , views.InboxesPage , name='inboxesPage' ),   
     path( 'delete/inbox/<int:inboxId>' , views.deleteInbox , name='deleteInbox' ),   
     path( 'done/inbox/<int:inboxId>' , views.doneInbox , name='doneInbox' ),   
-    path( 'senReply/inbox/<int:inboxId>' , views.replyInbox , name='replyInbox' ),   
+    path( 'sendReply/inbox/<int:inboxId>' , views.replyInbox , name='replyInbox' ),   
     path( 'inbox/<int:userId>' , views.Inboxes , name='inboxes' ),   
 
 

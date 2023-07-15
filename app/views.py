@@ -12,6 +12,9 @@ from django.contrib import auth
 from datetime import datetime
 from django.db.models import Q
 
+from django.core.mail import send_mail
+from django.conf import settings
+
 def Overview(request):
 
     context = {
@@ -63,8 +66,14 @@ def doneInbox(request,inboxId):
 def replyInbox(request,inboxId):
     if request.user.is_superuser:
         inbox = Inbox.objects.get(id=inboxId) 
-        print(inboxId)
-        print(request.GET['message'])
+        recieve = inbox.owner.user.email
+        send_mail(
+            subject='About your message on Store Opedia Site',
+            message=request.GET['message'],
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[recieve],
+            fail_silently=False
+        )
         inboxes = Inbox.objects.all()
         context={
             'inboxes': inboxes.order_by('-id')
@@ -162,6 +171,13 @@ def signUpUsers(request):
                     #add user profile
                         userProfile = UserProfile( user = user , phone = phoneNumber )
                         userProfile.save()
+                        send_mail(
+                            subject='Store Opedia Site',
+                            message='Thank you for registering on our website..\n We hope you have a good time with us..',
+                            from_email=settings.EMAIL_HOST_USER,
+                            recipient_list=[email],
+                            fail_silently=False
+                        )
                         return JsonResponse({'id':str(user.id) , 'userName':userName,'email':email,'password':password,'phoneNumber':phoneNumber,'message':'User was Created'}, status = 200)
                     else:
                         # return HttpResponse('<h1>invalid email</h1>')
@@ -245,6 +261,13 @@ def signUpOwners(request):
 
                         store = Store(owner = userProfile , name = name , address = address , category = category, opening = opening , closing = closing , phone = phone , rate = rate)
                         store.save()
+                        send_mail(
+                            subject='Store Opedia Site',
+                            message='Thank you for registering on our website..\n We hope you have a good time with us..',
+                            from_email=settings.EMAIL_HOST_USER,
+                            recipient_list=[email],
+                            fail_silently=False
+                        )
                         # print('Store:')
                         # print(store.id)
                         # print(store.category)

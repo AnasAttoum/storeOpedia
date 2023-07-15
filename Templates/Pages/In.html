@@ -13,10 +13,8 @@
         <div class="card">
             <div class="card-body pad table-responsive" style="overflow: hidden;margin: auto;background-color:rgb(244, 246, 249)">
 
-                <!-- <form action="{%url 'replyInbox' inboxId=inbox.id %}"> -->
-                    <form action="{% url 'contact' %}" method="post">
-                        {% csrf_token %}
-                        {{ form }}
+                <form action="{%url 'replyInbox' inboxId=inbox.id %}">
+                        
                     <div class='cardMiniOther'>
                         
                     <div class='card_header'>
