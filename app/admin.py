@@ -115,4 +115,10 @@ class Rated_StoresAdmin(admin.ModelAdmin):
 admin.site.register(Rated_Stores , Rated_StoresAdmin)
 
 admin.site.register(Saved_Posts)
-admin.site.register(Inbox)
+
+class InboxAdmin(admin.ModelAdmin):
+    list_display = ('id', 'type', 'description', 'photo', 'creation_date' , 'is_done')
+    # readonly_fields = ('id',)
+    search_fields = ['type' , 'description']
+    list_filter = ('type', 'is_done')
+admin.site.register(Inbox, InboxAdmin)

@@ -2,36 +2,76 @@
 {% load static %}
 {% block in %}
 <head>
-      <link rel="stylesheet" type="text/css" href="{% static 'inbox.css' %}"/>
+      <link rel="stylesheet" type="text/css" href="{% static 'Inbox.css' %}"/>
   </head>
-<div id="content-main" class='col-12' style="max-width:100%;height: 440px;">
+{% for inbox in inboxes %}
+{% if inbox %} 
+<span class="system"></span>
+{% endif%}
+<div id="content-main" class='col-12' style="max-width:100%;height: auto;">
     <div class="col-12">
         <div class="card">
             <div class="card-body pad table-responsive" style="overflow: hidden;margin: auto;background-color:rgb(244, 246, 249)">
 
-                <div class='cardMini'>
+                <!-- <form action="{%url 'replyInbox' inboxId=inbox.id %}"> -->
+                    <form action="{% url 'contact' %}" method="post">
+                        {% csrf_token %}
+                        {{ form }}
+                    <div class='cardMiniOther'>
+                        
                     <div class='card_header'>
                         <!-- <span>
                             <i class="fas fa-user"></i>
                             <small>1,234</small>
                         </span> -->
                         <!-- <a href="#follow"> Follow</a> -->
-                    </div>  
-                    
+                    </div> 
+                    {% if inbox.is_done %} 
+                    <span class="DONE" >DONE</span>
+                    {% endif %}
                     <div class='name'>
-                        <h4>Anas Attoum</h4>
-                        <small> User Id: &nbsp; 22</small>
+                        <img src="{% static 'Pic/BestStores.jpg' %}" class="prof" alt="...">
+
+                        <h4>{{ inbox.owner }}</h4>
+                        <small> User Id: &nbsp; {{ inbox.owner.user_id }}</small>
                     </div>
-    
+                    <small class="date"> Date: &nbsp; {{ inbox.creation_date }}</small>
+
+                    
                     <div class='card_body'>
-                        <p> Contacts info: Rating</p>
+                        <p style="position: relative;;top: -30px;">This is an
+                            {% if inbox.type == 'Error in pages' %}
+                            <span style="color: #a4161a;">{{inbox.type}}</span>
+                            {% elif inbox.type == 'suggestion' %}
+                            <span style="color: #008000;">{{inbox.type}}</span>
+                            {% elif inbox.type == 'how to use' %}
+                            <span style="color: #1a659e;">{{inbox.type}}</span>
+                            {% else %}
+                            <span>{{inbox.type}}</span>
+                            {% endif %}
+                             
+                              message</p>
+                        <p> {{ inbox.description  }}</p>
+                        <textarea required id="story" placeholder="Message to send..." name="message" rows="3" cols="33" style="border-radius: 5px 1em 5px 1em;"></textarea>
+
                     </div>
-                    <div class='card_body'>
-                        <p> image</p>
-                    </div>
+                    <!-- <div class='card_body'> -->
+                            <!-- {% if inbox.image != ''  %} -->
+                            <!-- <img src="{{inbox.image.url}}" class="card-img" alt="..."> -->
+                    <!-- <img src="{% static 'Pic/BestStores.jpg' %}" class="cardImg" alt="..."> -->
+                            
+                            <!-- {% else %} -->
+                            <!-- {% endif %} -->
+                    <!-- </div> -->
                     <div class='card_img'>
-                        <img src="{% static 'Pic/BestStores.jpg' %}" alt="profile"/>
+                        <!-- <img src="{% static 'Pic/BestStores.jpg' %}" alt="image"/> -->
+                        {% if inbox.photo != ''  %}
+                        <img src="{{ inbox.photo.url }}" alt="image"/>
+                        {% else %}
+                        <p>No photo</p>
+                        {% endif %}
                     </div>
+                    
                     
                 </div>
     
@@ -41,19 +81,79 @@
                     <span class='phone'>Phone Number:</span><span class='phone2'>None Yet</span>
                 </div> -->
                 
+                <!-- Button trigger modal -->
                 
-                <!-- {/* <h1 class='initials}>MS</h1> */} -->
-                <a href="#message" class='btnResponse'>
-                    <small style="color: white;">Message </small>
-                    <i style="color: white;" class="fas fa-arrow-right"></i>
+                {% if inbox.is_done %} 
+                <a href="{% url 'deleteInbox' inboxId=inbox.id %} " class='deleteAlone'>
+                    <!-- <a class='delete' data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"> -->
+                        <!-- <small style="color: white;">Delete </small> -->
+                        <i style="color: white;" class="fas fa-trash-alt"></i>
+                    </a>
+                {% else %}
+                <a href="{% url 'deleteInbox' inboxId=inbox.id %} " class='delete'>
+                    <!-- <a class='delete' data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"> -->
+                        <!-- <small style="color: white;">Delete </small> -->
+                    <i style="color: white;" class="fas fa-trash-alt"></i>
+                </a>
+                <a href="{% url 'doneInbox' inboxId=inbox.id %}" class='done'>
+                    <!-- <small style="color: white;">Done </small> -->
+                    <i style="color: white;" class="fa fa-check"></i>
                 </a>
 
+                <button type="submit" class='btnResponse' onclick="myFunction()">
+                    <small style="color: white;">S E N D &nbsp;&nbsp; </small>
+                    <i style="color: white;" class="fas fa-arrow-right"></i> &nbsp;
+                </button>
+
+                
+                {% endif %}
+                
+                
+                
+            </form>
             </div>
         </div>
     </div>
-</div>
-          
+</div>    
+
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-backdrop="false">
+    Launch demo modal
+  </button> -->
+  
+  <!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Recipient:</label>
+              <input type="text" class="form-control" id="recipient-name">
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Message:</label>
+              <textarea class="form-control" id="message-text"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Send message</button>
+        </div>
+      </div>
+    </div>
+  </div> -->
 
 
+  <!-- <button onclick="myFunction()">Show Textbox</button> -->
+  
+  
+{% endfor %}
 
 {% endblock %}

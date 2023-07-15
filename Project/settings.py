@@ -208,8 +208,8 @@ JAZZMIN_SETTINGS = {
             # {"model": "auth.User"},
             # {"model": "app.UserProfile"},
             # {"model": "app.Store"},
-        {"name": "Overview", "url": "/admin/overview"},
         {"name": "Inbox", "url": "/admin/inbox"},
+        {"name": "Overview", "url": "/admin/overview"},
         # {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
 
         # {"model":"app.Post",'name':'omom',"url": "/admin/Home","permissions": [True]},
@@ -255,7 +255,7 @@ JAZZMIN_SETTINGS = {
     #############
     # Relative paths to custom CSS/JS scripts (must be present in static files)
     # Uncomment this line once you create the bootstrap-dark.css file
-    "custom_css": "bootstrap-dark.css",
+    "custom_css": "bootstrap.css",
     
 
     # "custom_css": "bootstrap-dark.css",
@@ -311,5 +311,22 @@ JAZZMIN_SETTINGS = {
 # }
 
 
+
+
+import environ
+
+env = environ.Env()
+environ.Env.read_env()
+
+# Previous settings ...
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+
+# Custom setting. To email
+RECIPIENT_ADDRESS = env('RECIPIENT_ADDRESS')
 
 

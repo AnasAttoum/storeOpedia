@@ -12,7 +12,6 @@ from django.contrib import auth
 from datetime import datetime
 from django.db.models import Q
 
-
 def Overview(request):
 
     context = {
@@ -28,7 +27,53 @@ def Overview(request):
     return render( request , 'Pages/Bar.html' , context)
 
 def InboxesPage(request):
-    return render( request , 'Pages/In.html')
+    inboxes = Inbox.objects.all()
+    context={
+        'inboxes': inboxes.order_by('-id')
+    }
+    return render( request , 'Pages/In.html',context)
+
+def deleteInbox(request,inboxId):
+    if request.user.is_superuser:
+        Inbox.objects.get(id=inboxId).delete() 
+        inboxes = Inbox.objects.all()
+        context={
+            'inboxes': inboxes.order_by('-id')
+        }
+        return render( request , 'Pages/In.html',context)
+    
+    else:
+        return JsonResponse({'message':'Access Denied'}, status = 400)
+
+def doneInbox(request,inboxId):
+    if request.user.is_superuser:
+        inbox = Inbox.objects.get(id=inboxId) 
+        inbox.is_done=True
+        inbox.save()
+        inboxes = Inbox.objects.all()
+        context={
+            'inboxes': inboxes.order_by('-id')
+        }
+        return render( request , 'Pages/In.html',context)
+
+    else:
+        return JsonResponse({'message':'Access Denied'}, status = 400)
+    
+
+def replyInbox(request,inboxId):
+    if request.user.is_superuser:
+        inbox = Inbox.objects.get(id=inboxId) 
+        print(inboxId)
+        print(request.GET['message'])
+        inboxes = Inbox.objects.all()
+        context={
+            'inboxes': inboxes.order_by('-id')
+        }
+        return render( request , 'Pages/In.html',context)
+
+    else:
+        return JsonResponse({'message':'Access Denied'}, status = 400)
+            
 
 @csrf_exempt
 @api_view(['POST'])
@@ -47,13 +92,9 @@ def Inboxes(request,userId):
     photo = body['photo']
     
     if int(id)==userId:
-        print('hvjh')
         userPro = UserProfile.objects.get(user_id = userId)
-        print('hvk')
         inbox = Inbox( owner = userPro , type = type , description = description , photo = photo)
-        print('1')
         inbox.save()
-        print('2')
         return JsonResponse({'message':'Message sent successfuly. we will reply as soon as possible'}, status = 200)
     
     return JsonResponse({'message':'Access Denied'}, status = 400)

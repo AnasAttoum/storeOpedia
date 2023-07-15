@@ -125,7 +125,9 @@ class Inbox(models.Model):
     owner=models.ForeignKey(UserProfile,on_delete=models.CASCADE)
     type= models.CharField(max_length=20)
     description = models.CharField(max_length=500)
+    reply = models.CharField(max_length=500,default='')
     photo=models.ImageField(upload_to='photos/Inbox/%Y/%m/%d/')
+    is_done=models.BooleanField(default=0)
     creation_date=models.DateTimeField(default=datetime.now)
 
 
