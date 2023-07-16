@@ -15,6 +15,31 @@ from django.db.models import Q
 from django.core.mail import send_mail
 from django.conf import settings
 
+from .forms import PostForm
+@csrf_exempt
+@api_view(['POST'])
+def image_upload_view(request):
+    # if request.method == 'POST':
+    form = PostForm(request.POST, request.FILES)
+    print('1')
+    # print(request.POST)
+    # print(request.FILES)
+    # print(form)
+    # print(form.title)
+    if form.is_valid():
+        print('2')
+        form.save()
+        return JsonResponse({'message':'DONE'}, status = 200)
+        # return render(index)
+    # else:
+    #     form = PostForm()
+    #     context = {
+    #         'form': form
+    #     }
+    return JsonResponse({'message':'Access Denied'}, status = 400)
+    # return render(request, 'upload_image.html', context) 
+
+
 def Overview(request):
 
     context = {
@@ -22,7 +47,7 @@ def Overview(request):
         'usersNumber': len(UserProfile.objects.filter(is_owner = False)),
         'ownerPercentage' : int(len(UserProfile.objects.filter(is_owner = True)) / len(UserProfile.objects.filter())*100),
         'usersPercentage' : 100 - int(len(UserProfile.objects.filter(is_owner = True)) / len(UserProfile.objects.filter())*100),
-        'PostNumber' : len(Store.objects.all()),
+        'PostNumber' : len(Post.objects.all()),
         # 'TALL': 245,
         'Value1': 53,
         'Percentage1': (53*245)/100,
@@ -74,6 +99,8 @@ def replyInbox(request,inboxId):
             recipient_list=[recieve],
             fail_silently=False
         )
+        inbox.is_done=True
+        inbox.save()
         inboxes = Inbox.objects.all()
         context={
             'inboxes': inboxes.order_by('-id')
@@ -231,10 +258,10 @@ def signUpOwners(request):
 
        #check values
         # print(phoneNumber)
-        if opening=='':
-            opening = '08:00:00'
-        if closing=='':
-            closing = '20:00:00'
+        # if opening=='':
+        #     opening = '08:00:00'
+        # if closing=='':
+        #     closing = '20:00:00'
         if userName and email and password and phoneNumber and name and address and category and opening and closing and phone:
             if User.objects.filter(username=userName).exists():
                 # print(body)
@@ -706,10 +733,50 @@ def addStore(request , userId):
         return JsonResponse({'message':"Access Denied"}) 
     
 
-
+import base64
+#NOT DONE YET
+from django.core.files.base import ContentFile
 @csrf_exempt
 @api_view(['POST'])
 def addPost(request,storeId):
+    # if request.method == 'POST':
+    #     id = None
+    #     title=None
+    #     description = None
+    #     price=None
+    #     photos=None
+    #     category=None
+
+    #     body_unicode = request.body.decode('utf-8')
+    #     body = json.loads(body_unicode)  
+        
+    #     id = body['id']
+    #     storeID = body['shopID']
+    #     title = body['name']
+    #     description = body['description']
+    #     price = body['price']
+    #     photos = body['photos']
+    #     photos=ContentFile((photos),'name')
+    #     category = body['category']
+
+    #     if(int(storeID)==storeId):
+    #         user = User.objects.get(id=id)
+    #         userPro = UserProfile.objects.get(user_id=id)
+    #         if userPro.is_owner :
+    #             store=Store.objects.get(id=storeId)
+    #             if store.owner == userPro:
+    #                 post = Post(title=title,description=description,price=price,category=category,photos=photos,owner=store)
+    #                 post.save()
+                    
+    #                 return JsonResponse({'message':"Your Post Have Been Added Successfully"},status = 200) 
+                
+    #             else:
+    #                 return JsonResponse({'message':"Access Denied1"},status = 400)
+    #         else:
+    #             return JsonResponse({'message':"Access Denied2"},status = 400)
+    #     else:
+    #         return JsonResponse({'message':"Access Denied3"},status = 400) 
+        
     if request.method == 'POST':
         id = None
         title=None
@@ -718,7 +785,7 @@ def addPost(request,storeId):
         photos=None
         category=None
 
-        body_unicode = request.body.decode()
+        body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)  
         
         id = body['id']
@@ -727,6 +794,7 @@ def addPost(request,storeId):
         description = body['description']
         price = body['price']
         photos = body['photos']
+        photos=ContentFile((photos),'name')
         category = body['category']
 
         if(int(storeID)==storeId):
@@ -737,6 +805,11 @@ def addPost(request,storeId):
                 if store.owner == userPro:
                     post = Post(title=title,description=description,price=price,category=category,photos=photos,owner=store)
                     post.save()
+                    form = PostForm(request.POST, request.FILES)
+                    print('1')
+                    if form.is_valid():
+                        print('2')
+                        form.save()
                     return JsonResponse({'message':"Your Post Have Been Added Successfully"},status = 200) 
                 
                 else:
@@ -774,7 +847,12 @@ def lookupStores(request , userId):
             # print(len(store))
             stores = []
             for i in range(0,len(store)):
-                x = {'shopID':str(store[i].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone , 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':'test' , 'rate':0 ,'followesNumber':0 },
+                followNum = len(Followed_Stores.objects.filter(store = store[i]))
+                if store[i].facebook or store[i].insta:
+                    socialUrl = [ store[i].facebook , store[i].insta ]
+                else:
+                    socialUrl =[]
+                x = {'shopID':str(store[i].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone , 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':socialUrl , 'rate':store[i].rate ,'followesNumber':followNum },
                 stores += x
                 # stores.append(x)
             # print(

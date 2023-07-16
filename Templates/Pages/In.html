@@ -2,12 +2,10 @@
 {% load static %}
 {% block in %}
 <head>
-      <link rel="stylesheet" type="text/css" href="{% static 'Inbox.css' %}"/>
+      <link rel="stylesheet" type="text/css" href="{% static 'inbox.css' %}"/>
   </head>
 {% for inbox in inboxes %}
-{% if inbox %} 
-<span class="system"></span>
-{% endif%}
+
 <div id="content-main" class='col-12' style="max-width:100%;height: auto;">
     <div class="col-12">
         <div class="card">
@@ -50,8 +48,9 @@
                              
                               message</p>
                         <p> {{ inbox.description  }}</p>
+                        {% if inbox.is_done == 0 %}
                         <textarea required id="story" placeholder="Message to send..." name="message" rows="3" cols="33" style="border-radius: 5px 1em 5px 1em;"></textarea>
-
+                        {%endif%}
                     </div>
                     <!-- <div class='card_body'> -->
                             <!-- {% if inbox.image != ''  %} -->
@@ -64,7 +63,8 @@
                     <div class='card_img'>
                         <!-- <img src="{% static 'Pic/BestStores.jpg' %}" alt="image"/> -->
                         {% if inbox.photo != ''  %}
-                        <img src="{{ inbox.photo.url }}" alt="image"/>
+                        <img src="{{ inbox.photo.url }}" alt="image"/><br/><br/>
+                        <a href="{{inbox.photo.url}}" target='_blank'>View Image</a>
                         {% else %}
                         <p>No photo</p>
                         {% endif %}

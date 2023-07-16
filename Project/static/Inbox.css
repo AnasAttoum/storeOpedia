@@ -81,6 +81,7 @@
     left: 89%;
     top: 5.3%;
     transform: rotate(37deg);
+    perspective: 50px;
     /* width: 150px; */
     width: 13.5%;
     height: 35px;

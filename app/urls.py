@@ -3,7 +3,7 @@ from . import views
 
 
 urlpatterns=[
-
+    path('upload', views.image_upload_view),
     path( 'admin/overview' , views.Overview , name='overview' ),   
     path( 'admin/inbox' , views.InboxesPage , name='inboxesPage' ),   
     path( 'delete/inbox/<int:inboxId>' , views.deleteInbox , name='deleteInbox' ),   

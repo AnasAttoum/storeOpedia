@@ -59,7 +59,7 @@ class Post(models.Model):
     creation_date=models.DateTimeField(default=datetime.now)
     category= models.CharField(max_length=20,default='')
     price=models.FloatField()
-    photos=models.ImageField(upload_to='photos/posts/%Y/%m/%d/')
+    photos=models.ImageField(null=True , blank=True ,upload_to='photos/posts/%Y/%m/%d/')
     like_posts=models.ManyToManyField(UserProfile,related_name="liked",through="Liked_Posts")
     save_posts=models.ManyToManyField(UserProfile,related_name="saved",through="Saved_Posts")
     owner = models.ForeignKey(Store, default=0 ,on_delete=models.CASCADE)

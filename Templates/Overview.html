@@ -18,6 +18,11 @@
         <li class="breadcrumb-item">Overview</li>
     </ol>
 {% endblock %}
+<ul>
+  {% for item in menu_intems %}
+      <li><a href="{% url item.url_name %}">item.title</a></li>
+  {% endfor %}
+  </ul>
 {% block content %}
 
 <!-- {% block alerts %}{% endblock %} -->
