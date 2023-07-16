@@ -15,21 +15,21 @@ from django.db.models import Q
 from django.core.mail import send_mail
 from django.conf import settings
 
-from .forms import PostForm
+# from .forms import PostForm
 @csrf_exempt
 @api_view(['POST'])
 def image_upload_view(request):
     # if request.method == 'POST':
-    form = PostForm(request.POST, request.FILES)
+    # form = PostForm(request.POST, request.FILES)
     print('1')
     # print(request.POST)
     # print(request.FILES)
     # print(form)
     # print(form.title)
-    if form.is_valid():
-        print('2')
-        form.save()
-        return JsonResponse({'message':'DONE'}, status = 200)
+    # if form.is_valid():
+    #     print('2')
+    #     form.save()
+        # return JsonResponse({'message':'DONE'}, status = 200)
         # return render(index)
     # else:
     #     form = PostForm()
@@ -733,9 +733,9 @@ def addStore(request , userId):
         return JsonResponse({'message':"Access Denied"}) 
     
 
-import base64
+# import base64
 #NOT DONE YET
-from django.core.files.base import ContentFile
+# from django.core.files.base import ContentFile
 @csrf_exempt
 @api_view(['POST'])
 def addPost(request,storeId):
@@ -794,7 +794,7 @@ def addPost(request,storeId):
         description = body['description']
         price = body['price']
         photos = body['photos']
-        photos=ContentFile((photos),'name')
+        # photos=ContentFile((photos),'name')
         category = body['category']
 
         if(int(storeID)==storeId):
@@ -805,11 +805,11 @@ def addPost(request,storeId):
                 if store.owner == userPro:
                     post = Post(title=title,description=description,price=price,category=category,photos=photos,owner=store)
                     post.save()
-                    form = PostForm(request.POST, request.FILES)
-                    print('1')
-                    if form.is_valid():
-                        print('2')
-                        form.save()
+                    # form = PostForm(request.POST, request.FILES)
+                    # print('1')
+                    # if form.is_valid():
+                    #     print('2')
+                    #     form.save()
                     return JsonResponse({'message':"Your Post Have Been Added Successfully"},status = 200) 
                 
                 else:
