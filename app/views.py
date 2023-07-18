@@ -886,14 +886,19 @@ def showStores(request , userId):
 
         stores = []
         store=Store.objects.filter(~Q(owner=userPro))
+        
+        
         for i in range(0,len(store)):
+            # print(store[i].owner.id)
+            user =User.objects.get(id=store[i].owner.user_id)
+            userPro =UserProfile.objects.get(id=store[i].owner.id)
             if store[i].facebook or store[i].insta:
                 socialUrl = [ store[i].facebook , store[i].insta ]
             else:
                 socialUrl =[]
             x = {
                 'shopID':str(store[i].id) ,
-                # 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
+                'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
                 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl': socialUrl, 'rate':0 ,'followesNumber':0 },
             stores += x
         return JsonResponse({"stores":stores , 'message':'Done'},status = 200)
