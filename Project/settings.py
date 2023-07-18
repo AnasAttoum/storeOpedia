@@ -215,7 +215,7 @@ JAZZMIN_SETTINGS = {
         # {"model":"app.Post",'name':'omom',"url": "/admin/Home","permissions": [True]},
         # {"name": "Test2222", "url": "/admin/app/store", "permissions": ["auth.view_user"]},
     ],
-    # "order_with_respect_to": ["app.Inbox"],
+    "order_with_respect_to": ["app.Inbox",'app.post','app.store'],
 #     "custom_links": {
 #     "Inbox": [{
 #         # Any Name you like
@@ -248,9 +248,9 @@ JAZZMIN_SETTINGS = {
         "auth.Group": "fas fa-users",
         "admin.LogEntry": "fas fa-file",
 
-        # "app.fav_stores": "fas fa-chevron-circle-right",
+        "app.inbox": "fa fa-envelope",
         "app.followed_stores":"fa fa-user-plus",
-        "app.post":"fa fa-envelope-open",
+        "app.post":"fa fa-sticky-note",
         "app.liked_Posts":"fa fa-heart",
         "app.rated_stores":"fa fa-star",
         "app.saved_posts":"fa fa-bookmark",

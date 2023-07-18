@@ -733,9 +733,9 @@ def addStore(request , userId):
         return JsonResponse({'message':"Access Denied"}) 
     
 
-# import base64
+import base64
 #NOT DONE YET
-# from django.core.files.base import ContentFile
+from django.core.files.base import ContentFile
 @csrf_exempt
 @api_view(['POST'])
 def addPost(request,storeId):
@@ -794,7 +794,7 @@ def addPost(request,storeId):
         description = body['description']
         price = body['price']
         photos = body['photos']
-        # photos=ContentFile((photos),'name')
+        photos= ContentFile(base64.b64decode(photos),'name')
         category = body['category']
 
         if(int(storeID)==storeId):
@@ -855,11 +855,11 @@ def lookupStores(request , userId):
                 x = {'shopID':str(store[i].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone , 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':socialUrl , 'rate':store[i].rate ,'followesNumber':followNum },
                 stores += x
                 # stores.append(x)
-            # print(
-            #     {
-            #     'shops':stores,
-            #     'message':"Succeed"}
-            # )
+            print(
+                {
+                'shops':stores,
+                'message':"Succeed"}
+            )
             return JsonResponse({
                 'shops':stores,
                 'message':"Succeed"},status =200)
@@ -887,11 +887,14 @@ def showStores(request , userId):
         stores = []
         store=Store.objects.filter(~Q(owner=userPro))
         for i in range(0,len(store)):
-            
+            if store[i].facebook or store[i].insta:
+                socialUrl = [ store[i].facebook , store[i].insta ]
+            else:
+                socialUrl =[]
             x = {
                 'shopID':str(store[i].id) ,
                 # 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
-                'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':'test' , 'rate':0 ,'followesNumber':0 },
+                'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl': socialUrl, 'rate':0 ,'followesNumber':0 },
             stores += x
         return JsonResponse({"stores":stores , 'message':'Done'},status = 200)
 
@@ -963,7 +966,7 @@ def postsofFollowedStore(request , userId):
                     posts += x
             return JsonResponse({"posts":sorted(posts, key=lambda a: a["postID"],reverse=True) , 'message':'Done'},status = 200)
             
-        return JsonResponse({'message':'You dont have any followed store yet'},status = 400)
+        return JsonResponse({'message':'You dont have any followed store yet'},status = 200)
 
 
     else:

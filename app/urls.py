@@ -37,7 +37,7 @@ urlpatterns=[
     path( 'shops/<int:userId>' , views.lookupStores , name='lookupStores' ),
     
 
-    path( 'show/stores/<int:userId>' , views.showStores , name='showStores' ), 
+    path( 'show/stores/<int:userId>' , views.showStores , name='showStores' ), #all stores except mine
     path( 'show/posts/owner/<int:storeId>' , views.showPostsOwner , name='showPostsOwner' ), 
     path( 'show/posts/followedStores/<int:userId>' , views.postsofFollowedStore , name='postsofFollowedStore' ), 
 
