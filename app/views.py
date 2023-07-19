@@ -15,29 +15,8 @@ from django.db.models import Q
 from django.core.mail import send_mail
 from django.conf import settings
 
-# from .forms import PostForm
-@csrf_exempt
-@api_view(['POST'])
-def image_upload_view(request):
-    # if request.method == 'POST':
-    # form = PostForm(request.POST, request.FILES)
-    print('1')
-    # print(request.POST)
-    # print(request.FILES)
-    # print(form)
-    # print(form.title)
-    # if form.is_valid():
-    #     print('2')
-    #     form.save()
-        # return JsonResponse({'message':'DONE'}, status = 200)
-        # return render(index)
-    # else:
-    #     form = PostForm()
-    #     context = {
-    #         'form': form
-    #     }
-    return JsonResponse({'message':'Access Denied'}, status = 400)
-    # return render(request, 'upload_image.html', context) 
+import base64
+from django.core.files.base import ContentFile
 
 
 def Overview(request):
@@ -720,7 +699,9 @@ def addStore(request , userId):
 
             if Store.objects.filter(name=name).exists():
                 return JsonResponse({'message':"This Name Already Exists"})
-            
+            print(facebook)
+            print(insta)
+
             store = Store(owner=owner,name=name,description=description,category=category,
                         opening=opening,closing=closing,phone=phone,address=address,facebook=facebook,
                         insta=insta,profile_photo=profile_photo,cover_photo=cover_photo,
@@ -733,50 +714,10 @@ def addStore(request , userId):
         return JsonResponse({'message':"Access Denied"}) 
     
 
-import base64
-#NOT DONE YET
-from django.core.files.base import ContentFile
+
 @csrf_exempt
 @api_view(['POST'])
 def addPost(request,storeId):
-    # if request.method == 'POST':
-    #     id = None
-    #     title=None
-    #     description = None
-    #     price=None
-    #     photos=None
-    #     category=None
-
-    #     body_unicode = request.body.decode('utf-8')
-    #     body = json.loads(body_unicode)  
-        
-    #     id = body['id']
-    #     storeID = body['shopID']
-    #     title = body['name']
-    #     description = body['description']
-    #     price = body['price']
-    #     photos = body['photos']
-    #     photos=ContentFile((photos),'name')
-    #     category = body['category']
-
-    #     if(int(storeID)==storeId):
-    #         user = User.objects.get(id=id)
-    #         userPro = UserProfile.objects.get(user_id=id)
-    #         if userPro.is_owner :
-    #             store=Store.objects.get(id=storeId)
-    #             if store.owner == userPro:
-    #                 post = Post(title=title,description=description,price=price,category=category,photos=photos,owner=store)
-    #                 post.save()
-                    
-    #                 return JsonResponse({'message':"Your Post Have Been Added Successfully"},status = 200) 
-                
-    #             else:
-    #                 return JsonResponse({'message':"Access Denied1"},status = 400)
-    #         else:
-    #             return JsonResponse({'message':"Access Denied2"},status = 400)
-    #     else:
-    #         return JsonResponse({'message':"Access Denied3"},status = 400) 
-        
     if request.method == 'POST':
         id = None
         title=None
@@ -793,8 +734,9 @@ def addPost(request,storeId):
         title = body['name']
         description = body['description']
         price = body['price']
-        photos = body['photos']
-        photos= ContentFile(base64.b64decode(photos),'name')
+        if photos:
+            photos = body['photos']
+            photos= ContentFile(base64.b64decode(photos),'name')
         category = body['category']
 
         if(int(storeID)==storeId):
