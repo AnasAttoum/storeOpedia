@@ -789,19 +789,20 @@ def lookupStores(request , userId):
             # print(len(store))
             stores = []
             for i in range(0,len(store)):
-                followNum = len(Followed_Stores.objects.filter(store = store[i]))
-                if store[i].facebook or store[i].insta:
-                    socialUrl = [ store[i].facebook , store[i].insta ]
-                else:
-                    socialUrl =[]
-                x = {'shopID':str(store[i].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone , 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':socialUrl , 'rate':store[i].rate ,'followesNumber':followNum },
-                stores += x
+                if store[i].is_active:
+                    followNum = len(Followed_Stores.objects.filter(store = store[i]))
+                    if store[i].facebook or store[i].insta:
+                        socialUrl = [ store[i].facebook , store[i].insta ]
+                    else:
+                        socialUrl =[]
+                    x = {'shopID':str(store[i].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone , 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':store[i].description , 'socialUrl':socialUrl , 'rate':store[i].rate ,'followesNumber':followNum , "is_active" :store[i].is_active},
+                    stores += x
                 # stores.append(x)
-            print(
-                {
-                'shops':stores,
-                'message':"Succeed"}
-            )
+            # print(
+            #     {
+            #     'shops':stores,
+            #     'message':"Succeed"}
+            # )
             return JsonResponse({
                 'shops':stores,
                 'message':"Succeed"},status =200)
@@ -834,6 +835,7 @@ def showStores(request , userId):
             # print(store[i].owner.id)
             user =User.objects.get(id=store[i].owner.user_id)
             userPro =UserProfile.objects.get(id=store[i].owner.id)
+            followNum = len(Followed_Stores.objects.filter(store = store[i]))
             if store[i].facebook or store[i].insta:
                 socialUrl = [ store[i].facebook , store[i].insta ]
             else:
@@ -841,7 +843,7 @@ def showStores(request , userId):
             x = {
                 'shopID':str(store[i].id) ,
                 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
-                'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl': socialUrl, 'rate':0 ,'followesNumber':0 },
+                'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active },
             stores += x
         return JsonResponse({"stores":stores , 'message':'Done'},status = 200)
 
@@ -980,3 +982,27 @@ def followedStore(request,userId,storeId):
     
     return JsonResponse({'message':"Access Denied"}) 
 
+@csrf_exempt
+@api_view(['POST'])
+def toggleActivation(request,storeId):
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode)  
+    id = body['id']
+    storeID = body['shopId']
+    if(int(storeID)==storeId):
+        userPro = UserProfile.objects.get(user_id=id)
+        store=Store.objects.get(id=storeId)
+        if userPro.is_owner:
+            if store.owner == userPro:
+                if store.is_active:
+                    store.is_active=False
+                    store.save()
+                    return JsonResponse({'message':"DeActivated Successfully"} , status = 200) 
+                else:
+                    store.is_active=True
+                    store.save()
+                    return JsonResponse({'message':"Activated Successfully"} , status = 200) 
+            
+            return JsonResponse({'message':"Access Denied"} , status = 400) 
+        return JsonResponse({'message':"Access Denied"} , status = 400) 
+    return JsonResponse({'message':"Access Denied"} , status = 400) 

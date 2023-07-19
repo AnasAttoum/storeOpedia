@@ -13,9 +13,9 @@ class CustomUserAdmin(admin.ModelAdmin):
 admin.site.register(User, CustomUserAdmin)
 
 class StoreAdmin(admin.ModelAdmin):
-    list_display = ('id' , 'name' , 'description' , 'category' , 'opening' , 'closing', 'phone' , 'address' , 'facebook' , 'insta' , 'rate' , 'creation_date' , 'owner')
+    list_display = ('id', 'owner_id' , 'name' , 'description' , 'category' , 'opening' , 'closing', 'phone' , 'address' , 'facebook' , 'insta' , 'rate' , 'is_active', 'creation_date' , 'owner')
     search_fields = ['name','user']
-    list_filter = ('category', 'address', 'rate')
+    list_filter = ('category', 'address', 'rate','is_active')
     # fields = ['image_tag']
     readonly_fields = ['profile_photo_preview','cover_photo_preview']
     # readonly_fields = ['cover_photo_preview']
@@ -82,7 +82,7 @@ admin.site.register(Store , StoreAdmin)
 
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('id' , 'title' , 'description' , 'creation_date' , 'price' , 'category' , 'owner')
+    list_display = ('id', 'owner_id' , 'title' , 'description' , 'creation_date' , 'price' , 'category' , 'owner')
     search_fields = ['title' , 'description']
     readonly_fields = ['post_photo_preview']
 admin.site.register(Post , PostAdmin)
@@ -96,28 +96,28 @@ admin.site.register(UserProfile , UserProfileAdmin)
 
 
 class Liked_PostsAdmin(admin.ModelAdmin):
-    list_display = ('id' , 'user' , 'post')
+    list_display = ('id' , 'user_id'  , 'user', 'post_id' , 'post')
 admin.site.register(Liked_Posts , Liked_PostsAdmin)
 
 
 class Fav_StoresAdmin(admin.ModelAdmin):
-    list_display = ('id' , 'user' , 'store')
+    list_display = ('id' , 'user_id'  , 'user', 'store_id' , 'store')
 admin.site.register(Fav_Stores , Fav_StoresAdmin)
 
 
 class Followed_StoresAdmin(admin.ModelAdmin):
-    list_display = ('id' , 'user' , 'store')
+    list_display = ('id' , 'user_id'  , 'user', 'store_id' , 'store')
 admin.site.register(Followed_Stores , Followed_StoresAdmin)
 
 
 class Rated_StoresAdmin(admin.ModelAdmin):
-    list_display = ('id' , 'user' , 'store')
+    list_display = ('id' , 'user_id'  , 'user', 'store_id' , 'store')
 admin.site.register(Rated_Stores , Rated_StoresAdmin)
 
 admin.site.register(Saved_Posts)
 
 class InboxAdmin(admin.ModelAdmin):
-    list_display = ('id', 'type', 'description', 'photo', 'creation_date' , 'is_done')
+    list_display = ('id', 'owner_id' , 'type', 'description', 'photo', 'creation_date' , 'is_done')
     # readonly_fields = ('id',)
     search_fields = ['type' , 'description']
     list_filter = ('type', 'is_done')

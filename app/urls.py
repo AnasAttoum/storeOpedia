@@ -46,6 +46,6 @@ urlpatterns=[
     path( 'follow/<int:userId>/<int:storeId>' , views.followedStore , name='followedStore' ),
 
 
+    path( 'store/toggleActivation/<int:storeId>' , views.toggleActivation , name='toggleActivation' ), 
 
-    # path( 'admin2' , views.admin2 , name='admin2' ),
 ]

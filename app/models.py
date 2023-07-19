@@ -34,6 +34,7 @@ class Store(models.Model):
     profile_photo=models.ImageField(upload_to='photos/profiles/%Y/%m/%d/')
     cover_photo=models.ImageField(upload_to='photos/covers/%Y/%m/%d/')
     rate=models.FloatField()
+    is_active=models.BooleanField(default=1)
     creation_date=models.DateTimeField(default=datetime.now)
     fav=models.ManyToManyField(UserProfile,related_name="favourites",through="Fav_Stores")
     rated=models.ManyToManyField(UserProfile,related_name="rated",through="Rated_Stores")
