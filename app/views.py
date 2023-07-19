@@ -1006,3 +1006,62 @@ def toggleActivation(request,storeId):
             return JsonResponse({'message':"Access Denied"} , status = 400) 
         return JsonResponse({'message':"Access Denied"} , status = 400) 
     return JsonResponse({'message':"Access Denied"} , status = 400) 
+
+@csrf_exempt
+@api_view(['POST'])
+def activation(request,userId):
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode)  
+    id = body['id']
+    message = body['message']
+
+    if(int(id)==userId):
+        userPro = UserProfile.objects.get(user_id=id)
+        if userPro.is_owner:
+            user = User.objects.get(id=id)
+            store=Store.objects.filter(owner=userPro)
+            stores = [] 
+
+            if message=='active':
+                for i in range(0,len(store)):
+                    if store[i].is_active:
+                        followNum = len(Followed_Stores.objects.filter(store = store[i]))
+                        if store[i].facebook or store[i].insta:
+                            socialUrl = [ store[i].facebook , store[i].insta ]
+                        else:
+                            socialUrl =[]
+                        x = {'shopID':str(store[i].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone , 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':store[i].description , 'socialUrl':socialUrl , 'rate':store[i].rate ,'followesNumber':followNum , "is_active" :store[i].is_active},
+                        stores += x
+
+            elif message=='deactive':
+                for i in range(0,len(store)):
+                    if store[i].is_active==0:
+                        followNum = len(Followed_Stores.objects.filter(store = store[i]))
+                        if store[i].facebook or store[i].insta:
+                            socialUrl = [ store[i].facebook , store[i].insta ]
+                        else:
+                            socialUrl =[]
+                        x = {'shopID':str(store[i].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone , 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':store[i].description , 'socialUrl':socialUrl , 'rate':store[i].rate ,'followesNumber':followNum , "is_active" :store[i].is_active},
+                        stores += x
+            else:
+                for i in range(0,len(store)):
+                    followNum = len(Followed_Stores.objects.filter(store = store[i]))
+                    if store[i].facebook or store[i].insta:
+                        socialUrl = [ store[i].facebook , store[i].insta ]
+                    else:
+                        socialUrl =[]
+                    x = {'shopID':str(store[i].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone , 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':store[i].description , 'socialUrl':socialUrl , 'rate':store[i].rate ,'followesNumber':followNum , "is_active" :store[i].is_active},
+                    stores += x
+            
+                # stores.append(x)
+            # print(
+            #     {
+            #     'shops':stores,
+            #     'message':"Succeed"}
+            # )
+            return JsonResponse({
+                'shops':stores,
+                'message':"Succeed"},status =200)
+            
+        return JsonResponse({'message':"Access Denied"} , status = 400) 
+    return JsonResponse({'message':"Access Denied"} , status = 400) 
