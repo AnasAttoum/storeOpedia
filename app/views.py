@@ -104,11 +104,13 @@ def Inboxes(request,userId):
     id = body['id']
     type = body['type']
     description = body['description']
-    photo = body['photo']
+    # photo = body['photo']
     
     if int(id)==userId:
         userPro = UserProfile.objects.get(user_id = userId)
-        inbox = Inbox( owner = userPro , type = type , description = description , photo = photo)
+        inbox = Inbox( owner = userPro , type = type , description = description
+        #  , photo = photo
+         )
         inbox.save()
         return JsonResponse({'message':'Message sent successfuly. we will reply as soon as possible'}, status = 200)
     
