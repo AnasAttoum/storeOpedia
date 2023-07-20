@@ -992,18 +992,18 @@ def toggleActivation(request,storeId):
     if(int(storeID)==storeId):
         userPro = UserProfile.objects.get(user_id=id)
         store=Store.objects.get(id=storeId)
-        # if userPro.is_owner:
-        if store.owner == userPro:
-            if store.is_active:
-                store.is_active=False
-                store.save()
-                return JsonResponse({'message':"DeActivated Successfully"} , status = 200) 
-            else:
-                store.is_active=True
-                store.save()
-                return JsonResponse({'message':"Activated Successfully"} , status = 200) 
+        if userPro.is_owner:
+            if store.owner == userPro:
+                if store.is_active:
+                    store.is_active=False
+                    store.save()
+                    return JsonResponse({'message':"DeActivated Successfully"} , status = 200) 
+                else:
+                    store.is_active=True
+                    store.save()
+                    return JsonResponse({'message':"Activated Successfully"} , status = 200) 
         
-            # return JsonResponse({'message':"Access Denied"} , status = 400) 
+             return JsonResponse({'message':"Access Denied"} , status = 400) 
         return JsonResponse({'message':"Access Denied"} , status = 400) 
     return JsonResponse({'message':"Access Denied"} , status = 400) 
 
