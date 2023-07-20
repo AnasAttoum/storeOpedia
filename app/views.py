@@ -995,6 +995,8 @@ def toggleActivation(request,storeId):
         if userPro.is_owner:
             if store.owner == userPro:
                 if store.is_active:
+                    if len(Store.objects.filter(owner=userPro,is_active=True))==1:
+                        return JsonResponse({'message':"You cannot deactive because you MUST have at least one active store"} , status = 200)
                     store.is_active=False
                     store.save()
                     return JsonResponse({'message':"DeActivated Successfully"} , status = 200) 
