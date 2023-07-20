@@ -421,7 +421,7 @@ def deleteStore(request , userId):
         user = User.objects.get(id=userId)
         userPro = UserProfile.objects.get(user_id=userId)
         if userPro.is_owner :
-            if len(Store.objects.filter(owner=userPro))==1 :
+            if len(Store.objects.filter(owner=userPro,is_active=True))==1 :
                 userPro.is_owner=False
                 userPro.save()
 
@@ -992,18 +992,24 @@ def toggleActivation(request,storeId):
     if(int(storeID)==storeId):
         userPro = UserProfile.objects.get(user_id=id)
         store=Store.objects.get(id=storeId)
-        if userPro.is_owner:
-            if store.owner == userPro:
-                if store.is_active:
-                    store.is_active=False
-                    store.save()
-                    return JsonResponse({'message':"DeActivated Successfully"} , status = 200) 
-                else:
-                    store.is_active=True
-                    store.save()
-                    return JsonResponse({'message':"Activated Successfully"} , status = 200) 
-            
-            return JsonResponse({'message':"Access Denied"} , status = 400) 
+        # if userPro.is_owner:
+        if store.owner == userPro:
+            if store.is_active:
+                store.is_active=False
+                if len(Store.objects.filter(owner=userPro,is_active=True))==1:
+                    userPro.is_owner=False
+                    userPro.save()
+                store.save()
+                return JsonResponse({'message':"DeActivated Successfully"} , status = 200) 
+            else:
+                store.is_active=True
+                if len(Store.objects.filter(owner=userPro,is_active=True))==0:
+                    userPro.is_owner=True
+                    userPro.save()
+                store.save()
+                return JsonResponse({'message':"Activated Successfully"} , status = 200) 
+        
+            # return JsonResponse({'message':"Access Denied"} , status = 400) 
         return JsonResponse({'message':"Access Denied"} , status = 400) 
     return JsonResponse({'message':"Access Denied"} , status = 400) 
 
