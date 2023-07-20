@@ -1003,7 +1003,7 @@ def toggleActivation(request,storeId):
                     store.save()
                     return JsonResponse({'message':"Activated Successfully"} , status = 200) 
         
-             return JsonResponse({'message':"Access Denied"} , status = 400) 
+            return JsonResponse({'message':"Access Denied"} , status = 400) 
         return JsonResponse({'message':"Access Denied"} , status = 400) 
     return JsonResponse({'message':"Access Denied"} , status = 400) 
 
