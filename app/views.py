@@ -79,6 +79,8 @@ def replyInbox(request,inboxId):
             fail_silently=False
         )
         inbox.is_done=True
+        inbox.reply=request.GET['message']
+        inbox.reply_date = datetime.now()
         inbox.save()
         inboxes = Inbox.objects.all()
         context={
@@ -88,7 +90,47 @@ def replyInbox(request,inboxId):
 
     else:
         return JsonResponse({'message':'Access Denied'}, status = 400)
-            
+
+
+@csrf_exempt
+@api_view(['POST'])
+def showInbox(request,userId):
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode)  
+        
+    id = None
+
+    id = body['id']
+
+    if int(id) == userId:
+
+        UserPro =UserProfile.objects.get(user_id = userId)
+        inbox = Inbox.objects.filter(owner=UserPro)
+
+        inb = []
+        for i in range(0,len(inbox)):
+            if inbox[i].reply:
+                x = {
+                'type':inbox[i].type , 
+                'description': inbox[i].description , 
+                'photo' : '' , 'creation_date':inbox[i].creation_date , 
+                'reply':inbox[i].reply,
+                'reply_date':inbox[i].reply_date
+                },
+            else:
+                x = {
+                    'type':inbox[i].type , 
+                    'description': inbox[i].description , 
+                    'photo' : '' , 'creation_date':inbox[i].creation_date 
+                    },
+            inb += x
+
+        return JsonResponse({'message':'Done',
+                             'inbox':inb
+                             }, status = 200)
+    
+    return JsonResponse({'message':'Access Denied'}, status = 400)
+
 
 @csrf_exempt
 @api_view(['POST'])
@@ -104,13 +146,12 @@ def Inboxes(request,userId):
     id = body['id']
     type = body['type']
     description = body['description']
-    # photo = body['photo']
+    if photo:
+        photo = body['photo']
     
     if int(id)==userId:
         userPro = UserProfile.objects.get(user_id = userId)
-        inbox = Inbox( owner = userPro , type = type , description = description
-        #  , photo = photo
-         )
+        inbox = Inbox( owner = userPro , type = type , description = description , photo = photo)
         inbox.save()
         return JsonResponse({'message':'Message sent successfuly. we will reply as soon as possible'}, status = 200)
     
@@ -882,6 +923,9 @@ def showPostsOwner(request , storeId):
                         },
                     posts += x
                 return JsonResponse({"posts":posts , 'message':'Done'},status = 200)
+            return JsonResponse({'message':'Access Denied'},status = 400)
+        return JsonResponse({'message':'Access Denied'},status = 400)
+            
 
 
     else:

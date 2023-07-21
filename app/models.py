@@ -130,6 +130,7 @@ class Inbox(models.Model):
     photo=models.ImageField(upload_to='photos/Inbox/%Y/%m/%d/')
     is_done=models.BooleanField(default=0)
     creation_date=models.DateTimeField(default=datetime.now)
+    reply_date=models.DateTimeField(default=datetime.now)
 
 
     def __str__(self):

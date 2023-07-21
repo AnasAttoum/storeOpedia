@@ -7,8 +7,11 @@ urlpatterns=[
     path( 'admin/inbox' , views.InboxesPage , name='inboxesPage' ),   
     path( 'delete/inbox/<int:inboxId>' , views.deleteInbox , name='deleteInbox' ),   
     path( 'done/inbox/<int:inboxId>' , views.doneInbox , name='doneInbox' ),   
+
     path( 'sendReply/inbox/<int:inboxId>' , views.replyInbox , name='replyInbox' ),   
     path( 'inbox/<int:userId>' , views.Inboxes , name='inboxes' ),   
+    path( 'showReply/inbox/<int:userId>' , views.showInbox , name='showInbox' ),   
+
 
 
     path( 'users/signup' , views.signUpUsers , name='signUpUsers' ),
