@@ -48,6 +48,7 @@ urlpatterns=[
     path( 'show/stores/<int:userId>' , views.showStores , name='showStores' ), #all stores except mine
     path( 'show/posts/owner/<int:storeId>' , views.showPostsOwner , name='showPostsOwner' ), 
     path( 'show/posts/followedStores/<int:userId>' , views.postsofFollowedStore , name='postsofFollowedStore' ), 
+    path( 'show/my/follow/<int:userId>' , views.showMyFollowedStore , name='showMyFollowedStore' ),    
     path( 'show/my/fav/<int:userId>' , views.showMyFavStore , name='showMyFavStore' ),    
 
 

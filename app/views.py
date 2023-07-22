@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
-from .models import UserProfile , Store , Post ,Liked_Posts ,Fav_Stores,Followed_Stores, Inbox , Saved_Posts
+from .models import UserProfile , Store , Post ,Liked_Posts ,Fav_Stores,Followed_Stores, Inbox , Saved_Posts , Rated_Stores
 import re
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -1058,6 +1058,30 @@ def postsofFollowedStore(request , userId):
 
     else:
         return JsonResponse({'message':'Access Denied'},status = 400)
+
+
+@csrf_exempt
+@api_view(['POST'])
+def showMyFollowedStore(request,userId):
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode)  
+    id = body['id']
+
+    if int(id)==userId:
+        userPro = UserProfile.objects.get(user_id=id)
+        if Followed_Stores.objects.filter(user=userPro).exists():
+            follows = []
+            follow = Followed_Stores.objects.filter(user=userPro)
+            for i in range(0,len(follow)):
+                
+                x = {
+                    'store':str(follow[i].store),
+                    },
+                follows += x
+
+            return JsonResponse({'message':"Done" , 'follow':follows} , status = 200) 
+        return JsonResponse({'message':"You dont have any followed stores yet"} , status = 400) 
+    return JsonResponse({'message':"Access Denied"} , status = 400) 
 
 
 @csrf_exempt
