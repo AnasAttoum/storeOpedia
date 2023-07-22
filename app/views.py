@@ -1059,6 +1059,31 @@ def followedStore(request,userId,storeId):
     
     return JsonResponse({'message':"Access Denied"}, status = 400) 
 
+
+@csrf_exempt
+@api_view(['POST'])
+def showMyFavStore(request,userId):
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode)  
+    id = body['id']
+
+    if int(id)==userId:
+        userPro = UserProfile.objects.get(user_id=id)
+        if Fav_Stores.objects.filter(user=userPro).exists():
+            favs = []
+            fav = Fav_Stores.objects.filter(user=userPro)
+            for i in range(0,len(fav)):
+                
+                x = {
+                    'store':str(fav[i].store),
+                    },
+                favs += x
+
+            return JsonResponse({'message':"Done" , 'favs':favs} , status = 200) 
+        return JsonResponse({'message':"You dont have any favourite stores yet"} , status = 400) 
+    return JsonResponse({'message':"Access Denied"} , status = 400) 
+
+
 @csrf_exempt
 @api_view(['POST'])
 def toggleActivation(request,storeId):

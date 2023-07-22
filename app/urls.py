@@ -50,6 +50,9 @@ urlpatterns=[
     path( 'follow/<int:userId>/<int:storeId>' , views.followedStore , name='followedStore' ),
 
 
+    path( 'show/my/fav/<int:userId>' , views.showMyFavStore , name='showMyFavStore' ),    
+
+
     path( 'store/toggleActivation/<int:storeId>' , views.toggleActivation , name='toggleActivation' ), 
     path( 'store/activation/<int:userId>' , views.activation , name='activation' ), 
 
