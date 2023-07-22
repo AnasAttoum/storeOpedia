@@ -994,19 +994,21 @@ def favStore(request,userId,storeId):
     body_unicode = request.body.decode()
     body = json.loads(body_unicode)  
     id = body['id']
-    if(int(id)==userId):
+    storeID = body['shopId']
+
+    if(int(id)==userId and int(storeID)==storeId):
         userPro = UserProfile.objects.get(user_id=userId)
         store=Store.objects.get(id=storeId)
         if(Fav_Stores.objects.filter(user=userPro,store=store).exists()):
             fav_store=Fav_Stores.objects.get(user=userPro,store=store)
             fav_store.delete()
-            return JsonResponse({'message':"This store removed from your favourites"})
+            return JsonResponse({'message':"This store removed from your favourites"}, status = 200)
         else:
             fav_store=Fav_Stores(user=userPro,store=store)
             fav_store.save()
-            return JsonResponse({'message':"This store added to your favourites"}) 
+            return JsonResponse({'message':"This store added to your favourites"}, status = 200) 
     
-    return JsonResponse({'message':"Access Denied"}) 
+    return JsonResponse({'message':"Access Denied"}, status = 400) 
 
 @csrf_exempt
 @api_view(['POST'])
@@ -1022,13 +1024,13 @@ def followedStore(request,userId,storeId):
         if(Followed_Stores.objects.filter(user=userPro,store=store).exists()):
             followed_store=Followed_Stores.objects.get(user=userPro,store=store)
             followed_store.delete()
-            return JsonResponse({'message':"You are unfollowing this store"}) 
+            return JsonResponse({'message':"You are unfollowing this store"}, status = 200) 
         else:
             followed_store=Followed_Stores(user=userPro,store=store)
             followed_store.save()
-            return JsonResponse({'message':"You are following this store"}) 
+            return JsonResponse({'message':"You are following this store"}, status = 200) 
     
-    return JsonResponse({'message':"Access Denied"}) 
+    return JsonResponse({'message':"Access Denied"}, status = 400) 
 
 @csrf_exempt
 @api_view(['POST'])
