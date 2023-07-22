@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
-from .models import UserProfile , Store , Post ,Liked_Posts ,Fav_Stores,Followed_Stores, Inbox
+from .models import UserProfile , Store , Post ,Liked_Posts ,Fav_Stores,Followed_Stores, Inbox , Saved_Posts
 import re
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -1008,7 +1008,31 @@ def favStore(request,userId,storeId):
             fav_store.save()
             return JsonResponse({'message':"This store added to your favourites"}, status = 200) 
     
-    return JsonResponse({'message':"Access Denied"}, status = 400) 
+    return JsonResponse({'message':"Access Denied"}, status = 400)
+
+
+@csrf_exempt
+@api_view(['POST'])
+def savePost(request,userId,postId):
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode)  
+    id = body['id']
+    postID = body['postID']
+
+    if(int(id)==userId and int(postID)==postId):
+        userPro = UserProfile.objects.get(user_id=userId)
+        post=Post.objects.get(id=postId)
+        if(Saved_Posts.objects.filter(user=userPro,post=post).exists()):
+            savePost=Saved_Posts.objects.get(user=userPro,post=post)
+            savePost.delete()
+            return JsonResponse({'message':"This post removed from your favourites"}, status = 200)
+        else:
+            savePost=Saved_Posts(user=userPro,post=post)
+            savePost.save()
+            return JsonResponse({'message':"This post added to your favourites"}, status = 200) 
+    
+    return JsonResponse({'message':"Access Denied"}, status = 400)
+
 
 @csrf_exempt
 @api_view(['POST'])

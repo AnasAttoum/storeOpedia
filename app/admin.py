@@ -114,7 +114,9 @@ class Rated_StoresAdmin(admin.ModelAdmin):
     list_display = ('id' , 'user_id'  , 'user', 'store_id' , 'store')
 admin.site.register(Rated_Stores , Rated_StoresAdmin)
 
-admin.site.register(Saved_Posts)
+class Saved_PostsAdmin(admin.ModelAdmin):
+    list_display = ('id' , 'user_id'  , 'user', 'post_id' , 'post')
+admin.site.register(Saved_Posts , Saved_PostsAdmin)
 
 class InboxAdmin(admin.ModelAdmin):
     list_display = ('id', 'owner_id' , 'type', 'description', 'photo', 'creation_date' , 'is_done' , 'reply' , 'reply_date')

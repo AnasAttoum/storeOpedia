@@ -46,6 +46,7 @@ urlpatterns=[
     
     path( 'like/<int:userId>/<int:postId>' , views.likePost , name='likePost' ),   
     path( 'fav/<int:userId>/<int:storeId>' , views.favStore , name='favStore' ),    
+    path( 'save/<int:userId>/<int:postId>' , views.savePost , name='savePost' ),    
     path( 'follow/<int:userId>/<int:storeId>' , views.followedStore , name='followedStore' ),
 
 
