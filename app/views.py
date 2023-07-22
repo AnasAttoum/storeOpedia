@@ -974,19 +974,22 @@ def likePost(request,userId,postId):
     body_unicode = request.body.decode()
     body = json.loads(body_unicode)  
     id = body['id']
-    if(int(id)==userId):
+    postID = body['postId']
+
+    if(int(id)==userId and int(postID)==postId):
         userPro = UserProfile.objects.get(user_id=userId)
         post=Post.objects.get(id=postId)
+
         if(Liked_Posts.objects.filter(user=userPro,post=post).exists()):
             liked_post=Liked_Posts.objects.get(user=userPro,post=post)
             liked_post.delete()
-            return JsonResponse({'message':"You unliked the post"})
+            return JsonResponse({'message':"You unliked the post"}, status = 200)
         else:
             liked_post=Liked_Posts(user=userPro,post=post)
             liked_post.save()
-            return JsonResponse({'message':"You liked the post"}) 
+            return JsonResponse({'message':"You liked the post"}, status = 200) 
     
-    return JsonResponse({'message':"Access Denied"}) 
+    return JsonResponse({'message':"Access Denied"}, status = 400) 
     
 @csrf_exempt
 @api_view(['POST'])
