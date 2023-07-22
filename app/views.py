@@ -1014,7 +1014,9 @@ def followedStore(request,userId,storeId):
     body_unicode = request.body.decode()
     body = json.loads(body_unicode)  
     id = body['id']
-    if(int(id)==userId):
+    storeID = body['shopId']
+
+    if(int(id)==userId and int(storeID)==storeId):
         userPro = UserProfile.objects.get(user_id=userId)
         store=Store.objects.get(id=storeId)
         if(Followed_Stores.objects.filter(user=userPro,store=store).exists()):
