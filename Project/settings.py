@@ -215,7 +215,7 @@ JAZZMIN_SETTINGS = {
         # {"model":"app.Post",'name':'omom',"url": "/admin/Home","permissions": [True]},
         # {"name": "Test2222", "url": "/admin/app/store", "permissions": ["auth.view_user"]},
     ],
-    "order_with_respect_to": ["app.Inbox",'app.post','app.store'],
+    "order_with_respect_to": ["app.Inbox",'app.post','app.store' , 'app.Followed_Stores' , 'app.fav_stores' , 'app.rated_stores'],
 #     "custom_links": {
 #     "Inbox": [{
 #         # Any Name you like

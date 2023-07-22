@@ -858,6 +858,98 @@ def lookupStores(request , userId):
         return JsonResponse({'message':"Access Denied"})
 
 
+@csrf_exempt
+@api_view(['POST'])
+def followedStore(request,userId,storeId):
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode)  
+    id = body['id']
+    storeID = body['shopId']
+
+    if(int(id)==userId and int(storeID)==storeId):
+        userPro = UserProfile.objects.get(user_id=userId)
+        store=Store.objects.get(id=storeId)
+        if(Followed_Stores.objects.filter(user=userPro,store=store).exists()):
+            followed_store=Followed_Stores.objects.get(user=userPro,store=store)
+            followed_store.delete()
+            return JsonResponse({'message':"You are unfollowing this store"}, status = 200) 
+        else:
+            followed_store=Followed_Stores(user=userPro,store=store)
+            followed_store.save()
+            return JsonResponse({'message':"You are following this store"}, status = 200) 
+    
+    return JsonResponse({'message':"Access Denied"}, status = 400)     
+    
+@csrf_exempt
+@api_view(['POST'])
+def favStore(request,userId,storeId):
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode)  
+    id = body['id']
+    storeID = body['shopId']
+
+    if(int(id)==userId and int(storeID)==storeId):
+        userPro = UserProfile.objects.get(user_id=userId)
+        store=Store.objects.get(id=storeId)
+        if(Fav_Stores.objects.filter(user=userPro,store=store).exists()):
+            fav_store=Fav_Stores.objects.get(user=userPro,store=store)
+            fav_store.delete()
+            return JsonResponse({'message':"This store removed from your favourites"}, status = 200)
+        else:
+            fav_store=Fav_Stores(user=userPro,store=store)
+            fav_store.save()
+            return JsonResponse({'message':"This store added to your favourites"}, status = 200) 
+    
+    return JsonResponse({'message':"Access Denied"}, status = 400)
+
+
+@csrf_exempt
+@api_view(['POST'])
+def likePost(request,userId,postId):
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode)  
+    id = body['id']
+    postID = body['postId']
+
+    if(int(id)==userId and int(postID)==postId):
+        userPro = UserProfile.objects.get(user_id=userId)
+        post=Post.objects.get(id=postId)
+
+        if(Liked_Posts.objects.filter(user=userPro,post=post).exists()):
+            liked_post=Liked_Posts.objects.get(user=userPro,post=post)
+            liked_post.delete()
+            return JsonResponse({'message':"You unliked the post"}, status = 200)
+        else:
+            liked_post=Liked_Posts(user=userPro,post=post)
+            liked_post.save()
+            return JsonResponse({'message':"You liked the post"}, status = 200) 
+    
+    return JsonResponse({'message':"Access Denied"}, status = 400) 
+
+
+
+@csrf_exempt
+@api_view(['POST'])
+def savePost(request,userId,postId):
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode)  
+    id = body['id']
+    postID = body['postID']
+
+    if(int(id)==userId and int(postID)==postId):
+        userPro = UserProfile.objects.get(user_id=userId)
+        post=Post.objects.get(id=postId)
+        if(Saved_Posts.objects.filter(user=userPro,post=post).exists()):
+            savePost=Saved_Posts.objects.get(user=userPro,post=post)
+            savePost.delete()
+            return JsonResponse({'message':"This post removed from your favourites"}, status = 200)
+        else:
+            savePost=Saved_Posts(user=userPro,post=post)
+            savePost.save()
+            return JsonResponse({'message':"This post added to your favourites"}, status = 200) 
+    
+    return JsonResponse({'message':"Access Denied"}, status = 400)
+
 
 @csrf_exempt
 @api_view(['POST'])
@@ -966,98 +1058,6 @@ def postsofFollowedStore(request , userId):
 
     else:
         return JsonResponse({'message':'Access Denied'},status = 400)
-    
-
-@csrf_exempt
-@api_view(['POST'])
-def likePost(request,userId,postId):
-    body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
-    id = body['id']
-    postID = body['postId']
-
-    if(int(id)==userId and int(postID)==postId):
-        userPro = UserProfile.objects.get(user_id=userId)
-        post=Post.objects.get(id=postId)
-
-        if(Liked_Posts.objects.filter(user=userPro,post=post).exists()):
-            liked_post=Liked_Posts.objects.get(user=userPro,post=post)
-            liked_post.delete()
-            return JsonResponse({'message':"You unliked the post"}, status = 200)
-        else:
-            liked_post=Liked_Posts(user=userPro,post=post)
-            liked_post.save()
-            return JsonResponse({'message':"You liked the post"}, status = 200) 
-    
-    return JsonResponse({'message':"Access Denied"}, status = 400) 
-    
-@csrf_exempt
-@api_view(['POST'])
-def favStore(request,userId,storeId):
-    body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
-    id = body['id']
-    storeID = body['shopId']
-
-    if(int(id)==userId and int(storeID)==storeId):
-        userPro = UserProfile.objects.get(user_id=userId)
-        store=Store.objects.get(id=storeId)
-        if(Fav_Stores.objects.filter(user=userPro,store=store).exists()):
-            fav_store=Fav_Stores.objects.get(user=userPro,store=store)
-            fav_store.delete()
-            return JsonResponse({'message':"This store removed from your favourites"}, status = 200)
-        else:
-            fav_store=Fav_Stores(user=userPro,store=store)
-            fav_store.save()
-            return JsonResponse({'message':"This store added to your favourites"}, status = 200) 
-    
-    return JsonResponse({'message':"Access Denied"}, status = 400)
-
-
-@csrf_exempt
-@api_view(['POST'])
-def savePost(request,userId,postId):
-    body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
-    id = body['id']
-    postID = body['postID']
-
-    if(int(id)==userId and int(postID)==postId):
-        userPro = UserProfile.objects.get(user_id=userId)
-        post=Post.objects.get(id=postId)
-        if(Saved_Posts.objects.filter(user=userPro,post=post).exists()):
-            savePost=Saved_Posts.objects.get(user=userPro,post=post)
-            savePost.delete()
-            return JsonResponse({'message':"This post removed from your favourites"}, status = 200)
-        else:
-            savePost=Saved_Posts(user=userPro,post=post)
-            savePost.save()
-            return JsonResponse({'message':"This post added to your favourites"}, status = 200) 
-    
-    return JsonResponse({'message':"Access Denied"}, status = 400)
-
-
-@csrf_exempt
-@api_view(['POST'])
-def followedStore(request,userId,storeId):
-    body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
-    id = body['id']
-    storeID = body['shopId']
-
-    if(int(id)==userId and int(storeID)==storeId):
-        userPro = UserProfile.objects.get(user_id=userId)
-        store=Store.objects.get(id=storeId)
-        if(Followed_Stores.objects.filter(user=userPro,store=store).exists()):
-            followed_store=Followed_Stores.objects.get(user=userPro,store=store)
-            followed_store.delete()
-            return JsonResponse({'message':"You are unfollowing this store"}, status = 200) 
-        else:
-            followed_store=Followed_Stores(user=userPro,store=store)
-            followed_store.save()
-            return JsonResponse({'message':"You are following this store"}, status = 200) 
-    
-    return JsonResponse({'message':"Access Denied"}, status = 400) 
 
 
 @csrf_exempt

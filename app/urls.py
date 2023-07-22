@@ -38,18 +38,16 @@ urlpatterns=[
 
     path( 'shops/<int:userId>' , views.lookupStores , name='lookupStores' ),
     
+ 
+    path( 'follow/<int:userId>/<int:storeId>' , views.followedStore , name='followedStore' ),
+    path( 'fav/<int:userId>/<int:storeId>' , views.favStore , name='favStore' ),    
+    path( 'like/<int:userId>/<int:postId>' , views.likePost , name='likePost' ),   
+    path( 'save/<int:userId>/<int:postId>' , views.savePost , name='savePost' ),    
 
+    
     path( 'show/stores/<int:userId>' , views.showStores , name='showStores' ), #all stores except mine
     path( 'show/posts/owner/<int:storeId>' , views.showPostsOwner , name='showPostsOwner' ), 
     path( 'show/posts/followedStores/<int:userId>' , views.postsofFollowedStore , name='postsofFollowedStore' ), 
-
-    
-    path( 'like/<int:userId>/<int:postId>' , views.likePost , name='likePost' ),   
-    path( 'fav/<int:userId>/<int:storeId>' , views.favStore , name='favStore' ),    
-    path( 'save/<int:userId>/<int:postId>' , views.savePost , name='savePost' ),    
-    path( 'follow/<int:userId>/<int:storeId>' , views.followedStore , name='followedStore' ),
-
-
     path( 'show/my/fav/<int:userId>' , views.showMyFavStore , name='showMyFavStore' ),    
 
 
