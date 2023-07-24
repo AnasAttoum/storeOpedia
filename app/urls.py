@@ -50,6 +50,8 @@ urlpatterns=[
     path( 'show/posts/followedStores/<int:userId>' , views.postsofFollowedStore , name='postsofFollowedStore' ), 
     path( 'show/my/follow/<int:userId>' , views.showMyFollowedStore , name='showMyFollowedStore' ),    
     path( 'show/my/fav/<int:userId>' , views.showMyFavStore , name='showMyFavStore' ),    
+    path( 'show/my/Like/<int:userId>' , views.showMyLikedPosts , name='showMyFavStore' ), #all posts that i put like on it
+    # path( 'show/my/save/<int:userId>' , views.showMySavedPosts , name='showMySavedPosts' ),
 
 
     path( 'store/toggleActivation/<int:storeId>' , views.toggleActivation , name='toggleActivation' ), 

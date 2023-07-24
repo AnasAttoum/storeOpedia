@@ -1075,7 +1075,8 @@ def showMyFollowedStore(request,userId):
             for i in range(0,len(follow)):
                 
                 x = {
-                    'store':str(follow[i].store),
+                    'id':str(follow[i].store.id),
+                    'name':str(follow[i].store),
                     },
                 follows += x
 
@@ -1099,12 +1100,38 @@ def showMyFavStore(request,userId):
             for i in range(0,len(fav)):
                 
                 x = {
-                    'store':str(fav[i].store),
+                    'id':str(fav[i].store.id),
+                    'name':str(fav[i].store),
                     },
                 favs += x
 
             return JsonResponse({'message':"Done" , 'favs':favs} , status = 200) 
         return JsonResponse({'message':"You dont have any favourite stores yet"} , status = 400) 
+    return JsonResponse({'message':"Access Denied"} , status = 400) 
+
+
+@csrf_exempt
+@api_view(['POST'])
+def showMyLikedPosts(request,userId):
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode)  
+    id = body['id']
+
+    if int(id)==userId:
+        userPro = UserProfile.objects.get(user_id=id)
+        if Liked_Posts.objects.filter(user=userPro).exists():
+            likes = []
+            like = Liked_Posts.objects.filter(user=userPro)
+            for i in range(0,len(like)):
+                
+                x = {
+                    'id':str(like[i].post.id),
+                    'title':str(like[i].post),
+                    },
+                likes += x
+
+            return JsonResponse({'message':"Done" , 'PostsLikedByMe':likes} , status = 200) 
+        return JsonResponse({'message':"You didnt like any post yet"} , status = 400) 
     return JsonResponse({'message':"Access Denied"} , status = 400) 
 
 
