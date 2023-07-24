@@ -1137,6 +1137,43 @@ def showMyLikedPosts(request,userId):
 
 @csrf_exempt
 @api_view(['POST'])
+def showStoresFromCategories(request , userId):
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode)  
+    id = body['id']
+    cat = body['category']
+
+    if int(id)==userId and cat:
+        user = User.objects.get(id=userId)
+        userPro = UserProfile.objects.get(user_id=user.id)
+        
+        stores = []
+        store=Store.objects.filter(~Q(owner=userPro)).filter(category=cat)
+        
+        
+        for i in range(0,len(store)):
+            # print(store[i].owner.id)
+            user =User.objects.get(id=store[i].owner.user_id)
+            userPro =UserProfile.objects.get(id=store[i].owner.id)
+            followNum = len(Followed_Stores.objects.filter(store = store[i]))
+            if store[i].facebook or store[i].insta:
+                socialUrl = [ store[i].facebook , store[i].insta ]
+            else:
+                socialUrl =[]
+            x = {
+                'shopID':str(store[i].id) ,
+                'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
+                'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active },
+            stores += x
+        return JsonResponse({"stores":stores , 'message':'Done'},status = 200)
+
+    else:
+        return JsonResponse({'message':'Access Denied'},status = 400)
+
+
+
+@csrf_exempt
+@api_view(['POST'])
 def toggleActivation(request,storeId):
     body_unicode = request.body.decode()
     body = json.loads(body_unicode)  
