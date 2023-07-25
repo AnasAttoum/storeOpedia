@@ -203,7 +203,8 @@ div.css_bar_graph ul.x_axis li {
 
   display: inline;
 
-  width: 90px;
+  /* width: 68px; */
+  width: 6.5%;
 
   float: left;
 
@@ -517,43 +518,51 @@ div.css_bar_graph div.graph li.bar span {
 
 
 
-div.css_bar_graph div.graph li.nr_1 { left: 90px; }
+div.css_bar_graph div.graph li.nr_1 { left: 7%; }
 
 
 
-div.css_bar_graph div.graph li.nr_2 { left: 180px; }
+div.css_bar_graph div.graph li.nr_2 { left: 13.5%; }
 
 
 
-div.css_bar_graph div.graph li.nr_3 { left: 270px; }
+div.css_bar_graph div.graph li.nr_3 { left: 20%; }
 
 
 
-div.css_bar_graph div.graph li.nr_4 { left: 360px; }
+div.css_bar_graph div.graph li.nr_4 { left: 26.5%; }
 
 
 
-div.css_bar_graph div.graph li.nr_5 { left: 450px; }
+div.css_bar_graph div.graph li.nr_5 { left: 33%; }
 
 
 
-div.css_bar_graph div.graph li.nr_6 { left: 540px; }
+div.css_bar_graph div.graph li.nr_6 { left: 39.5%; }
 
 
 
-div.css_bar_graph div.graph li.nr_7 { left: 630px; }
+div.css_bar_graph div.graph li.nr_7 { left: 46%; }
 
 
 
-div.css_bar_graph div.graph li.nr_8 { left: 720px; }
+div.css_bar_graph div.graph li.nr_8 { left: 52.5%; }
 
 
 
-div.css_bar_graph div.graph li.nr_9 { left: 810px; }
+div.css_bar_graph div.graph li.nr_9 { left: 59%; }
 
 
 
-div.css_bar_graph div.graph li.nr_10 { left: 900px; }
+div.css_bar_graph div.graph li.nr_10 { left: 65.5%; }
+
+div.css_bar_graph div.graph li.nr_11 { left: 72%; }
+
+div.css_bar_graph div.graph li.nr_12 { left: 78.5%; }
+
+div.css_bar_graph div.graph li.nr_13 { left: 85%; }
+
+div.css_bar_graph div.graph li.nr_14 { left: 91.5%; }
 
 
 
@@ -587,7 +596,7 @@ div.css_bar_graph div.graph li.blue div.top { background: #2299d8; }
 
 
 
-div.css_bar_graph div.graph li.blue div.bottom { background: #005594; }
+div.css_bar_graph div.graph li.blue div.bottom { background: #0077b6; }
 /* -------------------------------------------------------------------------------------------------------------------bottom of the bar */
 
 
@@ -621,7 +630,7 @@ div.css_bar_graph div.graph li.green div.top { background: #6cf88f; }
 
 
 
-div.css_bar_graph div.graph li.green div.bottom { background: #28b44b; }
+div.css_bar_graph div.graph li.green div.bottom { background: #4ad66d; }
 
 
 
@@ -653,7 +662,7 @@ div.css_bar_graph div.graph li.orange div.top { background: #ffc24c; }
 
 
 
-div.css_bar_graph div.graph li.orange div.bottom { background: #ff9000; }
+div.css_bar_graph div.graph li.orange div.bottom { background: rgba(255,144,0,0.8); }
 
 
 
@@ -665,9 +674,8 @@ div.css_bar_graph div.graph li.orange div.bottom { background: #ff9000; }
 
 div.css_bar_graph div.graph li.purple {
 
-  background: #7d47ba;	/* --- IE --- */
 
-  background: rgba(125,71,186,0.8);
+  background: #7d47bacc;
 
 }
 
@@ -685,7 +693,8 @@ div.css_bar_graph div.graph li.purple div.top { background: #b592dd; }
 
 
 
-div.css_bar_graph div.graph li.purple div.bottom { background: #7d47ba; }
+div.css_bar_graph div.graph li.purple div.bottom { background: rgb(150, 106, 198); }
+/* div.css_bar_graph div.graph li.purple div.bottom { background: #a360cc; } */
 
 
 
@@ -707,7 +716,7 @@ div.css_bar_graph div.graph li.red {
 div.css_bar_graph div.graph li.red div.top { background: #ff6c69; }
 
 /* ------ bottom ------ */
-div.css_bar_graph div.graph li.red div.bottom { background: #df2825; }
+div.css_bar_graph div.graph li.red div.bottom { background: #ff4a47; }
 
 
 /* ==================== PINK BAR  ==================== */
@@ -738,7 +747,7 @@ div.css_bar_graph div.graph li.pink div.top { background: #ffc7cd; }
 
 
 
-div.css_bar_graph div.graph li.pink div.bottom { background: #ee949a; }
+div.css_bar_graph div.graph li.pink div.bottom { background: #ffa5ab; }
 
 /* ==================== GRAY BAR  ==================== */
 /* ------ base ------ */
@@ -750,7 +759,7 @@ div.css_bar_graph div.graph li.gray {
 div.css_bar_graph div.graph li.gray div.top { background: #dfc5cd; }
 
 /* ------ bottom ------ */
-div.css_bar_graph div.graph li.gray div.bottom { background: #9d8189; }
+div.css_bar_graph div.graph li.gray div.bottom { background: #bfa3ab; }
 
 /* ==================== BLACK BAR  ==================== */
 /* ------ base ------ */
@@ -762,7 +771,7 @@ div.css_bar_graph div.graph li.black {
 div.css_bar_graph div.graph li.black div.top { background: #22393f; }
 
 /* ------ bottom ------ */
-div.css_bar_graph div.graph li.black div.bottom { background: #00050d; }
+div.css_bar_graph div.graph li.black div.bottom { background: #00171f; }
 
 
 /* ==================== ORANGE BAR  ==================== */
@@ -775,7 +784,7 @@ div.css_bar_graph div.graph li.orange {
 div.css_bar_graph div.graph li.orange div.top { background: #ffb992; }
 
 /* ------ bottom ------ */
-div.css_bar_graph div.graph li.orange div.bottom { background: #dd7550; }
+div.css_bar_graph div.graph li.orange div.bottom { background: #ff9770; }
 
 
 /* ==================== YELLOW BAR  ==================== */
@@ -788,7 +797,7 @@ div.css_bar_graph div.graph li.yellow {
 div.css_bar_graph div.graph li.yellow div.top { background: #fffa7f; }
 
 /* ------ bottom ------ */
-div.css_bar_graph div.graph li.yellow div.bottom { background: #dbb63b; }
+div.css_bar_graph div.graph li.yellow div.bottom { background: #fdd85d; }
 
 /* ==================== BROWN BAR  ==================== */
 /* ------ base ------ */
@@ -800,7 +809,7 @@ div.css_bar_graph div.graph li.brown {
 div.css_bar_graph div.graph li.brown div.top { background: #deac7f; }
 
 /* ------ bottom ------ */
-div.css_bar_graph div.graph li.brown div.bottom { background: #9a683d; }
+div.css_bar_graph div.graph li.brown div.bottom { background: #bc8a5f; }
 
 /* ==================== LIGHTBLUE BAR  ==================== */
 /* ------ base ------ */
@@ -812,7 +821,56 @@ div.css_bar_graph div.graph li.lightBlue {
 div.css_bar_graph div.graph li.lightBlue div.top { background: #9dfff4; }
 
 /* ------ bottom ------ */
-div.css_bar_graph div.graph li.lightBlue div.bottom { background: #59bdd0; }
+div.css_bar_graph div.graph li.lightBlue div.bottom { background: #7bdff2; }
+
+/* ==================== ORANGE2 BAR  ==================== */
+/* ------ base ------ */
+div.css_bar_graph div.graph li.orange2 {
+  background: #fb5607;
+}
+
+/* ------ top ------ */
+div.css_bar_graph div.graph li.orange2 div.top { background: #fd7829; }
+
+/* ------ bottom ------ */
+div.css_bar_graph div.graph li.orange2 div.bottom { background: #fb5607; }
+
+
+/* ==================== BLUE2 BAR  ==================== */
+/* ------ base ------ */
+div.css_bar_graph div.graph li.blue2 {
+  background: #9b2226;
+}
+
+/* ------ top ------ */
+div.css_bar_graph div.graph li.blue2 div.top { background: #bd4448; }
+
+/* ------ bottom ------ */
+div.css_bar_graph div.graph li.blue2 div.bottom { background: #9b2226; }
+
+/* ==================== Karmiede BAR  ==================== */
+/* ------ base ------ */
+div.css_bar_graph div.graph li.Karmiede {
+  background: #8e94f2;
+}
+
+/* ------ top ------ */
+div.css_bar_graph div.graph li.Karmiede div.top { background: #afb6f4; }
+
+/* ------ bottom ------ */
+div.css_bar_graph div.graph li.Karmiede div.bottom { background: #8e94f2; }
+
+/* ==================== BLA BAR  ==================== */
+/* ------ base ------ */
+div.css_bar_graph div.graph li.bla {
+  background: #dd6e42;
+}
+
+/* ------ top ------ */
+div.css_bar_graph div.graph li.bla div.top { background: #ff8f64; }
+
+/* ------ bottom ------ */
+div.css_bar_graph div.graph li.bla div.bottom { background: #dd6e42; }
 /* ==================== HOVERS  ==================== */
 
 
@@ -823,6 +881,7 @@ div.css_bar_graph div.graph li.blue:hover {
   background: #005594;
 
 }
+div.css_bar_graph div.graph li.blue:hover div.bottom { background: #005594; }
 
 
 
@@ -833,6 +892,7 @@ div.css_bar_graph div.graph li.green:hover {
   background: #28b44b;
 
 }
+div.css_bar_graph div.graph li.green:hover div.bottom { background: #28b44b; }
 
 
 
@@ -843,6 +903,7 @@ div.css_bar_graph div.graph li.orange:hover {
   background: #ff9000;
 
 }
+div.css_bar_graph div.graph li.orange:hover div.bottom { background: #ff9000; }
 
 
 
@@ -853,6 +914,7 @@ div.css_bar_graph div.graph li.purple:hover {
   background: #7d47ba;
 
 }
+div.css_bar_graph div.graph li.purple:hover div.bottom { background: #7d47ba; }
 
 
 
@@ -863,6 +925,7 @@ div.css_bar_graph div.graph li.red:hover {
   background: #df2825;
 
 }
+div.css_bar_graph div.graph li.red:hover div.bottom { background: #df2825; }
 
 div.css_bar_graph div.graph li.pink:hover {
 
@@ -871,6 +934,7 @@ div.css_bar_graph div.graph li.pink:hover {
   background: #ee949a;
 
 }
+div.css_bar_graph div.graph li.pink:hover div.bottom { background: #ee949a; }
 
 
 div.css_bar_graph div.graph li.gray:hover {
@@ -880,6 +944,7 @@ div.css_bar_graph div.graph li.gray:hover {
   background: #9d8189;
 
 }
+div.css_bar_graph div.graph li.gray:hover div.bottom { background: #9d8189; }
 
 div.css_bar_graph div.graph li.black:hover {
 
@@ -888,27 +953,55 @@ div.css_bar_graph div.graph li.black:hover {
   background: #00050d;
 
 }
+div.css_bar_graph div.graph li.black:hover div.bottom { background: #00050d; }
 
 div.css_bar_graph div.graph li.orange:hover {
   cursor: pointer;
   background: #dd7550;
 }
+div.css_bar_graph div.graph li.orange:hover div.bottom { background: #dd7550; }
 
 div.css_bar_graph div.graph li.yellow:hover {
   cursor: pointer;
   background: #dbb63b;
 }
+div.css_bar_graph div.graph li.yellow:hover div.bottom { background: #dbb63b; }
 
 div.css_bar_graph div.graph li.brown:hover {
   cursor: pointer;
   background: #9a683d;
 }
+div.css_bar_graph div.graph li.brown:hover div.bottom { background: #9a683d; }
 
 div.css_bar_graph div.graph li.lightBlue:hover {
   cursor: pointer;
   background: #59bdd0;
 }
+div.css_bar_graph div.graph li.lightBlue:hover div.bottom { background: #59bdd0; }
 
+div.css_bar_graph div.graph li.orange2:hover {
+  cursor: pointer;
+  background: #d93405;
+}
+div.css_bar_graph div.graph li.orange2:hover div.bottom { background: #d93405; }
+
+div.css_bar_graph div.graph li.blue2:hover {
+  cursor: pointer;
+  background: #790004;
+}
+div.css_bar_graph div.graph li.blue2:hover div.bottom { background: #790004; }
+
+div.css_bar_graph div.graph li.Karmiede:hover {
+  cursor: pointer;
+  background: #6c72d0;
+}
+div.css_bar_graph div.graph li.Karmiede:hover div.bottom { background: #6c72d0; }
+
+div.css_bar_graph div.graph li.bla:hover {
+  cursor: pointer;
+  background: #bb4c20;
+}
+div.css_bar_graph div.graph li.bla:hover div.bottom { background: #bb4c20; }
 
 div.css_bar_graph div.graph li.bar:hover span {
 

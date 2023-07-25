@@ -20,7 +20,22 @@ from django.core.files.base import ContentFile
 
 
 def Overview(request):
-
+    all = len(Store.objects.all())
+    value1 = (len(Store.objects.filter(category='Estates'))/all)*100
+    value2 = (len(Store.objects.filter(category='Vehicles'))/all)*100
+    value3 = (len(Store.objects.filter(category='Fashion & Beauty'))/all)*100
+    value4 = (len(Store.objects.filter(category='Mobiles'))/all)*100
+    value5 = (len(Store.objects.filter(category='Furniturs'))/all)*100
+    value6 = (len(Store.objects.filter(category='Computers'))/all)*100
+    value7 = (len(Store.objects.filter(category='Gifts'))/all)*100
+    value8 = (len(Store.objects.filter(category='Babies stuff'))/all)*100
+    value9 = (len(Store.objects.filter(category='Motorcycles'))/all)*100
+    value10 = (len(Store.objects.filter(category='Sport'))/all)*100
+    value11 = (len(Store.objects.filter(category='Pharmacies'))/all)*100
+    value12 = (len(Store.objects.filter(category='Services'))/all)*100
+    value13 = (len(Store.objects.filter(category='Variants'))/all)*100
+    value14 = (len(Store.objects.filter(category='Malls'))/all)*100
+    print((value3*245)/100)
     context = {
         'ownersNumber': len(UserProfile.objects.filter(is_owner = True)),
         'usersNumber': len(UserProfile.objects.filter(is_owner = False)),
@@ -28,8 +43,34 @@ def Overview(request):
         'usersPercentage' : 100 - int(len(UserProfile.objects.filter(is_owner = True)) / len(UserProfile.objects.filter())*100),
         'PostNumber' : len(Post.objects.all()),
         # 'TALL': 245,
-        'Value1': 53,
-        'Percentage1': (53*245)/100,
+        'Value1': value1,
+        'Percentage1': (value1*245)/100,
+        'Value2': value2,
+        'Percentage2': (value2*245)/100,
+        'Value3': value3,
+        'Percentage3': (value3*245)/100,
+        'Value4': value4,
+        'Percentage4': (value4*245)/100,
+        'Value5': value5,
+        'Percentage5': (value5*245)/100,
+        'Value6': value6,
+        'Percentage6': (value6*245)/100,
+        'Value7': value7,
+        'Percentage7': (value7*245)/100,
+        'Value8': value8,
+        'Percentage8': (value8*245)/100,
+        'Value9': value9,
+        'Percentage9': (value9*245)/100,
+        'Value10': value10,
+        'Percentage10': (value10*245)/100,
+        'Value11': value11,
+        'Percentage11': (value11*245)/100,
+        'Value12': value12,
+        'Percentage12': (value12*245)/100,
+        'Value13': value13,
+        'Percentage13': (value13*245)/100,
+        'Value14': value14,
+        'Percentage14': (value14*245)/100,
     }
     return render( request , 'Pages/Bar.html' , context)
 
@@ -1014,7 +1055,8 @@ def showPostsOwner(request , storeId):
                         'photos':str(post[i].photos)
                         },
                     posts += x
-                return JsonResponse({"posts":posts , 'message':'Done'},status = 200)
+                    
+                return JsonResponse({"posts":sorted(posts, key=lambda a: a["postID"],reverse=True) , 'message':'Done'},status = 200)
             return JsonResponse({'message':'Access Denied'},status = 400)
         return JsonResponse({'message':'Access Denied'},status = 400)
             

@@ -88,3 +88,7 @@ h1 picture img {
  
 */
 
+.navbar {
+  position: fixed;
+  width: 95%;
+}

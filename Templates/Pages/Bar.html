@@ -2,11 +2,11 @@
 {% load static %}
 {% block Bar %}
 <head>
-  <link rel="stylesheet" type="text/css" href="{% static 'BarCSS.css' %}"/>
+  <link rel="stylesheet" type="text/css" href="{% static 'barCSS.css' %}"/>
 </head>
 
 <!--------------------------------------START The Number Of Stores In Each Category---------------------->
-<div id="content-main" class=col-12 >
+<div id="content-main" class=col-12>
     <div class="col-12">
       <div class="card" style="margin-top: 25px;">
         <div class="card-body pad table-responsive">
@@ -21,7 +21,7 @@
   
       <!-- css bar graph -->
   
-      <div class="css_bar_graph" style="width:88%;overflow: hidden;" >
+      <div class="css_bar_graph" style="width:105%;overflow: hidden;left:-40px;border:None" >
   
         
   
@@ -44,16 +44,20 @@
   
         <ul class="x_axis">
   
-          <li>Food</li>
-          <li>Beauty</li>
-          <li>Electronics</li>
-          <li>vehicles</li>
-          <li>E-States</li>
-          <li>Cafe</li>
-          <li>Clothes</li>
-          <li>Shoes</li>
+          <li>Estates</li>
+          <li>Vehicles</li>
+          <li>Fashion & Beauty</li>
+          <li>Mobiles</li>
+          <li>Furniturs</li>
+          <li>Computers</li>
+          <li>Gifts</li>
+          <li>Babies stuff</li>
+          <li>Motorcycles</li>
+          <li>Sport</li>
+          <li>Pharmacies</li>
+          <li>Services</li>
+          <li>Variants</li>
           <li>Malls</li>
-          <li>Electrics</li>
   
         </ul>
   
@@ -86,28 +90,23 @@
           <!-- bars -->
   
           <!-- 250px = 100% -->
-  
+          
           <ul>
   
             <li class="bar nr_1 red" style="height: {{Percentage1}}px"><div class="top"></div><div class="bottom"></div><span>{{Value1}}%</span></li>
-  
-            <li class="bar nr_2 pink" style="height: 225px;"><div class="top"></div><div class="bottom"></div><span>90%</span></li>
-  
-            <li class="bar nr_3 gray" style="height: 75px;"><div class="top"></div><div class="bottom"></div><span>30%</span></li>
-  
-            <li class="bar nr_4 purple" style="height: 100px;"><div class="top"></div><div class="bottom"></div><span>40%</span></li>
-  
-            <li class="bar nr_5 blue" style="height: 150px;"><div class="top"></div><div class="bottom"></div><span>60%</span></li>
-            
-            <li class="bar nr_6 orange" style="height: 150px;"><div class="top"></div><div class="bottom"></div><span>60%</span></li>
-            
-            <li class="bar nr_7 green" style="height: 150px;"><div class="top"></div><div class="bottom"></div><span>60%</span></li>
-            
-            <li class="bar nr_8 brown" style="height: 150px;"><div class="top"></div><div class="bottom"></div><span>60%</span></li>
-            
-            <li class="bar nr_9 lightBlue" style="height: 150px;"><div class="top"></div><div class="bottom"></div><span>60%</span></li>
-            
-            <li class="bar nr_10 yellow" style="height: 150px;"><div class="top"></div><div class="bottom"></div><span>60%</span></li>
+            <li class="bar nr_2 pink" style="height: {{Percentage2}}px;"><div class="top"></div><div class="bottom"></div><span>{{Value2}}%</span></li>
+            <li class="bar nr_3 gray" style="height: {{Percentage3}}px;"><div class="top"></div><div class="bottom"></div><span>{{Value3}}%</span></li>
+            <li class="bar nr_4 purple" style="height: {{Percentage4}}px;"><div class="top"></div><div class="bottom"></div><span>{{Value4}}%</span></li>
+            <li class="bar nr_5 blue" style="height: {{Percentage5}}px;"><div class="top"></div><div class="bottom"></div><span>{{Value5}}%</span></li>
+            <li class="bar nr_6 orange" style="height: {{Percentage6}}px;"><div class="top"></div><div class="bottom"></div><span>{{Value6}}%</span></li>
+            <li class="bar nr_7 green" style="height: {{Percentage7}}px;"><div class="top"></div><div class="bottom"></div><span>{{Value7}}%</span></li>
+            <li class="bar nr_8 brown" style="height: {{Percentage8}}px;"><div class="top"></div><div class="bottom"></div><span>{{Value8}}%</span></li>
+            <li class="bar nr_9 blue2" style="height: {{Percentage9}}px;"><div class="top"></div><div class="bottom"></div><span>{{Value9}}%</span></li>
+            <li class="bar nr_10 yellow" style="height: {{Percentage10}}px;"><div class="top"></div><div class="bottom"></div><span>{{Value10}}%</span></li>
+            <li class="bar nr_11 orange2" style="height: {{Percentage11}}px;"><div class="top"></div><div class="bottom"></div><span>{{Value11}}%</span></li>
+            <li class="bar nr_12 lightBlue" style="height: {{Percentage12}}px;"><div class="top"></div><div class="bottom"></div><span>{{Value12}}%</span></li>
+            <li class="bar nr_13 Karmiede" style="height: {{Percentage13}}px;"><div class="top"></div><div class="bottom"></div><span>{{Value13}}%</span></li>
+            <li class="bar nr_14 bla" style="height: {{Percentage14}}px;"><div class="top"></div><div class="bottom"></div><span>{{Value14}}%</span></li>
   
           </ul>	
   
