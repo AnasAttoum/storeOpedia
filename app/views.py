@@ -23,7 +23,7 @@ def Overview(request):
     all = len(Store.objects.all())
     value1 = (len(Store.objects.filter(category='Estates'))/all)*100
     value2 = (len(Store.objects.filter(category='Vehicles'))/all)*100
-    value3 = (len(Store.objects.filter(category='Fashion & Beauty'))/all)*100
+    value3 = round((len(Store.objects.filter(category='Fashion & Beauty'))/all)*100,1)
     value4 = (len(Store.objects.filter(category='Mobiles'))/all)*100
     value5 = (len(Store.objects.filter(category='Furniturs'))/all)*100
     value6 = (len(Store.objects.filter(category='Computers'))/all)*100
