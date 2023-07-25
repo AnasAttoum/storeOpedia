@@ -21,21 +21,21 @@ from django.core.files.base import ContentFile
 
 def Overview(request):
     all = len(Store.objects.all())
-    value1 = (len(Store.objects.filter(category='Estates'))/all)*100
-    value2 = (len(Store.objects.filter(category='Vehicles'))/all)*100
+    value1 = round((len(Store.objects.filter(category='Estates'))/all)*100,1)
+    value2 = round((len(Store.objects.filter(category='Vehicles'))/all)*100,1)
     value3 = round((len(Store.objects.filter(category='Fashion & Beauty'))/all)*100,1)
-    value4 = (len(Store.objects.filter(category='Mobiles'))/all)*100
-    value5 = (len(Store.objects.filter(category='Furniturs'))/all)*100
-    value6 = (len(Store.objects.filter(category='Computers'))/all)*100
-    value7 = (len(Store.objects.filter(category='Gifts'))/all)*100
-    value8 = (len(Store.objects.filter(category='Babies stuff'))/all)*100
-    value9 = (len(Store.objects.filter(category='Motorcycles'))/all)*100
-    value10 = (len(Store.objects.filter(category='Sport'))/all)*100
-    value11 = (len(Store.objects.filter(category='Pharmacies'))/all)*100
-    value12 = (len(Store.objects.filter(category='Services'))/all)*100
-    value13 = (len(Store.objects.filter(category='Variants'))/all)*100
-    value14 = (len(Store.objects.filter(category='Malls'))/all)*100
-    print((value3*245)/100)
+    value4 = round((len(Store.objects.filter(category='Mobiles'))/all)*100,1)
+    value5 = round((len(Store.objects.filter(category='Furniturs'))/all)*100,1)
+    value6 = round((len(Store.objects.filter(category='Computers'))/all)*100,1)
+    value7 = round((len(Store.objects.filter(category='Gifts'))/all)*100,1)
+    value8 = round((len(Store.objects.filter(category='Babies stuff'))/all)*100,1)
+    value9 = round((len(Store.objects.filter(category='Motorcycles'))/all)*100,1)
+    value10 = round((len(Store.objects.filter(category='Sport'))/all)*100,1)
+    value11 = round((len(Store.objects.filter(category='Pharmacies'))/all)*100,1)
+    value12 = round((len(Store.objects.filter(category='Services'))/all)*100,1)
+    value13 = round((len(Store.objects.filter(category='Variants'))/all)*100,1)
+    value14 = round((len(Store.objects.filter(category='Malls'))/all)*100,1)
+    # print((value3*245)/100)
     context = {
         'ownersNumber': len(UserProfile.objects.filter(is_owner = True)),
         'usersNumber': len(UserProfile.objects.filter(is_owner = False)),
