@@ -759,6 +759,8 @@ def addStore(request , userId):
         profile_photo=None
         cover_photo=None
         rate=None
+        lang=None
+        lat=None
 
         body_unicode = request.body.decode()
         body = json.loads(body_unicode)  
@@ -779,6 +781,8 @@ def addStore(request , userId):
             profile_photo = body['profile_photo']
             cover_photo = body['cover_photo']
             rate = body['rate']
+            lang = body['longitude']
+            lat = body['latitude']
             
 
             if Store.objects.filter(name=name).exists():
@@ -789,6 +793,7 @@ def addStore(request , userId):
             store = Store(owner=owner,name=name,description=description,category=category,
                         opening=opening,closing=closing,phone=phone,address=address,facebook=facebook,
                         insta=insta,profile_photo=profile_photo,cover_photo=cover_photo,
+                        longitude = lang, latitude=lat,
                         rate=rate)
             store.save()
             if user2.is_owner==False:
