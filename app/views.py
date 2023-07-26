@@ -814,6 +814,7 @@ def addPost(request,storeId):
         price=None
         photos=None
         category=None
+        type=None
 
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)  
@@ -823,9 +824,17 @@ def addPost(request,storeId):
         title = body['name']
         description = body['description']
         price = body['price']
-        if photos:
+        # print('Startphotos')
+        # print(body['photos'])
+        if body['photos']:
+            # print('BEFOREphotos')
+            # print(photos)
             photos = body['photos']
-            photos= ContentFile(base64.b64decode(photos),'name')
+            type = body['postImageType']
+            
+            # print('photos')
+            # print(photos)
+
         category = body['category']
 
         if(int(storeID)==storeId):
@@ -834,7 +843,11 @@ def addPost(request,storeId):
             if userPro.is_owner :
                 store=Store.objects.get(id=storeId)
                 if store.owner == userPro:
-                    post = Post(title=title,description=description,price=price,category=category,photos=photos,owner=store)
+                    post = Post(title=title,description=description,price=price,category=category,owner=store)
+                    post.save()
+                    if body['photos']:
+                        photos= ContentFile(base64.b64decode(photos),name =str(post.id)+ '.' + type )
+                    post.photos = photos
                     post.save()
                     # form = PostForm(request.POST, request.FILES)
                     # print('1')
