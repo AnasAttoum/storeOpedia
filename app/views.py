@@ -19,6 +19,9 @@ import base64
 from django.core.files.base import ContentFile
 
 
+import os
+
+
 def Overview(request):
     all = len(Store.objects.all())
     value1 = round((len(Store.objects.filter(category='Estates'))/all)*100,1)
@@ -1074,13 +1077,13 @@ def showPostsOwner(request , storeId):
                         # photoData = base64.b64encode(photo.read())
                     # ctx["image"] = photoData
                     # photo = base64.b64encode(post[i].photos.getvalue())
-                    print(post[i].photos.read())
+                    print(str(os.path.abspath(post[i].photos.url)))
                     x = {
                         'postID':str(post[i].id),
                         'title':post[i].title,
                         'description':post[i].description,
                         'price':str(post[i].price),
-                        'photos':post[i].photos.read()
+                        'photos':str(os.path.abspath(post[i].photos.url))
                         # 'photos':str(base64.b64encode(post[i].photos.read())),
                         # 'postImageType': str(post[i].photos).rsplit('.', 1)[1]
                         },
