@@ -802,9 +802,9 @@ def addStore(request , userId):
             if body['cover_photo']:
                 cover_photo = body['cover_photo']
                 typeCover = body['storeCoverImageType']
-            # if body['longitude']:
-            #     longitude = body['longitude']
-            #     latitude = body['latitude']
+            if body['longitude']:
+                longitude = body['longitude']
+                latitude = body['latitude']
             
 
             if Store.objects.filter(name=name).exists():
@@ -816,7 +816,7 @@ def addStore(request , userId):
                         opening=opening,closing=closing,phone=phone,address=address,facebook=facebook,
                         insta=insta,
                         # profile_photo=profile_photo,cover_photo=cover_photo,
-                        # longitude = longitude, latitude=latitude,
+                        longitude = longitude, latitude=latitude,
                         rate=rate)
             store.save()
             if body['profile_photo']:
