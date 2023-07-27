@@ -385,7 +385,7 @@ def signUpOwners(request):
                         #                      'shopID':str(store.id) , 'shopCategory':store.category , 'shopName':store.name , 'shopPhoneNumber':store.phone , 'location':store.address , 'startWorkTime':store.opening , 'endWorkTime':store.closing , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':'test' , 'rate':0 ,
                         #                       'message':'Owner was Created' })
                         return JsonResponse({ 'ownerID':str(user.id), 'ownerName':user.username , 'ownerEmail':user.email , 'ownerPhoneNumber':userProfile.phone ,
-                                                'shopID':str(store.id) , 'shopCategory':store.category , 'shopName':store.name , 'shopPhoneNumber':store.phone , 'location':store.address , 'startWorkTime':store.opening , 'endWorkTime':store.closing , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':'test' , 'rate':0 ,
+                                                'shopID':str(store.id) , 'shopCategory':store.category , 'shopName':store.name , 'shopPhoneNumber':store.phone , 'location':store.address , 'startWorkTime':store.opening , 'endWorkTime':store.closing , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':[] , 'rate':0.0 , 'is_active':True,
                                                 'message':'Owner was Created' },
                                                 status = 201)
                         
@@ -759,8 +759,8 @@ def addStore(request , userId):
         profile_photo=None
         cover_photo=None
         rate=None
-        lang=None
-        lat=None
+        longitude=None
+        latitude=None
 
         body_unicode = request.body.decode()
         body = json.loads(body_unicode)  
@@ -781,8 +781,9 @@ def addStore(request , userId):
             profile_photo = body['profile_photo']
             cover_photo = body['cover_photo']
             rate = body['rate']
-            lang = body['longitude']
-            lat = body['latitude']
+            # if body['longitude']:
+            #     longitude = body['longitude']
+            #     latitude = body['latitude']
             
 
             if Store.objects.filter(name=name).exists():
@@ -793,11 +794,15 @@ def addStore(request , userId):
             store = Store(owner=owner,name=name,description=description,category=category,
                         opening=opening,closing=closing,phone=phone,address=address,facebook=facebook,
                         insta=insta,profile_photo=profile_photo,cover_photo=cover_photo,
-                        longitude = lang, latitude=lat,
+                        # longitude = longitude, latitude=latitude,
                         rate=rate)
             store.save()
-            if user2.is_owner==False:
-                user2.is_owner=True
+            # if body['longitude']:
+            #     store.longitude = longitude
+            #     store.latitude = latitude
+            # store.save()
+            if user2.is_owner == False:
+                user2.is_owner = True
                 user2.save()
             return JsonResponse({'message':"Your Store Have Been Added Successfully"},status = 200)
         return JsonResponse({'message':"Access Denied"}) 
@@ -1053,7 +1058,8 @@ def showPostsOwner(request , storeId):
 
     id = body['id']
     storeID = body['shopID']
-
+    print('id' in request.POST)
+    print(request.POST)
     if(int(storeID)==storeId):
         # user = User.objects.get(id=id)
         userPro = UserProfile.objects.get(user_id=id)
@@ -1064,16 +1070,20 @@ def showPostsOwner(request , storeId):
                 posts = []
                 post=Post.objects.filter(owner=storeId)
                 for i in range(0,len(post)):
-                    
+                    # with open("media/photos/posts/2023/07/26/79.jpg", "rb") as photo:
+                        # photoData = base64.b64encode(photo.read())
+                    # ctx["image"] = photoData
+                    # photo = base64.b64encode(post[i].photos.getvalue())
                     x = {
                         'postID':str(post[i].id),
                         'title':post[i].title,
                         'description':post[i].description,
                         'price':str(post[i].price),
-                        'photos':str(post[i].photos)
+                        'photos':str(base64.b64encode(post[i].photos.read())),
+                        'postImageType': str(post[i].photos).rsplit('.', 1)[1]
                         },
                     posts += x
-                    
+                # print(posts)
                 return JsonResponse({"posts":sorted(posts, key=lambda a: a["postID"],reverse=True) , 'message':'Done'},status = 200)
             return JsonResponse({'message':'Access Denied'},status = 400)
         return JsonResponse({'message':'Access Denied'},status = 400)

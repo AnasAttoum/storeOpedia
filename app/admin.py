@@ -85,6 +85,7 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ('id', 'owner_id' , 'title' , 'description' , 'creation_date' , 'price' , 'category' , 'photos' , 'owner')
     search_fields = ['title' , 'description']
     readonly_fields = ['post_photo_preview']
+    list_filter = ('owner',)
 admin.site.register(Post , PostAdmin)
 
 
