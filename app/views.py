@@ -627,8 +627,6 @@ def editStore(request , userId):
     id = body['id']
     storeId = body['shopID']
 
-    profile_photo = body['shopProfileImage']
-    cover_photo = body['shopCoverImage']
     name = body['shopName']
     description = body['shopDescription']
     phone = body['shopPhoneNumber']
@@ -638,6 +636,12 @@ def editStore(request , userId):
     facebook = body['facebook']
     address = body['location']
     category = body['shopCategory']
+    if body['profile_photo']:
+        profile_photo = body['profile_photo']
+        typeProfile = body['storeProfileImageType']
+    if body['cover_photo']:
+        cover_photo = body['cover_photo']
+        typeCover = body['storeCoverImageType']
 
     if int(id)==userId :
         user = User.objects.get(id=userId)
@@ -654,11 +658,16 @@ def editStore(request , userId):
                 store.opening = opening
                 store.closing = closing
                 store.phone = phone
-                store.profile_photo = profile_photo
-                store.cover_photo = cover_photo
                 store.insta = insta
                 store.facebook = facebook
-                store.save()
+
+                if body['profile_photo']:
+                    profile_photo= ContentFile(base64.b64decode(profile_photo),name =str(store.id)+ '.' + typeProfile )
+                    store.profile_photo=profile_photo
+                if body['cover_photo']:
+                    cover_photo= ContentFile(base64.b64decode(cover_photo),name =str(store.id)+ '.' + typeCover )
+                    store.cover_photo=cover_photo
+                    store.save()
                 return JsonResponse({'message' : 'Done'} , status = 200)
             else:
                 return JsonResponse({'message' : 'you cant edit this store'} , status = 400)
@@ -672,7 +681,7 @@ def editStore(request , userId):
 def editPost(request , postId):
     id = None
     title=None
-    storeID=None
+    storeId=None
     postID=None
     description = None
     price=None
@@ -687,7 +696,10 @@ def editPost(request , postId):
     title = body['name']
     description = body['description']
     price = body['price']
-    photos = body['photos']
+    # photos = body['photos']
+    if body['photos']:
+        photos = body['photos']
+        type = body['postImageType']
 
     if(int(postID)==postId):
         user = User.objects.get(id=id)
@@ -706,7 +718,9 @@ def editPost(request , postId):
 
                     if price: post.price = price
 
-                    if photos: post.photos = photos
+                    if body['photos']:
+                        photos= ContentFile(base64.b64decode(photos),name =str(post.id)+ '.' + type )
+                        post.photos = photos
 
                     post.save()
                     return JsonResponse({'message':"Your Post Have Been Edit Successfully"},status = 200) 
@@ -781,9 +795,13 @@ def addStore(request , userId):
             address = body['address']
             facebook = body['facebook']
             insta = body['insta']
-            profile_photo = body['profile_photo']
-            cover_photo = body['cover_photo']
             rate = body['rate']
+            if body['profile_photo']:
+                profile_photo = body['profile_photo']
+                typeProfile = body['storeProfileImageType']
+            if body['cover_photo']:
+                cover_photo = body['cover_photo']
+                typeCover = body['storeCoverImageType']
             # if body['longitude']:
             #     longitude = body['longitude']
             #     latitude = body['latitude']
@@ -796,14 +814,21 @@ def addStore(request , userId):
 
             store = Store(owner=owner,name=name,description=description,category=category,
                         opening=opening,closing=closing,phone=phone,address=address,facebook=facebook,
-                        insta=insta,profile_photo=profile_photo,cover_photo=cover_photo,
+                        insta=insta,
+                        # profile_photo=profile_photo,cover_photo=cover_photo,
                         # longitude = longitude, latitude=latitude,
                         rate=rate)
             store.save()
+            if body['profile_photo']:
+                profile_photo= ContentFile(base64.b64decode(profile_photo),name =str(store.id)+ '.' + typeProfile )
+                store.profile_photo=profile_photo
+            if body['cover_photo']:
+                cover_photo= ContentFile(base64.b64decode(cover_photo),name =str(store.id)+ '.' + typeCover )
+                store.cover_photo=cover_photo
             # if body['longitude']:
             #     store.longitude = longitude
             #     store.latitude = latitude
-            # store.save()
+            store.save()
             if user2.is_owner == False:
                 user2.is_owner = True
                 user2.save()
@@ -835,8 +860,6 @@ def addPost(request,storeId):
         # print('Startphotos')
         # print(body['photos'])
         if body['photos']:
-            # print('BEFOREphotos')
-            # print(photos)
             photos = body['photos']
             type = body['postImageType']
             
@@ -1077,13 +1100,13 @@ def showPostsOwner(request , storeId):
                         # photoData = base64.b64encode(photo.read())
                     # ctx["image"] = photoData
                     # photo = base64.b64encode(post[i].photos.getvalue())
-                    print(str(os.path.abspath(post[i].photos.url)))
+                    # print(str(post[i].photos.url))
                     x = {
                         'postID':str(post[i].id),
                         'title':post[i].title,
                         'description':post[i].description,
                         'price':str(post[i].price),
-                        'photos':str(os.path.abspath(post[i].photos.url))
+                        'photos':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(post[i].photos.url))
                         # 'photos':str(base64.b64encode(post[i].photos.read())),
                         # 'postImageType': str(post[i].photos).rsplit('.', 1)[1]
                         },
