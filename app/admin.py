@@ -112,7 +112,7 @@ admin.site.register(Followed_Stores , Followed_StoresAdmin)
 
 
 class Rated_StoresAdmin(admin.ModelAdmin):
-    list_display = ('id' , 'user_id'  , 'user', 'store_id' , 'store')
+    list_display = ('id' , 'user_id'  , 'user', 'store_id' , 'store' , 'value')
 admin.site.register(Rated_Stores , Rated_StoresAdmin)
 
 class Saved_PostsAdmin(admin.ModelAdmin):

@@ -90,6 +90,7 @@ class Followed_Stores(models.Model):
 class Rated_Stores(models.Model):
     user=models.ForeignKey(UserProfile,on_delete=models.CASCADE)
     store=models.ForeignKey(Store,on_delete=models.CASCADE)
+    value=models.FloatField(blank=True, default=0)
     def __str__(self):
         return "Rated_Stores"
     class Meta:

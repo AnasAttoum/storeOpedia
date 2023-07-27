@@ -1268,7 +1268,37 @@ def showStoresFromCategories(request , userId):
     else:
         return JsonResponse({'message':'Access Denied'},status = 400)
 
+@csrf_exempt
+@api_view(['POST'])
+def rate(request,userId,storeId):
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode)  
+    id = body['id']
+    storeID = body['shopID']
+    value = body['value']
 
+    if(int(id)==userId and int(storeID)==storeId):
+        userPro = UserProfile.objects.get(user_id=userId)
+        store=Store.objects.get(id=storeId)
+        if store.owner != userPro:
+            if Rated_Stores.objects.filter(user=userPro , store=store).exists():
+                rate = Rated_Stores.objects.get(user=userPro , store=store)
+                rate.value = value
+                rate.save()
+            else:
+                rate = Rated_Stores(user=userPro , store=store , value=value)
+                rate.save()
+
+            allRates = Rated_Stores.objects.all()
+            num = len(allRates)
+            rate=0.0
+            for i in range(0,num):
+                rate+=allRates[i].value
+            rate=rate/num
+            return JsonResponse({'message':'Done', 'newRate':rate , 'ratingNumber':num},status = 200)
+        else:
+            return JsonResponse({'message':'You cannot rate your store'},status = 400)
+    return JsonResponse({'message':'Access Denied'},status = 400)
 
 @csrf_exempt
 @api_view(['POST'])
