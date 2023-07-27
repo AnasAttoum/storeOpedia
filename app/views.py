@@ -1074,13 +1074,15 @@ def showPostsOwner(request , storeId):
                         # photoData = base64.b64encode(photo.read())
                     # ctx["image"] = photoData
                     # photo = base64.b64encode(post[i].photos.getvalue())
+                    print(post[i].photos.read())
                     x = {
                         'postID':str(post[i].id),
                         'title':post[i].title,
                         'description':post[i].description,
                         'price':str(post[i].price),
-                        'photos':str(base64.b64encode(post[i].photos.read())),
-                        'postImageType': str(post[i].photos).rsplit('.', 1)[1]
+                        'photos':post[i].photos.read()
+                        # 'photos':str(base64.b64encode(post[i].photos.read())),
+                        # 'postImageType': str(post[i].photos).rsplit('.', 1)[1]
                         },
                     posts += x
                 # print(posts)
