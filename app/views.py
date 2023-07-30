@@ -304,6 +304,8 @@ def signUpOwners(request):
         closing = None
         phone = None
         rate = 0
+        longitude=None
+        latitude=None
         
        #get values from form
         body_unicode = request.body.decode()
@@ -321,6 +323,9 @@ def signUpOwners(request):
         opening = body['startWorkTime']
         closing = body['endWorkTime']
         phone = body['shopPhoneNumber']
+        if body['longitude']:
+                longitude = body['longitude']
+                latitude = body['latitude']
 
        #check values
         # print(phoneNumber)
