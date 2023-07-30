@@ -357,7 +357,7 @@ def signUpOwners(request):
                         userProfile.save()
                         
 
-                        store = Store(owner = userProfile , name = name , address = address , category = category, opening = opening , closing = closing , phone = phone , rate = rate)
+                        store = Store(owner = userProfile , name = name , address = address , category = category, opening = opening , closing = closing , phone = phone , rate = rate , longitude = longitude , latitude = latitude)
                         store.save()
                         send_mail(
                             subject='Store Opedia Site',
