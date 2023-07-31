@@ -785,10 +785,10 @@ def addStore(request , userId):
             facebook = body['facebook']
             insta = body['insta']
             rate = body['rate']
-            if body['profile_photo']:
+            if body['profile_photo'] != 'noImage':
                 profile_photo = body['profile_photo']
                 typeProfile = body['storeProfileImageType']
-            if body['cover_photo']:
+            if body['cover_photo'] != 'noImage':
                 cover_photo = body['cover_photo']
                 typeCover = body['storeCoverImageType']
             if body['longitude']:
@@ -809,7 +809,8 @@ def addStore(request , userId):
                         rate=rate)
             store.save()
             print('test')
-            if body['profile_photo']:
+            print(body['profile_photo'])
+            if body['profile_photo'] != 'noImage':
                 # print('yes')
                 profile_photo= ContentFile(base64.b64decode(profile_photo),name =str(store.id)+ '.' + typeProfile )
                 store.profile_photo=profile_photo
@@ -817,7 +818,7 @@ def addStore(request , userId):
                 # print('no')
                 store.profile_photo = static('Pic/profile_photo.jpg')
 
-            if body['cover_photo']:
+            if body['cover_photo'] != 'noImage':
                 cover_photo= ContentFile(base64.b64decode(cover_photo),name =str(store.id)+ '.' + typeCover )
                 store.cover_photo=cover_photo
             else:
