@@ -326,27 +326,29 @@ def signUpOwners(request):
         if body['longitude']:
                 longitude = body['longitude']
                 latitude = body['latitude']
-        print('1')
        #check values
         # print(phoneNumber)
         # if opening=='':
         #     opening = '08:00:00'
         # if closing=='':
         #     closing = '20:00:00'
+        # print('1')
         if userName and email and password and phoneNumber and name and address and category and opening and closing and phone:
-            print('2')
+            # print('2')
             if User.objects.filter(username=userName).exists():
                 # print(body)
                 # return HttpResponse('<h1>This Username is taken</h1>')
+                # print('6')
                 return JsonResponse({'message':"UserName Already Exists"})
 
             else:#CHECK IF EMAIL IS TAKEN
-                
+                # print('7')
                 if User.objects.filter(email=email).exists():
                     # return HttpResponse('<h1>this email is taken</h1>')
                     return JsonResponse({'message':'Email Already Exists'})
 
                 else:
+                    # print('5')
                     patt="^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"
                     if re.match(patt,email):
                     #add user
@@ -359,6 +361,11 @@ def signUpOwners(request):
                         
 
                         store = Store(owner = userProfile , name = name , address = address , category = category, opening = opening , closing = closing , phone = phone , rate = rate , longitude = longitude , latitude = latitude)
+                        
+                        # print('3')
+                        store.profile_photo = static('Pic/profile_photo.jpg')
+                        store.cover_photo = static('Pic/cover_photo.jpg')
+                        # print('4')
                         store.save()
                         send_mail(
                             subject='Store Opedia Site',
@@ -367,32 +374,6 @@ def signUpOwners(request):
                             recipient_list=[email],
                             fail_silently=False
                         )
-                        # print('Store:')
-                        # print(store.id)
-                        # print(store.category)
-                        # print(store.name)
-                        # print(store.address)
-                        # print(store.opening)
-                        # print(store.closing)
-
-                        # print('user')
-                        # print(user.id)
-                        # print(user.username)
-                        # print(user.password)
-                        # print(user.email)
-                        # print(userProfile.phone)
-
-                        # print('store')
-                        # print(store.id)
-                        # print(store.category)
-                        # print(store.name)
-                        # print(store.phone)
-                        # print(store.address)
-                        # print(store.opening)
-                        # print(store.closing)
-                        # print({ 'ownerID':str(user.id), 'ownerName':user.username , 'password': user.password , 'ownerEmail':user.email , 'ownerPhoneNumber':userProfile.phone ,
-                        #                      'shopID':str(store.id) , 'shopCategory':store.category , 'shopName':store.name , 'shopPhoneNumber':store.phone , 'location':store.address , 'startWorkTime':store.opening , 'endWorkTime':store.closing , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':'test' , 'rate':0 ,
-                        #                       'message':'Owner was Created' })
                         return JsonResponse({ 'ownerID':str(user.id), 'ownerName':user.username , 'ownerEmail':user.email , 'ownerPhoneNumber':userProfile.phone ,
                                                 'shopID':str(store.id) , 'shopCategory':store.category , 'shopName':store.name , 'shopPhoneNumber':store.phone , 'location':store.address , 'startWorkTime':store.opening , 'endWorkTime':store.closing , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store.profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store.cover_photo.url)) , 'shopDescription':'desc' , 'socialUrl':[] , 'rate':0.0 , 'is_active':True,
                                                 'longitude' : store.longitude, "latitude":store.latitude,
