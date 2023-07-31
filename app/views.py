@@ -326,7 +326,7 @@ def signUpOwners(request):
         if body['longitude']:
                 longitude = body['longitude']
                 latitude = body['latitude']
-
+        print('1')
        #check values
         # print(phoneNumber)
         # if opening=='':
@@ -334,6 +334,7 @@ def signUpOwners(request):
         # if closing=='':
         #     closing = '20:00:00'
         if userName and email and password and phoneNumber and name and address and category and opening and closing and phone:
+            print('2')
             if User.objects.filter(username=userName).exists():
                 # print(body)
                 # return HttpResponse('<h1>This Username is taken</h1>')
@@ -393,7 +394,7 @@ def signUpOwners(request):
                         #                      'shopID':str(store.id) , 'shopCategory':store.category , 'shopName':store.name , 'shopPhoneNumber':store.phone , 'location':store.address , 'startWorkTime':store.opening , 'endWorkTime':store.closing , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':'test' , 'rate':0 ,
                         #                       'message':'Owner was Created' })
                         return JsonResponse({ 'ownerID':str(user.id), 'ownerName':user.username , 'ownerEmail':user.email , 'ownerPhoneNumber':userProfile.phone ,
-                                                'shopID':str(store.id) , 'shopCategory':store.category , 'shopName':store.name , 'shopPhoneNumber':store.phone , 'location':store.address , 'startWorkTime':store.opening , 'endWorkTime':store.closing , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':[] , 'rate':0.0 , 'is_active':True,
+                                                'shopID':str(store.id) , 'shopCategory':store.category , 'shopName':store.name , 'shopPhoneNumber':store.phone , 'location':store.address , 'startWorkTime':store.opening , 'endWorkTime':store.closing , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store.photos.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store.photos.url)) , 'shopDescription':'desc' , 'socialUrl':[] , 'rate':0.0 , 'is_active':True,
                                                 'longitude' : store.longitude, "latitude":store.latitude,
                                                 'message':'Owner was Created' },
                                                 status = 201)
@@ -934,7 +935,7 @@ def lookupStores(request , userId):
                         socialUrl = [ store[i].facebook , store[i].insta ]
                     else:
                         socialUrl =[]
-                    x = {'shopID':str(store[i].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone , 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':store[i].description , 'socialUrl':socialUrl , 'rate':store[i].rate ,'followesNumber':followNum , "is_active" :store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude},
+                    x = {'shopID':str(store[i].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone , 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].photos.url)) , 'shopCoverImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].photos.url)) , 'shopDescription':store[i].description , 'socialUrl':socialUrl , 'rate':store[i].rate ,'followesNumber':followNum , "is_active" :store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude},
                     stores += x
                 # stores.append(x)
             # print(
@@ -1074,7 +1075,7 @@ def showStores(request , userId):
             x = {
                 'shopID':str(store[i].id) ,
                 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
-                'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude, },
+                'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].photos.url)) , 'shopCoverImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].photos.url)) , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude, },
             stores += x
         return JsonResponse({"stores":stores , 'message':'Done'},status = 200)
 
@@ -1267,7 +1268,7 @@ def showStoresFromCategories(request , userId):
             x = {
                 'shopID':str(store[i].id) ,
                 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
-                'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude,},
+                'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].photos.url)) , 'shopCoverImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].photos.url)) , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude,},
             stores += x
         return JsonResponse({"stores":stores , 'message':'Done'},status = 200)
 
@@ -1356,7 +1357,7 @@ def activation(request,userId):
                             socialUrl = [ store[i].facebook , store[i].insta ]
                         else:
                             socialUrl =[]
-                        x = {'shopID':str(store[i].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone , 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':store[i].description , 'socialUrl':socialUrl , 'rate':store[i].rate ,'followesNumber':followNum , "is_active" :store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude},
+                        x = {'shopID':str(store[i].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone , 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].photos.url)) , 'shopCoverImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].photos.url)) , 'shopDescription':store[i].description , 'socialUrl':socialUrl , 'rate':store[i].rate ,'followesNumber':followNum , "is_active" :store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude},
                         stores += x
 
             elif message=='deactive':
@@ -1367,7 +1368,7 @@ def activation(request,userId):
                             socialUrl = [ store[i].facebook , store[i].insta ]
                         else:
                             socialUrl =[]
-                        x = {'shopID':str(store[i].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone , 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':store[i].description , 'socialUrl':socialUrl , 'rate':store[i].rate ,'followesNumber':followNum , "is_active" :store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude},
+                        x = {'shopID':str(store[i].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone , 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].photos.url)) , 'shopCoverImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].photos.url)) , 'shopDescription':store[i].description , 'socialUrl':socialUrl , 'rate':store[i].rate ,'followesNumber':followNum , "is_active" :store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude},
                         stores += x
             else:
                 for i in range(0,len(store)):
@@ -1376,7 +1377,7 @@ def activation(request,userId):
                         socialUrl = [ store[i].facebook , store[i].insta ]
                     else:
                         socialUrl =[]
-                    x = {'shopID':str(store[i].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone , 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':store[i].description , 'socialUrl':socialUrl , 'rate':store[i].rate ,'followesNumber':followNum , "is_active" :store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude},
+                    x = {'shopID':str(store[i].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone , 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].photos.url)) , 'shopCoverImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].photos.url)) , 'shopDescription':store[i].description , 'socialUrl':socialUrl , 'rate':store[i].rate ,'followesNumber':followNum , "is_active" :store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude},
                     stores += x
             
                 # stores.append(x)
