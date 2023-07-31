@@ -21,7 +21,7 @@ from django.core.files.base import ContentFile
 
 import os
 
-
+from django.templatetags.static import static
 def Overview(request):
     all = len(Store.objects.all())
     value1 = round((len(Store.objects.filter(category='Estates'))/all)*100,1)
@@ -827,12 +827,21 @@ def addStore(request , userId):
                         longitude = longitude, latitude=latitude,
                         rate=rate)
             store.save()
+            print('test')
             if body['profile_photo']:
+                # print('yes')
                 profile_photo= ContentFile(base64.b64decode(profile_photo),name =str(store.id)+ '.' + typeProfile )
                 store.profile_photo=profile_photo
+            else:
+                # print('no')
+                store.profile_photo = static('Pic/profile_photo.jpg')
+
             if body['cover_photo']:
                 cover_photo= ContentFile(base64.b64decode(cover_photo),name =str(store.id)+ '.' + typeCover )
                 store.cover_photo=cover_photo
+            else:
+                # print('no')
+                store.cover_photo = static('Pic/cover_photo.jpg')
             # if body['longitude']:
             #     store.longitude = longitude
             #     store.latitude = latitude
