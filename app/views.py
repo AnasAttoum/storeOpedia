@@ -39,6 +39,8 @@ def Overview(request):
     value13 = round((len(Store.objects.filter(category='Variants'))/all)*100,1)
     value14 = round((len(Store.objects.filter(category='Malls'))/all)*100,1)
     # print((value3*245)/100)
+
+
     context = {
         'ownersNumber': len(UserProfile.objects.filter(is_owner = True)),
         'usersNumber': len(UserProfile.objects.filter(is_owner = False)),
@@ -74,6 +76,20 @@ def Overview(request):
         'Percentage13': (value13*245)/100,
         'Value14': value14,
         'Percentage14': (value14*245)/100,
+
+        'Lattakia' : len(Store.objects.filter(address='Lattakia')),
+        'Tartus' : len(Store.objects.filter(address='Tartus')),
+        'Raqqah' : len(Store.objects.filter(address='Raqqah')),
+        'Aleppo' : len(Store.objects.filter(address='Aleppo')),
+        'Hamah' : len(Store.objects.filter(address='Hamah')),
+        'Homs' : len(Store.objects.filter(address='Homs')),
+        'Idlib' : len(Store.objects.filter(address='Idlib')),
+        'Hasaka' : len(Store.objects.filter(address='Hasaka')),
+        'DayrAlZawr' : len(Store.objects.filter(address='DayrAlZawr')),
+        'AsSuwaydaa' : len(Store.objects.filter(address='AsSuwaydaa')),
+        'Quneitra' : len(Store.objects.filter(address='Quneitra')),
+        'Daraa' : len(Store.objects.filter(address='Daraa')),
+        'Damascus' : len(Store.objects.filter(address='Damascus')),
     }
     return render( request , 'Pages/Bar.html' , context)
 
@@ -1001,7 +1017,7 @@ def likePost(request,userId,postId):
     body_unicode = request.body.decode()
     body = json.loads(body_unicode)  
     id = body['id']
-    postID = body['postId']
+    postID = body['postID']
 
     if(int(id)==userId and int(postID)==postId):
         userPro = UserProfile.objects.get(user_id=userId)
@@ -1138,6 +1154,11 @@ def postsofFollowedStore(request , userId):
         if Followed_Stores.objects.filter(user = userPro):
             followedStore = Followed_Stores.objects.filter(user = userPro)
             posts = []
+            # print('1')
+            # print(len(followedStore))
+            if len(followedStore) == 0:
+                # print('yes')
+                return JsonResponse({'message':'You dont have any followed store yet'},status = 200)
 
             for j in range(0,len(followedStore)):
                 post=Post.objects.filter(owner=followedStore[j].store)
@@ -1151,8 +1172,12 @@ def postsofFollowedStore(request , userId):
                         'photos':str(post[i].photos)
                         },
                     posts += x
+            # print(posts)
+            if len(posts) == 0:
+                # print('yes')
+                return JsonResponse({'message':'You dont have any post to show yet'},status = 200)
             return JsonResponse({"posts":sorted(posts, key=lambda a: a["postID"],reverse=True) , 'message':'Done'},status = 200)
-            
+        print('no')
         return JsonResponse({'message':'You dont have any followed store yet'},status = 200)
 
 
@@ -1273,10 +1298,11 @@ def showStoresFromCategories(request , userId):
 
 @csrf_exempt
 @api_view(['POST'])
-def filterRate(request,userId):
+def filters(request,userId):
     body_unicode = request.body.decode()
     body = json.loads(body_unicode)  
     id = body['id']
+    type = body['type']
 
     if(int(id)==userId):
         user = User.objects.get(id=userId)
@@ -1303,7 +1329,14 @@ def filterRate(request,userId):
                 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
                 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].cover_photo.url)) , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude },
             stores += x
-        return JsonResponse({"stores":sorted(stores, key=lambda a: a["rate"],reverse=True) , 'message':'Done'},status = 200)
+        if type == 'rate':
+            return JsonResponse({"stores":sorted(stores, key=lambda a: a["rate"],reverse=True) , 'message':'Done'},status = 200)
+        elif type == 'new':
+            return JsonResponse({"stores":sorted(stores, key=lambda a: a["shopID"],reverse=True) , 'message':'Done'},status = 200)
+        elif type == 'old':
+            return JsonResponse({"stores":sorted(stores, key=lambda a: a["shopID"],reverse=False) , 'message':'Done'},status = 200)
+        else:
+            return JsonResponse({'message':'STILL WORKING ON IT'},status = 200)
 
 
     else:

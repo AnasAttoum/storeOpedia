@@ -55,7 +55,7 @@ urlpatterns=[
     path( 'show/stores/categories/<int:userId>' , views.showStoresFromCategories , name='showStoresFromCategories' ),
     
     
-    path( 'filter/rate/<int:userId>' , views.filterRate , name='filterRate' ),
+    path( 'filters/<int:userId>' , views.filters , name='filters' ),
     
     
     path( 'rate/<int:userId>/<int:storeId>' , views.rate , name='rate' ),
