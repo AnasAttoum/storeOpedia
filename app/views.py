@@ -22,6 +22,10 @@ from django.core.files.base import ContentFile
 import os
 
 from django.templatetags.static import static
+
+from geopy.geocoders import Nominatim
+from geopy.exc import GeocoderTimedOut
+
 def Overview(request):
     all = len(Store.objects.all())
     value1 = round((len(Store.objects.filter(category='Estates'))/all)*100,1)
@@ -342,6 +346,34 @@ def signUpOwners(request):
         if body['longitude']:
                 longitude = body['longitude']
                 latitude = body['latitude']
+                geolocator = Nominatim(user_agent="geoapiExercises")
+                loc = geolocator.reverse(str(latitude)+","+str(longitude) , timeout=None)
+                if str(loc).rsplit(' ', 2)[1] == 'اللاذقية,':
+                    address = 'Lattakia'
+                elif str(loc).rsplit(' ', 2)[1] == 'طرطوس,':
+                    address = 'Tartus'
+                elif str(loc).rsplit(' ', 2)[1] == 'الرقة,':
+                    address = 'Raqqah'
+                elif str(loc).rsplit(' ', 2)[1] == 'حلب,':
+                    address = 'Aleppo'
+                elif str(loc).rsplit(' ', 2)[1] == 'حماة,':
+                    address = 'Hamah'
+                elif str(loc).rsplit(' ', 2)[1] == 'حمص,':
+                    address = 'Homs'
+                elif str(loc).rsplit(' ', 2)[1] == 'إدلب,':
+                    address = 'Idlib'
+                elif str(loc).rsplit(' ', 2)[1] == 'الحسكة,':
+                    address = 'Hasaka'
+                elif str(loc).rsplit(' ', 2)[1] == 'الزور,':
+                    address = 'DayrAlZawr'
+                elif str(loc).rsplit(' ', 2)[1] == 'السويداء,':
+                    address = 'AsSuwaydaa'
+                elif str(loc).rsplit(' ', 2)[1] == 'القنيطرة,':
+                    address = 'Quneitra'
+                elif str(loc).rsplit(' ', 2)[1] == 'درعا,':
+                    address = 'Daraa'
+                elif str(loc).rsplit(' ', 2)[1] == 'دمشق,':
+                    address = 'Damascus'
        #check values
         # print(phoneNumber)
         # if opening=='':
@@ -810,13 +842,41 @@ def addStore(request , userId):
             if body['longitude']:
                 longitude = body['longitude']
                 latitude = body['latitude']
+                geolocator = Nominatim(user_agent="geoapiExercises")
+                loc = geolocator.reverse(str(latitude)+","+str(longitude) , timeout=None)
+                if str(loc).rsplit(' ', 2)[1] == 'اللاذقية,':
+                    address = 'Lattakia'
+                elif str(loc).rsplit(' ', 2)[1] == 'طرطوس,':
+                    address = 'Tartus'
+                elif str(loc).rsplit(' ', 2)[1] == 'الرقة,':
+                    address = 'Raqqah'
+                elif str(loc).rsplit(' ', 2)[1] == 'حلب,':
+                    address = 'Aleppo'
+                elif str(loc).rsplit(' ', 2)[1] == 'حماة,':
+                    address = 'Hamah'
+                elif str(loc).rsplit(' ', 2)[1] == 'حمص,':
+                    address = 'Homs'
+                elif str(loc).rsplit(' ', 2)[1] == 'إدلب,':
+                    address = 'Idlib'
+                elif str(loc).rsplit(' ', 2)[1] == 'الحسكة,':
+                    address = 'Hasaka'
+                elif str(loc).rsplit(' ', 2)[1] == 'الزور,':
+                    address = 'DayrAlZawr'
+                elif str(loc).rsplit(' ', 2)[1] == 'السويداء,':
+                    address = 'AsSuwaydaa'
+                elif str(loc).rsplit(' ', 2)[1] == 'القنيطرة,':
+                    address = 'Quneitra'
+                elif str(loc).rsplit(' ', 2)[1] == 'درعا,':
+                    address = 'Daraa'
+                elif str(loc).rsplit(' ', 2)[1] == 'دمشق,':
+                    address = 'Damascus'
             
 
             if Store.objects.filter(name=name).exists():
                 return JsonResponse({'message':"This Name Already Exists"})
-            print(facebook)
-            print(insta)
-
+            # print(facebook)
+            # print(insta)
+            
             store = Store(owner=owner,name=name,description=description,category=category,
                         opening=opening,closing=closing,phone=phone,address=address,facebook=facebook,
                         insta=insta,
