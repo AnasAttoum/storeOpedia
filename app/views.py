@@ -106,19 +106,19 @@ def InboxesPage(request):
 
 def deleteInbox(request,inboxId):
     if request.user.is_superuser:
-        Inbox.objects.get(id=inboxId).delete() 
+        Inbox.objects.get(id=inboxId).delete()
         inboxes = Inbox.objects.all()
         context={
             'inboxes': inboxes.order_by('-id')
         }
         return render( request , 'Pages/In.html',context)
-    
+
     else:
         return JsonResponse({'message':'Access Denied'}, status = 400)
 
 def doneInbox(request,inboxId):
     if request.user.is_superuser:
-        inbox = Inbox.objects.get(id=inboxId) 
+        inbox = Inbox.objects.get(id=inboxId)
         inbox.is_done=True
         inbox.save()
         inboxes = Inbox.objects.all()
@@ -129,11 +129,11 @@ def doneInbox(request,inboxId):
 
     else:
         return JsonResponse({'message':'Access Denied'}, status = 400)
-    
+
 
 def replyInbox(request,inboxId):
     if request.user.is_superuser:
-        inbox = Inbox.objects.get(id=inboxId) 
+        inbox = Inbox.objects.get(id=inboxId)
         recieve = inbox.owner.user.email
         send_mail(
             subject='About your message on Store Opedia Site',
@@ -160,8 +160,8 @@ def replyInbox(request,inboxId):
 @api_view(['POST'])
 def showInbox(request,userId):
     body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
-        
+    body = json.loads(body_unicode)
+
     id = None
 
     id = body['id']
@@ -175,24 +175,24 @@ def showInbox(request,userId):
         for i in range(0,len(inbox)):
             if inbox[i].reply:
                 x = {
-                'type':inbox[i].type , 
-                'description': inbox[i].description , 
-                'photo' : '' , 'creation_date':inbox[i].creation_date , 
+                'type':inbox[i].type ,
+                'description': inbox[i].description ,
+                'photo' : '' , 'creation_date':inbox[i].creation_date ,
                 'reply':inbox[i].reply,
                 'reply_date':inbox[i].reply_date
                 },
             else:
                 x = {
-                    'type':inbox[i].type , 
-                    'description': inbox[i].description , 
-                    'photo' : '' , 'creation_date':inbox[i].creation_date 
+                    'type':inbox[i].type ,
+                    'description': inbox[i].description ,
+                    'photo' : '' , 'creation_date':inbox[i].creation_date
                     },
             inb += x
 
         return JsonResponse({'message':'Done',
                              'inbox':inb
                              }, status = 200)
-    
+
     return JsonResponse({'message':'Access Denied'}, status = 400)
 
 
@@ -200,8 +200,8 @@ def showInbox(request,userId):
 @api_view(['POST'])
 def Inboxes(request,userId):
     body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
-        
+    body = json.loads(body_unicode)
+
     id = None
     type = None
     description = None
@@ -212,13 +212,13 @@ def Inboxes(request,userId):
     description = body['description']
     if photo:
         photo = body['photo']
-    
+
     if int(id)==userId:
         userPro = UserProfile.objects.get(user_id = userId)
         inbox = Inbox( owner = userPro , type = type , description = description , photo = photo)
         inbox.save()
         return JsonResponse({'message':'Message sent successfuly. we will reply as soon as possible'}, status = 200)
-    
+
     return JsonResponse({'message':'Access Denied'}, status = 400)
 
 
@@ -228,32 +228,32 @@ def signUpUsers(request):
     # print('request.method :')
     # request.method="POST"
     # print(request.method)
-    
+
     # return JsonResponse({'result':'invalid'})
     # if request.method == 'POST':
     if request.method == 'POST':
        #VARIABLES FOR FIELDS
-        
+
         userName= None
         email = None
         password= None
         phoneNumber = None
-        
+
         # print('request :')
         # print(request)
 
         # print('request.body :')
         # print(request.body)
-        
+
        #get values from form
         body_unicode = request.body.decode()
         # print('body_unicode :')
         # print(body_unicode)
-        
-        body = json.loads(body_unicode)  
+
+        body = json.loads(body_unicode)
         # print('request.body :')
         # print(request.body)
-        
+
         userName = body['name'].lower()
         email = body['emil'].lower()
         password = body['password']
@@ -269,7 +269,7 @@ def signUpUsers(request):
                 return JsonResponse({'message':"UserName Already Exists"})
 
             else:#CHECK IF EMAIL IS TAKEN
-                
+
                 if User.objects.filter(email=email).exists():
                     # return HttpResponse('<h1>this email is taken</h1>')
                     return JsonResponse({'message':'Email Already Exists'})
@@ -280,7 +280,7 @@ def signUpUsers(request):
                     #add user
                         user = User.objects.create_user( username = userName , email = email , password = password )
                         user.save()
-        
+
                     #add user profile
                         userProfile = UserProfile( user = user , phone = phoneNumber )
                         userProfile.save()
@@ -306,12 +306,12 @@ def signUpOwners(request):
     # print('request.method :')
     # request.method="POST"
     # print(request.method)
-    
+
     # return JsonResponse({'result':'invalid'})
     # if request.method == 'POST':
     if request.method == 'POST':
        #VARIABLES FOR FIELDS
-        
+
         userName= None
         email = None
         password= None
@@ -326,11 +326,11 @@ def signUpOwners(request):
         rate = 0
         longitude=None
         latitude=None
-        
+
        #get values from form
         body_unicode = request.body.decode()
-        
-        body = json.loads(body_unicode)  
+
+        body = json.loads(body_unicode)
 
         userName = body['name'].lower()
         email = body['emil'].lower()
@@ -346,7 +346,7 @@ def signUpOwners(request):
         if body['longitude']:
                 longitude = body['longitude']
                 latitude = body['latitude']
-                geolocator = Nominatim(user_agent="geoapiExercises")
+                geolocator = Nominatim(user_agent="storeOpedia")
                 loc = geolocator.reverse(str(latitude)+","+str(longitude) , timeout=None)
                 if str(loc).rsplit(' ', 2)[1] == 'اللاذقية,':
                     address = 'Lattakia'
@@ -374,6 +374,8 @@ def signUpOwners(request):
                     address = 'Daraa'
                 elif str(loc).rsplit(' ', 2)[1] == 'دمشق,':
                     address = 'Damascus'
+                else:
+                    address = 'other'
        #check values
         # print(phoneNumber)
         # if opening=='':
@@ -406,10 +408,10 @@ def signUpOwners(request):
                     #add user profile
                         userProfile = UserProfile( user = user , phone = phoneNumber , is_owner=True)
                         userProfile.save()
-                        
+
 
                         store = Store(owner = userProfile , name = name , address = address , category = category, opening = opening , closing = closing , phone = phone , rate = rate , longitude = float(longitude) , latitude = float(latitude))
-                        
+
                         # print('3')
                         store.profile_photo = static('Pic/profile_photo.jpg')
                         store.cover_photo = static('Pic/cover_photo.jpg')
@@ -427,7 +429,7 @@ def signUpOwners(request):
                                                 'longitude' : store.longitude, "latitude":store.latitude,
                                                 'message':'Owner was Created' },
                                                 status = 201)
-                        
+
                     else:
                         # return HttpResponse('<h1>invalid email</h1>')
                         return JsonResponse({'message':'Invalid email'})
@@ -446,7 +448,7 @@ def login(request):
     if request.method == 'POST':
 
         body_unicode = request.body.decode()
-        body = json.loads(body_unicode)  
+        body = json.loads(body_unicode)
 
         email = body['email'].lower()
         password = body['password']
@@ -472,13 +474,13 @@ def login(request):
 
                         # for (i=0 ; i<len(store) , i++):
                         #     print('hhh')
-                        
+
                         # stores=[
-                            
+
                         #         {'shopID':str(store[0].id) , 'ownerID':str(user.id) , 'email':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone , 'shopCategory':store[0].category , 'shopName':store[0].name , 'shopPhoneNumber':store[0].phone , 'location':store[0].address , 'startWorkTime':str(store[0].opening) , 'endWorkTime':str(store[0].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':'test' , 'rate':0 ,'followesNumber':0 },
                         #         {'shopID':str(store[1].id) , 'ownerID':str(user.id) , 'email':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,'shopCategory':store[1].category , 'shopName':store[1].name , 'shopPhoneNumber':store[1].phone , 'location':store[1].address , 'startWorkTime':str(store[1].opening) , 'endWorkTime':str(store[1].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':'test' , 'rate':0 , 'followesNumber':0 },
                         #     ]
-                        
+
                         # store = Store.objects.get(owner = userPro)
                         # return JsonResponse({
                         #     'ownerID':str(user.id), 'ownerName':user.username , 'ownerEmail':user.email , 'ownerPhoneNumber':userPro.phone ,
@@ -494,7 +496,7 @@ def login(request):
                             # 'shops': stores,
                             'message':'owner auth succeded',
                         },status = 200)
-                    
+
                     else:
                         # print('else')
                         return JsonResponse({
@@ -516,7 +518,7 @@ def login(request):
 def delete(request , userId):
     # print('hhh')
     body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
+    body = json.loads(body_unicode)
     id = body['id']
     # print(id)
     # print(userId)
@@ -526,17 +528,17 @@ def delete(request , userId):
         # print('user:')
         # print(user)
         # print(request.user)
-        
+
         user.delete()
         return JsonResponse({'message':" User has been deleted successfully"},status = 200)
     else:
         return JsonResponse({'message':"Access Denied"},status = 400)
-    
+
 @csrf_exempt
 @api_view(['DELETE'])
 def deleteStore(request , userId):
     body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
+    body = json.loads(body_unicode)
     id = body['id']
     storeId = body['shopID']
 
@@ -552,9 +554,9 @@ def deleteStore(request , userId):
             store.delete()
             return JsonResponse({'message':"Deleted Successfully"},status = 200)
         else:
-            return JsonResponse({'message':"Access Denied"},status = 400) 
+            return JsonResponse({'message':"Access Denied"},status = 400)
     else:
-        return JsonResponse({'message':"Access Denied"},status = 400) 
+        return JsonResponse({'message':"Access Denied"},status = 400)
 
 
 @csrf_exempt
@@ -562,7 +564,7 @@ def deleteStore(request , userId):
 def deletePost(request , postId):
     print('hi')
     body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
+    body = json.loads(body_unicode)
     id = body['id']
     storeId = body['shopID']
     postID = body['postID']
@@ -579,14 +581,14 @@ def deletePost(request , postId):
             print('b')
             post = Post.objects.get(id = postId)
             print('c')
-            
+
             if post.owner == store:
                 post.delete()
                 return JsonResponse({'message':"Deleted Successfully"},status = 200)
         else:
-            return JsonResponse({'message':"Access Denied"},status = 400) 
+            return JsonResponse({'message':"Access Denied"},status = 400)
     else:
-        return JsonResponse({'message':"Access Denied"},status = 400) 
+        return JsonResponse({'message':"Access Denied"},status = 400)
 
 
 
@@ -594,10 +596,10 @@ def deletePost(request , postId):
 @api_view(['PUT'])
 def edit(request , userId):
     body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
+    body = json.loads(body_unicode)
     print('request.body :')
     print(request.body)
-    
+
     id = body['id']
     userName = body['userName']
     # email = body['email']
@@ -607,7 +609,7 @@ def edit(request , userId):
     if(int(id)==userId):
         user = User.objects.get(id=userId)
         userPro = UserProfile.objects.get(user_id=userId)
-        
+
         if userName != user.username:
             if User.objects.filter(username=userName).exists():
                 return JsonResponse({'message':"UserName Already Exists"})
@@ -634,7 +636,7 @@ def edit(request , userId):
             auth.login(request, user)
 
             return JsonResponse({'message':"Done"},status = 200)
-            
+
         # user.username = userName
         # userPro.phone = phoneNumber
         # # print(user.username)
@@ -659,8 +661,8 @@ def edit(request , userId):
 def editStore(request , userId):
     print('START')
     body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
-    
+    body = json.loads(body_unicode)
+
     id = body['id']
     storeId = body['shopID']
 
@@ -684,7 +686,7 @@ def editStore(request , userId):
         user = User.objects.get(id=userId)
         userPro = UserProfile.objects.get(user_id=userId)
 
-        if userPro.is_owner:  
+        if userPro.is_owner:
             store = Store.objects.get(id=storeId)
 
             if store.owner == userPro:
@@ -725,8 +727,8 @@ def editPost(request , postId):
     photos=None
 
     body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
-    
+    body = json.loads(body_unicode)
+
     id = body['id']
     storeId = body['shopID']
     postID = body['postID']
@@ -760,23 +762,23 @@ def editPost(request , postId):
                         post.photos = photos
 
                     post.save()
-                    return JsonResponse({'message':"Your Post Have Been Edit Successfully"},status = 200) 
-                
+                    return JsonResponse({'message':"Your Post Have Been Edit Successfully"},status = 200)
+
                 else:
-                    return JsonResponse({'message':"You are not the owner of this post"},status = 400) 
+                    return JsonResponse({'message':"You are not the owner of this post"},status = 400)
             else:
                 return JsonResponse({'message':"You can not edit the post because you do not owner the store that the post belong to it"},status = 400)
         else:
             return JsonResponse({'message':"Access Denied"},status = 400)
     else:
         return JsonResponse({'message':"Access Denied"},status = 400)
-    
+
 
 @csrf_exempt
 @api_view(['POST'])
 def editPassword(request , userId):
     body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
+    body = json.loads(body_unicode)
     id = body['id']
     password = body['password']
 
@@ -817,11 +819,11 @@ def addStore(request , userId):
         latitude=None
 
         body_unicode = request.body.decode()
-        body = json.loads(body_unicode)  
+        body = json.loads(body_unicode)
         id = body['id']
         if(int(id)==userId):
             user2=UserProfile.objects.get(user_id=userId)
-            
+
             owner = user2
             name = body['name']
             description = body['description']
@@ -842,8 +844,12 @@ def addStore(request , userId):
             if body['longitude']:
                 longitude = body['longitude']
                 latitude = body['latitude']
-                geolocator = Nominatim(user_agent="geoapiExercises")
+                geolocator = Nominatim(user_agent="storeOpedia")
+                # from geopy.point import Point
+                # loc = geolocator.reverse(Point(latitude,longitude) , timeout=None)
                 loc = geolocator.reverse(str(latitude)+","+str(longitude) , timeout=None)
+                print('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
+                print(str(loc))
                 if str(loc).rsplit(' ', 2)[1] == 'اللاذقية,':
                     address = 'Lattakia'
                 elif str(loc).rsplit(' ', 2)[1] == 'طرطوس,':
@@ -870,13 +876,15 @@ def addStore(request , userId):
                     address = 'Daraa'
                 elif str(loc).rsplit(' ', 2)[1] == 'دمشق,':
                     address = 'Damascus'
-            
+                else:
+                    address = 'other'
+
 
             if Store.objects.filter(name=name).exists():
                 return JsonResponse({'message':"This Name Already Exists"})
             # print(facebook)
             # print(insta)
-            
+
             store = Store(owner=owner,name=name,description=description,category=category,
                         opening=opening,closing=closing,phone=phone,address=address,facebook=facebook,
                         insta=insta,
@@ -911,8 +919,8 @@ def addStore(request , userId):
                 user2.is_owner = True
                 user2.save()
             return JsonResponse({'message':"Your Store Have Been Added Successfully"},status = 200)
-        return JsonResponse({'message':"Access Denied"}) 
-    
+        return JsonResponse({'message':"Access Denied"})
+
 
 
 @csrf_exempt
@@ -928,8 +936,8 @@ def addPost(request,storeId):
         type=None
 
         body_unicode = request.body.decode('utf-8')
-        body = json.loads(body_unicode)  
-        
+        body = json.loads(body_unicode)
+
         id = body['id']
         storeID = body['shopID']
         title = body['name']
@@ -940,7 +948,7 @@ def addPost(request,storeId):
         if body['photos']:
             photos = body['photos']
             type = body['postImageType']
-            
+
             # print('photos')
             # print(photos)
 
@@ -963,16 +971,16 @@ def addPost(request,storeId):
                     # if form.is_valid():
                     #     print('2')
                     #     form.save()
-                    return JsonResponse({'message':"Your Post Have Been Added Successfully"},status = 200) 
-                
+                    return JsonResponse({'message':"Your Post Have Been Added Successfully"},status = 200)
+
                 else:
                     return JsonResponse({'message':"Access Denied1"},status = 400)
             else:
                 return JsonResponse({'message':"Access Denied2"},status = 400)
         else:
-            return JsonResponse({'message':"Access Denied3"},status = 400) 
-        
-        
+            return JsonResponse({'message':"Access Denied3"},status = 400)
+
+
 
 @csrf_exempt
 @api_view(['POST'])
@@ -980,7 +988,7 @@ def lookupStores(request , userId):
     # print('start')
     # print(userId)
     body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
+    body = json.loads(body_unicode)
     id = body['ownerID']
     # print('bb')
     # print('1')
@@ -1017,7 +1025,7 @@ def lookupStores(request , userId):
             return JsonResponse({
                 'shops':stores,
                 'message':"Succeed"},status =200)
-                
+
         else:
             # print('5')
             return JsonResponse({'message':"Access Denied"})
@@ -1030,7 +1038,7 @@ def lookupStores(request , userId):
 @api_view(['POST'])
 def followedStore(request,userId,storeId):
     body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
+    body = json.loads(body_unicode)
     id = body['id']
     storeID = body['shopId']
 
@@ -1040,19 +1048,19 @@ def followedStore(request,userId,storeId):
         if(Followed_Stores.objects.filter(user=userPro,store=store).exists()):
             followed_store=Followed_Stores.objects.get(user=userPro,store=store)
             followed_store.delete()
-            return JsonResponse({'message':"You are unfollowing this store"}, status = 200) 
+            return JsonResponse({'message':"You are unfollowing this store"}, status = 200)
         else:
             followed_store=Followed_Stores(user=userPro,store=store)
             followed_store.save()
-            return JsonResponse({'message':"You are following this store"}, status = 200) 
-    
-    return JsonResponse({'message':"Access Denied"}, status = 400)     
-    
+            return JsonResponse({'message':"You are following this store"}, status = 200)
+
+    return JsonResponse({'message':"Access Denied"}, status = 400)
+
 @csrf_exempt
 @api_view(['POST'])
 def favStore(request,userId,storeId):
     body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
+    body = json.loads(body_unicode)
     id = body['id']
     storeID = body['shopId']
 
@@ -1066,8 +1074,8 @@ def favStore(request,userId,storeId):
         else:
             fav_store=Fav_Stores(user=userPro,store=store)
             fav_store.save()
-            return JsonResponse({'message':"This store added to your favourites"}, status = 200) 
-    
+            return JsonResponse({'message':"This store added to your favourites"}, status = 200)
+
     return JsonResponse({'message':"Access Denied"}, status = 400)
 
 
@@ -1075,7 +1083,7 @@ def favStore(request,userId,storeId):
 @api_view(['POST'])
 def likePost(request,userId,postId):
     body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
+    body = json.loads(body_unicode)
     id = body['id']
     postID = body['postID']
 
@@ -1090,9 +1098,9 @@ def likePost(request,userId,postId):
         else:
             liked_post=Liked_Posts(user=userPro,post=post)
             liked_post.save()
-            return JsonResponse({'message':"You liked the post"}, status = 200) 
-    
-    return JsonResponse({'message':"Access Denied"}, status = 400) 
+            return JsonResponse({'message':"You liked the post"}, status = 200)
+
+    return JsonResponse({'message':"Access Denied"}, status = 400)
 
 
 
@@ -1100,7 +1108,7 @@ def likePost(request,userId,postId):
 @api_view(['POST'])
 def savePost(request,userId,postId):
     body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
+    body = json.loads(body_unicode)
     id = body['id']
     postID = body['postID']
 
@@ -1114,8 +1122,8 @@ def savePost(request,userId,postId):
         else:
             savePost=Saved_Posts(user=userPro,post=post)
             savePost.save()
-            return JsonResponse({'message':"This post added to your favourites"}, status = 200) 
-    
+            return JsonResponse({'message':"This post added to your favourites"}, status = 200)
+
     return JsonResponse({'message':"Access Denied"}, status = 400)
 
 
@@ -1123,7 +1131,7 @@ def savePost(request,userId,postId):
 @api_view(['POST'])
 def showStores(request , userId):
     body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
+    body = json.loads(body_unicode)
     id = body['id']
 
     if(int(id)==userId):
@@ -1132,8 +1140,8 @@ def showStores(request , userId):
 
         stores = []
         store=Store.objects.filter(~Q(owner=userPro))
-        
-        
+
+
         for i in range(0,len(store)):
             # print(store[i].owner.id)
             user =User.objects.get(id=store[i].owner.user_id)
@@ -1153,12 +1161,12 @@ def showStores(request , userId):
 
     else:
         return JsonResponse({'message':'Access Denied'},status = 400)
-    
+
 @csrf_exempt
 @api_view(['POST'])
 def showPostsOwner(request , storeId):
     body_unicode = request.body.decode()
-    body = json.loads(body_unicode) 
+    body = json.loads(body_unicode)
 
     id = body['id']
     storeID = body['shopID']
@@ -1193,18 +1201,18 @@ def showPostsOwner(request , storeId):
                 return JsonResponse({"posts":sorted(posts, key=lambda a: a["postID"],reverse=True) , 'message':'Done'},status = 200)
             return JsonResponse({'message':'Access Denied'},status = 400)
         return JsonResponse({'message':'Access Denied'},status = 400)
-            
+
 
 
     else:
         return JsonResponse({'message':'Access Denied'},status = 400)
-    
+
 
 @csrf_exempt
 @api_view(['POST'])
 def postsofFollowedStore(request , userId):
     body_unicode = request.body.decode()
-    body = json.loads(body_unicode) 
+    body = json.loads(body_unicode)
 
     id = body['id']
 
@@ -1223,7 +1231,7 @@ def postsofFollowedStore(request , userId):
             for j in range(0,len(followedStore)):
                 post=Post.objects.filter(owner=followedStore[j].store)
                 for i in range(0,len(post)):
-                    
+
                     x = {
                         'postID':str(post[i].id),
                         'title':post[i].title,
@@ -1249,7 +1257,7 @@ def postsofFollowedStore(request , userId):
 @api_view(['POST'])
 def showMyFollowedStore(request,userId):
     body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
+    body = json.loads(body_unicode)
     id = body['id']
 
     if int(id)==userId:
@@ -1258,23 +1266,23 @@ def showMyFollowedStore(request,userId):
             follows = []
             follow = Followed_Stores.objects.filter(user=userPro)
             for i in range(0,len(follow)):
-                
+
                 x = {
                     'id':str(follow[i].store.id),
                     'name':str(follow[i].store),
                     },
                 follows += x
 
-            return JsonResponse({'message':"Done" , 'follow':follows} , status = 200) 
-        return JsonResponse({'message':"You dont have any followed stores yet"} , status = 400) 
-    return JsonResponse({'message':"Access Denied"} , status = 400) 
+            return JsonResponse({'message':"Done" , 'follow':follows} , status = 200)
+        return JsonResponse({'message':"You dont have any followed stores yet"} , status = 400)
+    return JsonResponse({'message':"Access Denied"} , status = 400)
 
 
 @csrf_exempt
 @api_view(['POST'])
 def showMyFavStore(request,userId):
     body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
+    body = json.loads(body_unicode)
     id = body['id']
 
     if int(id)==userId:
@@ -1283,23 +1291,23 @@ def showMyFavStore(request,userId):
             favs = []
             fav = Fav_Stores.objects.filter(user=userPro)
             for i in range(0,len(fav)):
-                
+
                 x = {
                     'id':str(fav[i].store.id),
                     'name':str(fav[i].store),
                     },
                 favs += x
 
-            return JsonResponse({'message':"Done" , 'favs':favs} , status = 200) 
-        return JsonResponse({'message':"You dont have any favourite stores yet"} , status = 400) 
-    return JsonResponse({'message':"Access Denied"} , status = 400) 
+            return JsonResponse({'message':"Done" , 'favs':favs} , status = 200)
+        return JsonResponse({'message':"You dont have any favourite stores yet"} , status = 400)
+    return JsonResponse({'message':"Access Denied"} , status = 400)
 
 
 @csrf_exempt
 @api_view(['POST'])
 def showMyLikedPosts(request,userId):
     body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
+    body = json.loads(body_unicode)
     id = body['id']
 
     if int(id)==userId:
@@ -1308,34 +1316,34 @@ def showMyLikedPosts(request,userId):
             likes = []
             like = Liked_Posts.objects.filter(user=userPro)
             for i in range(0,len(like)):
-                
+
                 x = {
                     'id':str(like[i].post.id),
                     'title':str(like[i].post),
                     },
                 likes += x
 
-            return JsonResponse({'message':"Done" , 'PostsLikedByMe':likes} , status = 200) 
-        return JsonResponse({'message':"You didnt like any post yet"} , status = 400) 
-    return JsonResponse({'message':"Access Denied"} , status = 400) 
+            return JsonResponse({'message':"Done" , 'PostsLikedByMe':likes} , status = 200)
+        return JsonResponse({'message':"You didnt like any post yet"} , status = 400)
+    return JsonResponse({'message':"Access Denied"} , status = 400)
 
 
 @csrf_exempt
 @api_view(['POST'])
 def showStoresFromCategories(request , userId):
     body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
+    body = json.loads(body_unicode)
     id = body['id']
     cat = body['category']
 
     if int(id)==userId and cat:
         user = User.objects.get(id=userId)
         userPro = UserProfile.objects.get(user_id=user.id)
-        
+
         stores = []
         store=Store.objects.filter(~Q(owner=userPro)).filter(category=cat)
-        
-        
+
+
         for i in range(0,len(store)):
             # print(store[i].owner.id)
             user =User.objects.get(id=store[i].owner.user_id)
@@ -1360,7 +1368,7 @@ def showStoresFromCategories(request , userId):
 @api_view(['POST'])
 def filters(request,userId):
     body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
+    body = json.loads(body_unicode)
     id = body['id']
     type = body['type']
 
@@ -1372,9 +1380,9 @@ def filters(request,userId):
         if userPro.is_owner:
             store=Store.objects.filter(~Q(owner=userPro))
         else:
-            store=Store.objects.all()    
-        
-        
+            store=Store.objects.all()
+
+
         for i in range(0,len(store)):
             # print(store[i].owner.id)
             user =User.objects.get(id=store[i].owner.user_id)
@@ -1408,7 +1416,7 @@ def filters(request,userId):
 @api_view(['POST'])
 def rate(request,userId,storeId):
     body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
+    body = json.loads(body_unicode)
     id = body['id']
     storeID = body['shopID']
     value = body['value']
@@ -1442,7 +1450,7 @@ def rate(request,userId,storeId):
 @api_view(['POST'])
 def toggleActivation(request,storeId):
     body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
+    body = json.loads(body_unicode)
     id = body['id']
     storeID = body['shopId']
     if(int(storeID)==storeId):
@@ -1455,21 +1463,21 @@ def toggleActivation(request,storeId):
                         return JsonResponse({'message':"You cannot deactive because you MUST have at least one active store"} , status = 200)
                     store.is_active=False
                     store.save()
-                    return JsonResponse({'message':"DeActivated Successfully"} , status = 200) 
+                    return JsonResponse({'message':"DeActivated Successfully"} , status = 200)
                 else:
                     store.is_active=True
                     store.save()
-                    return JsonResponse({'message':"Activated Successfully"} , status = 200) 
-        
-            return JsonResponse({'message':"Access Denied"} , status = 400) 
-        return JsonResponse({'message':"Access Denied"} , status = 400) 
-    return JsonResponse({'message':"Access Denied"} , status = 400) 
+                    return JsonResponse({'message':"Activated Successfully"} , status = 200)
+
+            return JsonResponse({'message':"Access Denied"} , status = 400)
+        return JsonResponse({'message':"Access Denied"} , status = 400)
+    return JsonResponse({'message':"Access Denied"} , status = 400)
 
 @csrf_exempt
 @api_view(['POST'])
 def activation(request,userId):
     body_unicode = request.body.decode()
-    body = json.loads(body_unicode)  
+    body = json.loads(body_unicode)
     id = body['id']
     message = body['message']
 
@@ -1478,7 +1486,7 @@ def activation(request,userId):
         if userPro.is_owner:
             user = User.objects.get(id=id)
             store=Store.objects.filter(owner=userPro)
-            stores = [] 
+            stores = []
 
             if message=='active':
                 for i in range(0,len(store)):
@@ -1510,7 +1518,7 @@ def activation(request,userId):
                         socialUrl =[]
                     x = {'shopID':str(store[i].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone , 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].cover_photo.url)) , 'shopDescription':store[i].description , 'socialUrl':socialUrl , 'rate':store[i].rate ,'followesNumber':followNum , "is_active" :store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude},
                     stores += x
-            
+
                 # stores.append(x)
             # print(
             #     {
@@ -1520,6 +1528,6 @@ def activation(request,userId):
             return JsonResponse({
                 'shops':stores,
                 'message':"Succeed"},status =200)
-            
-        return JsonResponse({'message':"Access Denied"} , status = 400) 
-    return JsonResponse({'message':"Access Denied"} , status = 400) 
+
+        return JsonResponse({'message':"Access Denied"} , status = 400)
+    return JsonResponse({'message':"Access Denied"} , status = 400)
