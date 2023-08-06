@@ -25,6 +25,7 @@ from django.templatetags.static import static
 
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut
+import geopy.distance
 
 def Overview(request):
     all = len(Store.objects.all())
@@ -1135,11 +1136,14 @@ def showStores(request , userId):
     id = body['id']
 
     if(int(id)==userId):
-        user = User.objects.get(id=userId)
-        userPro = UserProfile.objects.get(user_id=user.id)
+        if int(id) == 0:
+            store=Store.objects.all()
+        else:
+            user = User.objects.get(id=userId)
+            userPro = UserProfile.objects.get(user_id=user.id)
+            store=Store.objects.filter(~Q(owner=userPro))
 
         stores = []
-        store=Store.objects.filter(~Q(owner=userPro))
 
 
         for i in range(0,len(store)):
@@ -1337,12 +1341,14 @@ def showStoresFromCategories(request , userId):
     cat = body['category']
 
     if int(id)==userId and cat:
-        user = User.objects.get(id=userId)
-        userPro = UserProfile.objects.get(user_id=user.id)
+        if int(id) == 0:
+            store=Store.objects.all()
+        else:
+            user = User.objects.get(id=userId)
+            userPro = UserProfile.objects.get(user_id=user.id)
+            store=Store.objects.filter(~Q(owner=userPro) , category=cat)
 
         stores = []
-        store=Store.objects.filter(~Q(owner=userPro)).filter(category=cat)
-
 
         for i in range(0,len(store)):
             # print(store[i].owner.id)
@@ -1410,6 +1416,88 @@ def filters(request,userId):
     else:
         return JsonResponse({'message':'Access Denied'},status = 400)
 
+
+@csrf_exempt
+@api_view(['POST'])
+def nearestStores(request , userId):
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode)
+    id = body['id']
+    longitude = body['longitude']
+    latitude = body['latitude']
+    c1 = (latitude,longitude)
+    if int(id)==userId:
+        if int(id) == 0:
+            store=Store.objects.all()
+            # print(len(store))
+        else:
+            user = User.objects.get(id=userId)
+            userPro = UserProfile.objects.get(user_id=user.id)
+            store=Store.objects.filter(~Q(owner=userPro))
+        stores = []
+        for i in range(0,len(store)):
+            # print(store[i].owner.id)
+            user =User.objects.get(id=store[i].owner.user_id)
+            userPro =UserProfile.objects.get(id=store[i].owner.id)
+            followNum = len(Followed_Stores.objects.filter(store = store[i]))
+            if store[i].facebook or store[i].insta:
+                socialUrl = [ store[i].facebook , store[i].insta ]
+            else:
+                socialUrl =[]
+            c2=(store[i].latitude,store[i].longitude)
+            x = {
+                'shopID':str(store[i].id) ,
+                'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
+                'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].cover_photo.url)) , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude,
+                'distance':geopy.distance.geodesic(c1,c2).km
+                },
+            stores += x
+
+        return JsonResponse({"stores":sorted(stores, key=lambda a: a['distance'],reverse=False) , 'message':'Done'},status = 200)
+
+    else:
+        return JsonResponse({'message':'Access Denied'},status = 400)
+
+
+
+@csrf_exempt
+@api_view(['POST'])
+def searchStore(request , userId):
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode)
+    id = body['id']
+    search = body['search']
+
+
+    if int(id)==userId:
+        if int(id) == 0:
+            store=Store.objects.filter(name__icontains=search)
+            # print(len(store))
+        else:
+            user = User.objects.get(id=userId)
+            userPro = UserProfile.objects.get(user_id=user.id)
+            store=Store.objects.filter(~Q(owner=userPro) , name__icontains=search)
+
+        stores = []
+
+        for i in range(0,len(store)):
+            # print(store[i].owner.id)
+            user =User.objects.get(id=store[i].owner.user_id)
+            userPro =UserProfile.objects.get(id=store[i].owner.id)
+            followNum = len(Followed_Stores.objects.filter(store = store[i]))
+            if store[i].facebook or store[i].insta:
+                socialUrl = [ store[i].facebook , store[i].insta ]
+            else:
+                socialUrl =[]
+            x = {
+                'shopID':str(store[i].id) ,
+                'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
+                'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].cover_photo.url)) , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude},
+            stores += x
+        return JsonResponse({"stores":stores , 'message':'Done'},status = 200)
+
+    else:
+        return JsonResponse({'message':'Access Denied'},status = 400)
 
 
 @csrf_exempt

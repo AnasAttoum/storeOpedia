@@ -58,6 +58,12 @@ urlpatterns=[
     path( 'filters/<int:userId>' , views.filters , name='filters' ),
     
     
+    path( 'filters/nearestStores/<int:userId>' , views.nearestStores , name='nearestStores' ),
+    
+
+    path( 'search/stores/<int:userId>' , views.searchStore , name='searchStore' ),
+
+    
     path( 'rate/<int:userId>/<int:storeId>' , views.rate , name='rate' ),
 
 
