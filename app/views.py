@@ -1462,6 +1462,46 @@ def nearestStores(request , userId):
 
 @csrf_exempt
 @api_view(['POST'])
+def filterLocation(request , userId):
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode)
+    id = body['id']
+    address = body['address']
+
+    if int(id)==userId:
+        if int(id) == 0:
+            store=Store.objects.filter(address = address)
+        else:
+            user = User.objects.get(id=userId)
+            userPro = UserProfile.objects.get(user_id=user.id)
+            store=Store.objects.filter(~Q(owner=userPro) , address = address)
+        stores = []
+        for i in range(0,len(store)):
+            # print(store[i].owner.id)
+            user =User.objects.get(id=store[i].owner.user_id)
+            userPro =UserProfile.objects.get(id=store[i].owner.id)
+            followNum = len(Followed_Stores.objects.filter(store = store[i]))
+            if store[i].facebook or store[i].insta:
+                socialUrl = [ store[i].facebook , store[i].insta ]
+            else:
+                socialUrl =[]
+            x = {
+                'shopID':str(store[i].id) ,
+                'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
+                'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].cover_photo.url)) , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude
+                },
+            stores += x
+
+        return JsonResponse({"stores":sorted(stores, key=lambda a: a['rate'],reverse=True) , 'message':'Done'},status = 200)
+
+    else:
+        return JsonResponse({'message':'Access Denied'},status = 400)
+
+
+
+
+@csrf_exempt
+@api_view(['POST'])
 def searchStore(request , userId):
     body_unicode = request.body.decode()
     body = json.loads(body_unicode)
