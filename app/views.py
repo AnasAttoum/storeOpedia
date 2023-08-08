@@ -1234,6 +1234,15 @@ def postsofFollowedStore(request , userId):
 
             for j in range(0,len(followedStore)):
                 post=Post.objects.filter(owner=followedStore[j].store)
+                # store=Store.objects.filter(id=followedStore[j].store.id)
+                # user =User.objects.get(id=followedStore[j].store.owner.user_id)
+                # userPro =UserProfile.objects.get(id=followedStore[j].store.owner.id)
+                followNum = len(Followed_Stores.objects.filter(store = followedStore[j].store))
+                if followedStore[j].store.facebook or followedStore[j].store.insta:
+                    socialUrl = [ followedStore[j].store.facebook , followedStore[j].store.insta ]
+                else:
+                    socialUrl =[]
+                # print(store)
                 for i in range(0,len(post)):
 
                     x = {
@@ -1241,8 +1250,15 @@ def postsofFollowedStore(request , userId):
                         'title':post[i].title,
                         'description':post[i].description,
                         'price':str(post[i].price),
-                        'photos':str(post[i].photos)
+                        'photos':str(post[i].photos),
+                        'shopID':str(post[i].owner.id) ,
+                        'ownerID':str(post[i].owner.owner.user_id) , 'ownerEmail':post[i].owner.owner.user.email , 'ownerName':post[i].owner.owner.user.username ,'ownerPhoneNumber':post[i].owner.owner.phone ,
+                        'shopCategory':post[i].owner.category , 'shopName':post[i].owner.name , 'shopPhoneNumber':post[i].owner.phone , 'location':post[i].owner.address ,
+                        'startWorkTime':str(post[i].owner.opening) , 'endWorkTime':str(post[i].owner.closing) ,
+                        'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(post[i].owner.profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(post[i].owner.cover_photo.url)) ,
+                        'shopDescription':post[i].owner.description , 'socialUrl': socialUrl, 'rate':post[i].owner.rate ,'followesNumber':followNum , 'is_active':post[i].owner.is_active , 'longitude' : post[i].owner.longitude, "latitude":post[i].owner.latitude
                         },
+                    
                     posts += x
             # print(posts)
             if len(posts) == 0:
@@ -1379,15 +1395,17 @@ def filters(request,userId):
     type = body['type']
 
     if(int(id)==userId):
-        user = User.objects.get(id=userId)
-        userPro = UserProfile.objects.get(user_id=user.id)
+        if int(id) == 0:
+            store=Store.objects.all()
+        else:
+            user = User.objects.get(id=userId)
+            userPro = UserProfile.objects.get(user_id=user.id)
+            if userPro.is_owner:
+                store=Store.objects.filter(~Q(owner=userPro))
+            else:
+                store=Store.objects.all()
 
         stores = []
-        if userPro.is_owner:
-            store=Store.objects.filter(~Q(owner=userPro))
-        else:
-            store=Store.objects.all()
-
 
         for i in range(0,len(store)):
             # print(store[i].owner.id)
@@ -1452,7 +1470,7 @@ def nearestStores(request , userId):
                 'distance':geopy.distance.geodesic(c1,c2).km
                 },
             stores += x
-
+        print(sorted(stores, key=lambda a: a['distance'],reverse=False))
         return JsonResponse({"stores":sorted(stores, key=lambda a: a['distance'],reverse=False) , 'message':'Done'},status = 200)
 
     else:
