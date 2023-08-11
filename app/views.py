@@ -1158,7 +1158,9 @@ def showStores(request , userId):
             x = {
                 'shopID':str(store[i].id) ,
                 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
-                'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].cover_photo.url)) , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude },
+                'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].cover_photo.url)) , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude,
+                'isFollow': Followed_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists() 
+                },
             stores += x
         return JsonResponse({"stores":stores , 'message':'Done'},status = 200)
 
@@ -1378,7 +1380,9 @@ def showStoresFromCategories(request , userId):
             x = {
                 'shopID':str(store[i].id) ,
                 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
-                'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].cover_photo.url)) , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude},
+                'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].cover_photo.url)) , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude,
+                'isFollow': Followed_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists()
+                },
             stores += x
         return JsonResponse({"stores":stores , 'message':'Done'},status = 200)
 
@@ -1419,7 +1423,8 @@ def filters(request,userId):
             x = {
                 'shopID':str(store[i].id) ,
                 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
-                'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].cover_photo.url)) , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude },
+                'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].cover_photo.url)) , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude,
+                 'isFollow': Followed_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists() },
             stores += x
         if type == 'rate':
             return JsonResponse({"stores":sorted(stores, key=lambda a: a["rate"],reverse=True) , 'message':'Done'},status = 200)
@@ -1467,6 +1472,7 @@ def nearestStores(request , userId):
                 'shopID':str(store[i].id) ,
                 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
                 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].cover_photo.url)) , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude,
+                'isFollow': Followed_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists(),
                 'distance':geopy.distance.geodesic(c1,c2).km
                 },
             stores += x
@@ -1506,7 +1512,8 @@ def filterLocation(request , userId):
             x = {
                 'shopID':str(store[i].id) ,
                 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
-                'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].cover_photo.url)) , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude
+                'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].cover_photo.url)) , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude,
+                'isFollow': Followed_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists()
                 },
             stores += x
 
@@ -1550,7 +1557,8 @@ def searchStore(request , userId):
             x = {
                 'shopID':str(store[i].id) ,
                 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
-                'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].cover_photo.url)) , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude},
+                'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].cover_photo.url)) , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude,
+                'isFollow': Followed_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists()},
             stores += x
         return JsonResponse({"stores":stores , 'message':'Done'},status = 200)
 
