@@ -1159,7 +1159,7 @@ def showStores(request , userId):
                 'shopID':str(store[i].id) ,
                 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
                 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].cover_photo.url)) , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude,
-                'isFollow': Followed_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists() 
+                'isFollow': Followed_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists()
                 },
             stores += x
         return JsonResponse({"stores":stores , 'message':'Done'},status = 200)
@@ -1246,13 +1246,12 @@ def postsofFollowedStore(request , userId):
                     socialUrl =[]
                 # print(store)
                 for i in range(0,len(post)):
-
                     x = {
                         'postID':str(post[i].id),
                         'title':post[i].title,
                         'description':post[i].description,
                         'price':str(post[i].price),
-                        'photos':str(post[i].photos),
+                        'photos':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(post[i].photos.url)),
                         'shopID':str(post[i].owner.id) ,
                         'ownerID':str(post[i].owner.owner.user_id) , 'ownerEmail':post[i].owner.owner.user.email , 'ownerName':post[i].owner.owner.user.username ,'ownerPhoneNumber':post[i].owner.owner.phone ,
                         'shopCategory':post[i].owner.category , 'shopName':post[i].owner.name , 'shopPhoneNumber':post[i].owner.phone , 'location':post[i].owner.address ,
@@ -1260,7 +1259,7 @@ def postsofFollowedStore(request , userId):
                         'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(post[i].owner.profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(post[i].owner.cover_photo.url)) ,
                         'shopDescription':post[i].owner.description , 'socialUrl': socialUrl, 'rate':post[i].owner.rate ,'followesNumber':followNum , 'is_active':post[i].owner.is_active , 'longitude' : post[i].owner.longitude, "latitude":post[i].owner.latitude
                         },
-                    
+
                     posts += x
             # print(posts)
             if len(posts) == 0:
