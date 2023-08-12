@@ -38,7 +38,7 @@
                         <p style="position: relative;;top: -30px;">This is an
                             {% if inbox.type == 'Error in pages' %}
                             <span style="color: #a4161a;">{{inbox.type}}</span>
-                            {% elif inbox.type == 'suggestion' %}
+                            {% elif inbox.type == 'Suggestion' %}
                             <span style="color: #008000;">{{inbox.type}}</span>
                             {% elif inbox.type == 'how to use' %}
                             <span style="color: #1a659e;">{{inbox.type}}</span>
@@ -48,6 +48,7 @@
                              
                               message</p>
                         <p> {{ inbox.description  }}</p>
+                        <p> {{ inbox.reply  }}</p>
                         {% if inbox.is_done == 0 %}
                         <textarea required id="story" placeholder="Message to send..." name="message" rows="3" cols="33" style="border-radius: 5px 1em 5px 1em;"></textarea>
                         {%endif%}
@@ -60,7 +61,7 @@
                             <!-- {% else %} -->
                             <!-- {% endif %} -->
                     <!-- </div> -->
-                    <div class='card_img'>
+                    {% comment %} <div class='card_img'>
                         <!-- <img src="{% static 'Pic/BestStores.jpg' %}" alt="image"/> -->
                         {% if inbox.photo != ''  %}
                         <img src="{{ inbox.photo.url }}" alt="image"/><br/><br/>
@@ -68,7 +69,7 @@
                         {% else %}
                         <p>No photo</p>
                         {% endif %}
-                    </div>
+                    </div> {% endcomment %}
                     
                     
                 </div>
