@@ -1206,9 +1206,10 @@ def showPostsOwner(request , storeId):
                         'title':post[i].title,
                         'description':post[i].description,
                         'price':str(post[i].price),
-                        'photos':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(post[i].photos.url))
+                        'photos':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(post[i].photos.url)),
                         # 'photos':str(base64.b64encode(post[i].photos.read())),
                         # 'postImageType': str(post[i].photos).rsplit('.', 1)[1]
+                        'isLike': Liked_Posts.objects.filter(user = UserProfile.objects.get(user_id=id) , post =post[i]).exists()
                         },
                     posts += x
                 # print(posts)
@@ -1265,7 +1266,8 @@ def postsofFollowedStore(request , userId):
                         'shopCategory':post[i].owner.category , 'shopName':post[i].owner.name , 'shopPhoneNumber':post[i].owner.phone , 'location':post[i].owner.address ,
                         'startWorkTime':str(post[i].owner.opening) , 'endWorkTime':str(post[i].owner.closing) ,
                         'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(post[i].owner.profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(post[i].owner.cover_photo.url)) ,
-                        'shopDescription':post[i].owner.description , 'socialUrl': socialUrl, 'rate':post[i].owner.rate ,'followesNumber':followNum , 'is_active':post[i].owner.is_active , 'longitude' : post[i].owner.longitude, "latitude":post[i].owner.latitude
+                        'shopDescription':post[i].owner.description , 'socialUrl': socialUrl, 'rate':post[i].owner.rate ,'followesNumber':followNum , 'is_active':post[i].owner.is_active , 'longitude' : post[i].owner.longitude, "latitude":post[i].owner.latitude,
+                        'isLike': Liked_Posts.objects.filter(user = UserProfile.objects.get(user_id=userId) , post =post[i]).exists()
                         },
 
                     posts += x
