@@ -41,8 +41,10 @@ def Overview(request):
     value10 = round((len(Store.objects.filter(category='Sport'))/all)*100,1)
     value11 = round((len(Store.objects.filter(category='Pharmacies'))/all)*100,1)
     value12 = round((len(Store.objects.filter(category='Services'))/all)*100,1)
-    value13 = round((len(Store.objects.filter(category='Variants'))/all)*100,1)
-    value14 = round((len(Store.objects.filter(category='Malls'))/all)*100,1)
+    value13 = round((len(Store.objects.filter(category='Malls'))/all)*100,1)
+    value14 = round((len(Store.objects.filter(category='Resturant'))/all)*100,1)
+    value15 = round((len(Store.objects.filter(category='Cafe'))/all)*100,1)
+    value16 = round((len(Store.objects.filter(category='Variants'))/all)*100,1)
     # print((value3*245)/100)
 
 
@@ -82,6 +84,10 @@ def Overview(request):
         'Percentage13': (value13*245)/100,
         'Value14': value14,
         'Percentage14': (value14*245)/100,
+        'Value15': value15,
+        'Percentage15': (value15*245)/100,
+        'Value16': value16,
+        'Percentage16': (value16*245)/100,
 
         'Lattakia' : len(Store.objects.filter(address='Lattakia')),
         'Tartus' : len(Store.objects.filter(address='Tartus')),
@@ -1314,10 +1320,20 @@ def showMyFavStore(request,userId):
             favs = []
             fav = Fav_Stores.objects.filter(user=userPro)
             for i in range(0,len(fav)):
-
+                followNum = len(Followed_Stores.objects.filter(store = fav[i].store))
+                if fav[i].store.facebook or fav[i].store.insta:
+                    socialUrl = [ fav[i].store.facebook , fav[i].store.insta ]
+                else:
+                    socialUrl =[]
                 x = {
-                    'id':str(fav[i].store.id),
-                    'name':str(fav[i].store),
+                    'shopID':str(fav[i].store.id) ,
+                    'ownerID':str(fav[i].store.owner.user_id) , 'ownerEmail':fav[i].store.owner.user.email , 'ownerName':fav[i].store.owner.user.username ,'ownerPhoneNumber':fav[i].store.owner.phone ,
+                    'shopCategory':fav[i].store.category , 'shopName':fav[i].store.name , 'shopPhoneNumber':fav[i].store.phone , 'location':fav[i].store.address ,
+                    'startWorkTime':str(fav[i].store.opening) , 'endWorkTime':str(fav[i].store.closing) ,
+                    'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(fav[i].store.profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(fav[i].store.cover_photo.url)) ,
+                    'shopDescription':fav[i].store.description , 'socialUrl': socialUrl, 'rate':fav[i].store.rate ,'followesNumber':followNum , 'is_active':fav[i].store.is_active , 'longitude' : fav[i].store.longitude, "latitude":fav[i].store.latitude,
+                    'isFav': Fav_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store =fav[i].store).exists(),
+                    'isFollow': Followed_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = fav[i].store).exists(),
                     },
                 favs += x
 
@@ -1355,7 +1371,9 @@ def showMyLikedPosts(request,userId):
                     'shopCategory':like[i].post.owner.category , 'shopName':like[i].post.owner.name , 'shopPhoneNumber':like[i].post.owner.phone , 'location':like[i].post.owner.address ,
                     'startWorkTime':str(like[i].post.owner.opening) , 'endWorkTime':str(like[i].post.owner.closing) ,
                     'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(like[i].post.owner.profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(like[i].post.owner.cover_photo.url)) ,
-                    'shopDescription':like[i].post.owner.description , 'socialUrl': socialUrl, 'rate':like[i].post.owner.rate ,'followesNumber':followNum , 'is_active':like[i].post.owner.is_active , 'longitude' : like[i].post.owner.longitude, "latitude":like[i].post.owner.latitude
+                    'shopDescription':like[i].post.owner.description , 'socialUrl': socialUrl, 'rate':like[i].post.owner.rate ,'followesNumber':followNum , 'is_active':like[i].post.owner.is_active , 'longitude' : like[i].post.owner.longitude, "latitude":like[i].post.owner.latitude,
+                    'isFav': Fav_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store =like[i].post.owner).exists(),
+                    'isLike': Liked_Posts.objects.filter(user = UserProfile.objects.get(user_id=userId) , post =like[i].post).exists()
                     },
                 likes += x
                 
