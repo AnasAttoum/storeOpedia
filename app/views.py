@@ -1339,12 +1339,28 @@ def showMyLikedPosts(request,userId):
             likes = []
             like = Liked_Posts.objects.filter(user=userPro)
             for i in range(0,len(like)):
-
+                followNum = len(Followed_Stores.objects.filter(store = like[i].post.owner))
+                if like[i].post.owner.facebook or like[i].post.owner.insta:
+                    socialUrl = [ like[i].post.owner.facebook , like[i].post.owner.insta ]
+                else:
+                    socialUrl =[]
                 x = {
-                    'id':str(like[i].post.id),
-                    'title':str(like[i].post),
+                    'postID':str(like[i].post.id),
+                    'title':str(like[i].post.title),
+                    'description':str(like[i].post.description),
+                    'price':str(like[i].post.price),
+                    'photos':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(like[i].post.photos.url)),
+                    'shopID':str(like[i].post.owner.id) ,
+                    'ownerID':str(like[i].post.owner.owner.user_id) , 'ownerEmail':like[i].post.owner.owner.user.email , 'ownerName':like[i].post.owner.owner.user.username ,'ownerPhoneNumber':like[i].post.owner.owner.phone ,
+                    'shopCategory':like[i].post.owner.category , 'shopName':like[i].post.owner.name , 'shopPhoneNumber':like[i].post.owner.phone , 'location':like[i].post.owner.address ,
+                    'startWorkTime':str(like[i].post.owner.opening) , 'endWorkTime':str(like[i].post.owner.closing) ,
+                    'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(like[i].post.owner.profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(like[i].post.owner.cover_photo.url)) ,
+                    'shopDescription':like[i].post.owner.description , 'socialUrl': socialUrl, 'rate':like[i].post.owner.rate ,'followesNumber':followNum , 'is_active':like[i].post.owner.is_active , 'longitude' : like[i].post.owner.longitude, "latitude":like[i].post.owner.latitude
                     },
                 likes += x
+                
+
+                
 
             return JsonResponse({'message':"Done" , 'PostsLikedByMe':likes} , status = 200)
         return JsonResponse({'message':"You didnt like any post yet"} , status = 400)
