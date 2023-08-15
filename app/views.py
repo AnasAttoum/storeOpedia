@@ -90,16 +90,16 @@ def Overview(request):
         'Percentage16': (value16*245)/100,
 
         'Lattakia' : len(Store.objects.filter(address='Lattakia')),
-        'Tartus' : len(Store.objects.filter(address='Tartus')),
-        'Raqqah' : len(Store.objects.filter(address='Raqqah')),
+        'Tartous' : len(Store.objects.filter(address='Tartous')),
+        'Raqqa' : len(Store.objects.filter(address='Raqqa')),
         'Aleppo' : len(Store.objects.filter(address='Aleppo')),
-        'Hamah' : len(Store.objects.filter(address='Hamah')),
+        'Hama' : len(Store.objects.filter(address='Hama')),
         'Homs' : len(Store.objects.filter(address='Homs')),
         'Idlib' : len(Store.objects.filter(address='Idlib')),
-        'Hasaka' : len(Store.objects.filter(address='Hasaka')),
-        'DayrAlZawr' : len(Store.objects.filter(address='DayrAlZawr')),
-        'AsSuwaydaa' : len(Store.objects.filter(address='AsSuwaydaa')),
-        'Quneitra' : len(Store.objects.filter(address='Quneitra')),
+        'Al-hasaka' : len(Store.objects.filter(address='Al-hasaka')),
+        'Dier Alzour' : len(Store.objects.filter(address='Dier Alzour')),
+        'Swaidaa' : len(Store.objects.filter(address='Swaidaa')),
+        'Al-Qunaitra' : len(Store.objects.filter(address='Al-Qunaitra')),
         'Daraa' : len(Store.objects.filter(address='Daraa')),
         'Damascus' : len(Store.objects.filter(address='Damascus')),
     }
@@ -266,6 +266,7 @@ def signUpUsers(request):
         email = body['emil'].lower()
         password = body['password']
         phoneNumber = body['phoneNumber']
+        lang = body['lang']
 
        #check values
         # print(phoneNumber)
@@ -274,13 +275,19 @@ def signUpUsers(request):
             if User.objects.filter(username=userName).exists():
                 # print(body)
                 # return HttpResponse('<h1>This Username is taken</h1>')
-                return JsonResponse({'message':"UserName Already Exists"})
+                if lang=='en':
+                    return JsonResponse({'message':"UserName Already Exists"})
+                elif lang=='ar':
+                    return JsonResponse({'message':"اسم المستخدم موجود مسبقا"})
 
             else:#CHECK IF EMAIL IS TAKEN
 
                 if User.objects.filter(email=email).exists():
                     # return HttpResponse('<h1>this email is taken</h1>')
-                    return JsonResponse({'message':'Email Already Exists'})
+                    if lang=='en':
+                        return JsonResponse({'message':'Email Already Exists'})
+                    elif lang=='ar':
+                        return JsonResponse({'message':"البريد الإلكتروني موجود مسبقا"})
 
                 else:
                     patt="^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"
@@ -299,12 +306,22 @@ def signUpUsers(request):
                             recipient_list=[email],
                             fail_silently=False
                         )
-                        return JsonResponse({'id':str(user.id) , 'userName':userName,'email':email,'password':password,'phoneNumber':phoneNumber,'message':'User was Created'}, status = 200)
+                        if lang=='en':
+                            return JsonResponse({'id':str(user.id) , 'userName':userName,'email':email,'password':password,'phoneNumber':phoneNumber,'message':'User was Created'}, status = 200)
+                        elif lang=='ar':
+                            return JsonResponse({'id':str(user.id) , 'userName':userName,'email':email,'password':password,'phoneNumber':phoneNumber,'message':'تم إنشاء حساب الزبون بنجاح'}, status = 200)
+                    
                     else:
+                        if lang=='en':
                         # return HttpResponse('<h1>invalid email</h1>')
-                        return JsonResponse({'message':'Invalid email'})
+                            return JsonResponse({'message':'Invalid email'})
+                        elif lang=='ar':
+                            return JsonResponse({'message':'بريد إلكتروني خاطئ'})
     else :
-        return JsonResponse({'message':'ERROR NOT POST'})
+        if lang=='en':
+            return JsonResponse({'message':'ERROR NOT POST'})
+        elif lang=='ar':
+            return JsonResponse({'message':'خطأ'})
     # return HttpResponse('<h1>Done</h1>')
 
 
@@ -351,6 +368,8 @@ def signUpOwners(request):
         opening = body['startWorkTime']
         closing = body['endWorkTime']
         phone = body['shopPhoneNumber']
+        lang = body['lang']
+
         if body['longitude']:
                 longitude = body['longitude']
                 latitude = body['latitude']
@@ -359,25 +378,25 @@ def signUpOwners(request):
                 if str(loc).rsplit(' ', 2)[1] == 'اللاذقية,':
                     address = 'Lattakia'
                 elif str(loc).rsplit(' ', 2)[1] == 'طرطوس,':
-                    address = 'Tartus'
+                    address = 'Tartous'
                 elif str(loc).rsplit(' ', 2)[1] == 'الرقة,':
-                    address = 'Raqqah'
+                    address = 'Raqqa'
                 elif str(loc).rsplit(' ', 2)[1] == 'حلب,':
                     address = 'Aleppo'
                 elif str(loc).rsplit(' ', 2)[1] == 'حماة,':
-                    address = 'Hamah'
+                    address = 'Hama'
                 elif str(loc).rsplit(' ', 2)[1] == 'حمص,':
                     address = 'Homs'
                 elif str(loc).rsplit(' ', 2)[1] == 'إدلب,':
                     address = 'Idlib'
                 elif str(loc).rsplit(' ', 2)[1] == 'الحسكة,':
-                    address = 'Hasaka'
+                    address = 'Al-hasaka'
                 elif str(loc).rsplit(' ', 2)[1] == 'الزور,':
-                    address = 'DayrAlZawr'
+                    address = 'Dier Alzour'
                 elif str(loc).rsplit(' ', 2)[1] == 'السويداء,':
-                    address = 'AsSuwaydaa'
+                    address = 'Swaidaa'
                 elif str(loc).rsplit(' ', 2)[1] == 'القنيطرة,':
-                    address = 'Quneitra'
+                    address = 'Al-Qunaitra'
                 elif str(loc).rsplit(' ', 2)[1] == 'درعا,':
                     address = 'Daraa'
                 elif str(loc).rsplit(' ', 2)[1] == 'دمشق,':
@@ -397,13 +416,19 @@ def signUpOwners(request):
                 # print(body)
                 # return HttpResponse('<h1>This Username is taken</h1>')
                 # print('6')
-                return JsonResponse({'message':"UserName Already Exists"})
+                if lang=='en':
+                    return JsonResponse({'message':"UserName Already Exists"})
+                elif lang=='ar':
+                    return JsonResponse({'message':"اسم المستخدم موجود مسبقا"})
 
             else:#CHECK IF EMAIL IS TAKEN
                 # print('7')
                 if User.objects.filter(email=email).exists():
                     # return HttpResponse('<h1>this email is taken</h1>')
-                    return JsonResponse({'message':'Email Already Exists'})
+                    if lang=='en':
+                        return JsonResponse({'message':'Email Already Exists'})
+                    elif lang=='ar':
+                        return JsonResponse({'message':"البريد الإلكتروني موجود مسبقا"})
 
                 else:
                     # print('5')
@@ -432,20 +457,36 @@ def signUpOwners(request):
                             recipient_list=[email],
                             fail_silently=False
                         )
-                        return JsonResponse({ 'ownerID':str(user.id), 'ownerName':user.username , 'ownerEmail':user.email , 'ownerPhoneNumber':userProfile.phone ,
-                                                'shopID':str(store.id) , 'shopCategory':store.category , 'shopName':store.name , 'shopPhoneNumber':store.phone , 'location':store.address , 'startWorkTime':store.opening , 'endWorkTime':store.closing , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store.profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store.cover_photo.url)) , 'shopDescription':'desc' , 'socialUrl':[] , 'rate':0.0 , 'is_active':True,
-                                                'longitude' : store.longitude, "latitude":store.latitude,
-                                                'message':'Owner was Created' },
-                                                status = 201)
+                        if lang=='en':
+                            return JsonResponse({ 'ownerID':str(user.id), 'ownerName':user.username , 'ownerEmail':user.email , 'ownerPhoneNumber':userProfile.phone ,
+                                                    'shopID':str(store.id) , 'shopCategory':store.category , 'shopName':store.name , 'shopPhoneNumber':store.phone , 'location':store.address , 'startWorkTime':store.opening , 'endWorkTime':store.closing , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store.profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store.cover_photo.url)) , 'shopDescription':'desc' , 'socialUrl':[] , 'rate':0.0 , 'is_active':True,
+                                                    'longitude' : store.longitude, "latitude":store.latitude,
+                                                    'message':'Owner was Created' },
+                                                    status = 201)
+                        elif lang=='ar':
+                            return JsonResponse({ 'ownerID':str(user.id), 'ownerName':user.username , 'ownerEmail':user.email , 'ownerPhoneNumber':userProfile.phone ,
+                                                    'shopID':str(store.id) , 'shopCategory':store.category , 'shopName':store.name , 'shopPhoneNumber':store.phone , 'location':store.address , 'startWorkTime':store.opening , 'endWorkTime':store.closing , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store.profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store.cover_photo.url)) , 'shopDescription':'desc' , 'socialUrl':[] , 'rate':0.0 , 'is_active':True,
+                                                    'longitude' : store.longitude, "latitude":store.latitude,
+                                                    'message':'تم إنشاء حساب المالك بنجاح' },
+                                                    status = 201)
 
                     else:
-                        # return HttpResponse('<h1>invalid email</h1>')
-                        return JsonResponse({'message':'Invalid email'})
+                        if lang=='en':
+                            # return HttpResponse('<h1>invalid email</h1>')
+                            return JsonResponse({'message':'Invalid email'})
+                        elif lang=='ar':
+                            return JsonResponse({'message':'بريد إلكتروني خاطئ'})
         else:
-            return JsonResponse({'message':'Invalid Values'})
+            if lang=='en':
+                return JsonResponse({'message':'Invalid Values'})
+            elif lang=='ar':
+                return JsonResponse({'message':'قيم خاطئة'})
 
     else :
-        return JsonResponse({'message':'ERROR NOT POST'})
+        if lang=='en':
+            return JsonResponse({'message':'ERROR NOT POST'})
+        elif lang=='ar':
+            return JsonResponse({'message':'خطأ'})
     # return HttpResponse('<h1>Done</h1>')
 
 
@@ -460,6 +501,7 @@ def login(request):
 
         email = body['email'].lower()
         password = body['password']
+        lang = body['lang']
 
         try:
             # print('try')
@@ -498,27 +540,51 @@ def login(request):
                         # print('store')
                         # print(stores)
                         # print(store[0].id)
-                        return JsonResponse({
-                            'ownerID':str(user.id),
-                            # 'followesNumber':0,
-                            # 'shops': stores,
-                            'message':'owner auth succeded',
-                        },status = 200)
+                        if lang == 'en':
+                            return JsonResponse({
+                                'ownerID':str(user.id),
+                                # 'followesNumber':0,
+                                # 'shops': stores,
+                                'message':'owner auth succeded',
+                            },status = 200)
+                        
+                        elif lang == 'ar':
+                            return JsonResponse({
+                                'ownerID':str(user.id),
+                                # 'followesNumber':0,
+                                # 'shops': stores,
+                                'message':'تم التأكد من حساب المالك بنجاح',
+                            },status = 200)
 
                     else:
                         # print('else')
-                        return JsonResponse({
-                            'id' : str(user.id),
-                            'userName': user.username,
-                            'email':user.email,
-                            'phoneNumber' : str(userPro.phone),
-                            'message':'user auth succeded'}
-                            ,status = 200)
+                        if lang == 'en':
+                            return JsonResponse({
+                                'id' : str(user.id),
+                                'userName': user.username,
+                                'email':user.email,
+                                'phoneNumber' : str(userPro.phone),
+                                'message':'user auth succeded'}
+                                ,status = 200)
+                        elif lang == 'ar':
+                            return JsonResponse({
+                                'id' : str(user.id),
+                                'userName': user.username,
+                                'email':user.email,
+                                'phoneNumber' : str(userPro.phone),
+                                'message':'تم التأكد من حساب الزبون بنجاح'}
+                                ,status = 200)
                 else:
-                    return JsonResponse({'message':'Invalid Email Or Password'})
+                    if lang == 'en':
+                        return JsonResponse({'message':'Invalid Email Or Password'})
+                    if lang == 'ar':
+                        return JsonResponse({'message':'خطأ في البريد الإلكتروني أو كلمة السر'})
         except:
             # print('catch')
-            return JsonResponse({'message':'Invalid Email Or Password'})
+            if lang == 'en':
+                return JsonResponse({'message':'Invalid Email Or Password'})
+            elif lang == 'ar':
+                return JsonResponse({'message':'خطأ في البريد الإلكتروني أو كلمة السر'})
 
 
 @csrf_exempt
@@ -789,6 +855,7 @@ def editPassword(request , userId):
     body = json.loads(body_unicode)
     id = body['id']
     password = body['password']
+    lang = body['lang']
 
     if(int(id)==userId):
 
@@ -796,13 +863,22 @@ def editPassword(request , userId):
         # if(password == user.password):
         if(user.check_password(password)):
             # print('Matched')
-            return JsonResponse({'message':'Matched'},status = 200)
+            if lang=='en':
+                return JsonResponse({'message':'Matched'},status = 200)
+            elif lang=='ar':
+                return JsonResponse({'message':'كلمة السر صحيحة'},status = 200)
         else:
             # print('MisMatched')
-            return JsonResponse({'message':'MisMatched'},status = 400)
+            if lang=='en':
+                return JsonResponse({'message':'MisMatched'},status = 400)
+            elif lang=='ar':
+                return JsonResponse({'message':'كلمة السر غير صحيحة'},status = 400)
 
     else:
-        return JsonResponse({'message':'Access Denied'},status = 400)
+        if lang=='en':
+            return JsonResponse({'message':'Access Denied'},status = 400)
+        elif lang=='ar':
+            return JsonResponse({'message':'تم الرفض'},status = 400)
 
 
 
@@ -861,25 +937,25 @@ def addStore(request , userId):
                 if str(loc).rsplit(' ', 2)[1] == 'اللاذقية,':
                     address = 'Lattakia'
                 elif str(loc).rsplit(' ', 2)[1] == 'طرطوس,':
-                    address = 'Tartus'
+                    address = 'Tartous'
                 elif str(loc).rsplit(' ', 2)[1] == 'الرقة,':
-                    address = 'Raqqah'
+                    address = 'Raqqa'
                 elif str(loc).rsplit(' ', 2)[1] == 'حلب,':
                     address = 'Aleppo'
                 elif str(loc).rsplit(' ', 2)[1] == 'حماة,':
-                    address = 'Hamah'
+                    address = 'Hama'
                 elif str(loc).rsplit(' ', 2)[1] == 'حمص,':
                     address = 'Homs'
                 elif str(loc).rsplit(' ', 2)[1] == 'إدلب,':
                     address = 'Idlib'
                 elif str(loc).rsplit(' ', 2)[1] == 'الحسكة,':
-                    address = 'Hasaka'
+                    address = 'Al-hasaka'
                 elif str(loc).rsplit(' ', 2)[1] == 'الزور,':
-                    address = 'DayrAlZawr'
+                    address = 'Dier Alzour'
                 elif str(loc).rsplit(' ', 2)[1] == 'السويداء,':
-                    address = 'AsSuwaydaa'
+                    address = 'Swaidaa'
                 elif str(loc).rsplit(' ', 2)[1] == 'القنيطرة,':
-                    address = 'Quneitra'
+                    address = 'Al-Qunaitra'
                 elif str(loc).rsplit(' ', 2)[1] == 'درعا,':
                     address = 'Daraa'
                 elif str(loc).rsplit(' ', 2)[1] == 'دمشق,':
