@@ -45,7 +45,7 @@ def Overview(request):
     value14 = round((len(Store.objects.filter(category='Resturant'))/all)*100,1)
     value15 = round((len(Store.objects.filter(category='Cafe'))/all)*100,1)
     value16 = round((len(Store.objects.filter(category='Variants'))/all)*100,1)
-    # print((value3*245)/100)
+    # # print((value3*245)/100)
 
 
     context = {
@@ -233,9 +233,9 @@ def Inboxes(request,userId):
 @csrf_exempt
 @api_view(['POST'])
 def signUpUsers(request):
-    # print('request.method :')
+    # # print('request.method :')
     # request.method="POST"
-    # print(request.method)
+    # # print(request.method)
 
     # return JsonResponse({'result':'invalid'})
     # if request.method == 'POST':
@@ -247,20 +247,20 @@ def signUpUsers(request):
         password= None
         phoneNumber = None
 
-        # print('request :')
-        # print(request)
+        # # print('request :')
+        # # print(request)
 
-        # print('request.body :')
-        # print(request.body)
+        # # print('request.body :')
+        # # print(request.body)
 
        #get values from form
         body_unicode = request.body.decode()
-        # print('body_unicode :')
-        # print(body_unicode)
+        # # print('body_unicode :')
+        # # print(body_unicode)
 
         body = json.loads(body_unicode)
-        # print('request.body :')
-        # print(request.body)
+        # # print('request.body :')
+        # # print(request.body)
 
         userName = body['name'].lower()
         email = body['emil'].lower()
@@ -268,11 +268,11 @@ def signUpUsers(request):
         phoneNumber = body['phoneNumber']
 
        #check values
-        # print(phoneNumber)
+        # # print(phoneNumber)
 
         if userName and email and password and phoneNumber:
             if User.objects.filter(username=userName).exists():
-                # print(body)
+                # # print(body)
                 # return HttpResponse('<h1>This Username is taken</h1>')
                 return JsonResponse({'message':"UserName Already Exists"})
 
@@ -300,7 +300,7 @@ def signUpUsers(request):
                             fail_silently=False
                         )
                         return JsonResponse({'id':str(user.id) , 'userName':userName,'email':email,'password':password,'phoneNumber':phoneNumber,'message':'User was Created'}, status = 200)
-                    
+
                     else:
                         # return HttpResponse('<h1>invalid email</h1>')
                         return JsonResponse({'message':'Invalid email'})
@@ -312,9 +312,9 @@ def signUpUsers(request):
 @csrf_exempt
 @api_view(['POST'])
 def signUpOwners(request):
-    # print('request.method :')
+    # # print('request.method :')
     # request.method="POST"
-    # print(request.method)
+    # # print(request.method)
 
     # return JsonResponse({'result':'invalid'})
     # if request.method == 'POST':
@@ -387,34 +387,34 @@ def signUpOwners(request):
                 else:
                     address = 'other'
        #check values
-        # print(phoneNumber)
+        # # print(phoneNumber)
         # if opening=='':
         #     opening = '08:00:00'
         # if closing=='':
         #     closing = '20:00:00'
-        # print('1')
+        # # print('1')
         if userName and email and password and phoneNumber and name and address and category and opening and closing and phone:
-            # print('2')
+            # # print('2')
             if User.objects.filter(username=userName).exists():
-                # print(body)
+                # # print(body)
                 # return HttpResponse('<h1>This Username is taken</h1>')
-                # print('6')
+                # # print('6')
                 return JsonResponse({'message':"UserName Already Exists"})
 
             else:#CHECK IF EMAIL IS TAKEN
-                # print('7')
+                # # print('7')
                 if User.objects.filter(email=email).exists():
                     # return HttpResponse('<h1>this email is taken</h1>')
                     return JsonResponse({'message':'Email Already Exists'})
 
                 else:
-                    # print('5')
+                    # # print('5')
                     patt="^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"
                     if re.match(patt,email):
                     #add user
                         user = User.objects.create_user( username = userName , email = email , password = password )
                         user.save()
-                        # print(datetime.strptime(opening))
+                        # # print(datetime.strptime(opening))
                     #add user profile
                         userProfile = UserProfile( user = user , phone = phoneNumber , is_owner=True)
                         userProfile.save()
@@ -422,10 +422,10 @@ def signUpOwners(request):
 
                         store = Store(owner = userProfile , name = name , address = address , category = category, opening = opening , closing = closing , phone = phone , rate = rate , longitude = float(longitude) , latitude = float(latitude))
 
-                        # print('3')
+                        # # print('3')
                         store.profile_photo = static('Pic/profile_photo.jpg')
                         store.cover_photo = static('Pic/cover_photo.jpg')
-                        # print('4')
+                        # # print('4')
                         store.save()
                         send_mail(
                             subject='Store Opedia Site',
@@ -464,26 +464,26 @@ def login(request):
         password = body['password']
 
         try:
-            # print('try')
+            # # print('try')
             if(User.objects.get(email = email) != None):
-                # print('try')
+                # # print('try')
                 # s = User.objects.get(email=email , password=password)
-                # print('try')
+                # # print('try')
                 user = User.objects.get(email=email)
                 userPro = UserProfile.objects.get(user_id=user.id)
                 userAuth = auth.authenticate(username=user.username , password=password)
-                # print('test')
+                # # print('test')
                 if userAuth is not None :
                     auth.login(request,user)
-                    # print('1')
+                    # # print('1')
                     if( userPro.is_owner ):
-                        # print(userPro)
+                        # # print(userPro)
                         # store=Store.objects.filter(owner=userPro)
                         # store=list(Store.objects.filter(owner=userPro).values('name', 'description'))
-                        # print('3')
+                        # # print('3')
 
                         # for (i=0 ; i<len(store) , i++):
-                        #     print('hhh')
+                        #     # print('hhh')
 
                         # stores=[
 
@@ -496,20 +496,20 @@ def login(request):
                         #     'ownerID':str(user.id), 'ownerName':user.username , 'ownerEmail':user.email , 'ownerPhoneNumber':userPro.phone ,
                         #     'shopID':str(store.id) , 'shopCategory':store.category , 'shopName':store.name , 'shopPhoneNumber':store.phone , 'location':store.address , 'startWorkTime':store.opening , 'endWorkTime':store.closing , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':'test' , 'rate':0 ,
                         #     'message':'owner auth succeded'})
-                        # print('yes')
-                        # print('store')
-                        # print(stores)
-                        # print(store[0].id)
+                        # # print('yes')
+                        # # print('store')
+                        # # print(stores)
+                        # # print(store[0].id)
                         return JsonResponse({
                             'ownerID':str(user.id),
                             # 'followesNumber':0,
                             # 'shops': stores,
                             'message':'owner auth succeded',
                         },status = 200)
-                        
+
 
                     else:
-                        # print('else')
+                        # # print('else')
                         return JsonResponse({
                             'id' : str(user.id),
                             'userName': user.username,
@@ -517,30 +517,30 @@ def login(request):
                             'phoneNumber' : str(userPro.phone),
                             'message':'user auth succeded'}
                             ,status = 200)
-                        
+
                 else:
                     return JsonResponse({'message':'Invalid Email Or Password'})
-                    
+
         except:
-            # print('catch')
+            # # print('catch')
             return JsonResponse({'message':'Invalid Email Or Password'})
 
 
 @csrf_exempt
 @api_view(['DELETE'])
 def delete(request , userId):
-    # print('hhh')
+    # # print('hhh')
     body_unicode = request.body.decode()
     body = json.loads(body_unicode)
     id = body['id']
-    # print(id)
-    # print(userId)
+    # # print(id)
+    # # print(userId)
     if(int(id)==userId):
         user = User.objects.get(id=userId)
         userPro = UserProfile.objects.get(user_id=userId)
-        # print('user:')
-        # print(user)
-        # print(request.user)
+        # # print('user:')
+        # # print(user)
+        # # print(request.user)
 
         user.delete()
         return JsonResponse({'message':" User has been deleted successfully"},status = 200)
@@ -575,25 +575,25 @@ def deleteStore(request , userId):
 @csrf_exempt
 @api_view(['DELETE'])
 def deletePost(request , postId):
-    print('hi')
+    # print('hi')
     body_unicode = request.body.decode()
     body = json.loads(body_unicode)
     id = body['id']
     storeId = body['shopID']
     postID = body['postID']
-    print('e')
+    # print('e')
 
     if(int(postID)==postId):
         # user = User.objects.get(id=id)
         userPro = UserProfile.objects.get(user_id=id)
-        print('d')
+        # print('d')
 
         if userPro.is_owner:
-            print('a')
+            # print('a')
             store = Store.objects.get(id = storeId)
-            print('b')
+            # print('b')
             post = Post.objects.get(id = postId)
-            print('c')
+            # print('c')
 
             if post.owner == store:
                 post.delete()
@@ -610,8 +610,8 @@ def deletePost(request , postId):
 def edit(request , userId):
     body_unicode = request.body.decode()
     body = json.loads(body_unicode)
-    print('request.body :')
-    print(request.body)
+    # print('request.body :')
+    # print(request.body)
 
     id = body['id']
     userName = body['userName']
@@ -631,10 +631,10 @@ def edit(request , userId):
                 userPro.phone = phoneNumber
                 if password:
                     user.set_password(password)
-                # print(user.username)
+                # # print(user.username)
                 user.save()
                 userPro.save()
-                # print(user.username)
+                # # print(user.username)
                 auth.login(request, user)
 
                 return JsonResponse({'message':"Done"},status = 200)
@@ -642,23 +642,23 @@ def edit(request , userId):
             userPro.phone = phoneNumber
             if password:
                 user.set_password(password)
-            # print(user.username)
+            # # print(user.username)
             user.save()
             userPro.save()
-            # print(user.username)
+            # # print(user.username)
             auth.login(request, user)
 
             return JsonResponse({'message':"Done"},status = 200)
 
         # user.username = userName
         # userPro.phone = phoneNumber
-        # # print(user.username)
+        # # # print(user.username)
         # user.save()
         # userPro.save()
-        # # print(user.username)
+        # # # print(user.username)
 
         # auth.login(request, user)
-        # print('end')
+        # # print('end')
         # return JsonResponse({'message' : 'User has been Updated successfully','user': {
         #                 'id' : str(user.id),
         #                 'userName': userName,
@@ -672,10 +672,9 @@ def edit(request , userId):
 
 @api_view(['PUT'])
 def editStore(request , userId):
-    print('START')
+    # print('START')
     body_unicode = request.body.decode()
     body = json.loads(body_unicode)
-
     id = body['id']
     storeId = body['shopID']
 
@@ -688,21 +687,28 @@ def editStore(request , userId):
     facebook = body['facebook']
     address = body['location']
     category = body['shopCategory']
-    if body['profile_photo']:
-        profile_photo = body['profile_photo']
+    # print("a")
+    if body['shopProfileImage']!='url':
+        # print("c")
+        profile_photo = body['shopProfileImage']
         typeProfile = body['storeProfileImageType']
-    if body['cover_photo']:
-        cover_photo = body['cover_photo']
+    if body['shopCoverImage']!='url':
+        # print("d")
+        cover_photo = body['shopCoverImage']
         typeCover = body['storeCoverImageType']
+    # print("b")
 
     if int(id)==userId :
+        # print('1')
         user = User.objects.get(id=userId)
         userPro = UserProfile.objects.get(user_id=userId)
 
         if userPro.is_owner:
+            # print('2')
             store = Store.objects.get(id=storeId)
 
             if store.owner == userPro:
+                # print('3')
                 store.name =name
                 store.description = description
                 store.address = address
@@ -712,15 +718,17 @@ def editStore(request , userId):
                 store.phone = phone
                 store.insta = insta
                 store.facebook = facebook
-
-                if body['profile_photo']:
+                # print('4')
+                if body['shopProfileImage']!='url':
                     profile_photo= ContentFile(base64.b64decode(profile_photo),name =str(store.id)+ '.' + typeProfile )
                     store.profile_photo=profile_photo
-                if body['cover_photo']:
+                if body['shopCoverImage']!='url':
                     cover_photo= ContentFile(base64.b64decode(cover_photo),name =str(store.id)+ '.' + typeCover )
                     store.cover_photo=cover_photo
-                    store.save()
-                return JsonResponse({'message' : 'Done'} , status = 200)
+                # print('5')
+                store.save()
+                return JsonResponse({'message' : 'Done','shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store.profile_photo.url)) ,
+                'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store.cover_photo.url))} , status = 200)
             else:
                 return JsonResponse({'message' : 'you cant edit this store'} , status = 400)
         else:
@@ -749,7 +757,7 @@ def editPost(request , postId):
     description = body['description']
     price = body['price']
     # photos = body['photos']
-    if body['photos']:
+    if body['photos'] != 'url':
         photos = body['photos']
         type = body['postImageType']
 
@@ -770,7 +778,7 @@ def editPost(request , postId):
 
                     if price: post.price = price
 
-                    if body['photos']:
+                    if body['photos']!='url':
                         photos= ContentFile(base64.b64decode(photos),name =str(post.id)+ '.' + type )
                         post.photos = photos
 
@@ -800,10 +808,10 @@ def editPassword(request , userId):
         user = User.objects.get(id=userId)
         # if(password == user.password):
         if(user.check_password(password)):
-            # print('Matched')
+            # # print('Matched')
             return JsonResponse({'message':'Matched'},status = 200)
         else:
-            # print('MisMatched')
+            # # print('MisMatched')
             return JsonResponse({'message':'MisMatched'},status = 400)
 
     else:
@@ -848,10 +856,12 @@ def addStore(request , userId):
             facebook = body['facebook']
             insta = body['insta']
             rate = body['rate']
-            if body['profile_photo'] != 'noImage':
+            # # print(body['profile_photo'])
+            # # print(body['cover_photo'])
+            if body['profile_photo'] != 'url':
                 profile_photo = body['profile_photo']
                 typeProfile = body['storeProfileImageType']
-            if body['cover_photo'] != 'noImage':
+            if body['cover_photo'] != 'url':
                 cover_photo = body['cover_photo']
                 typeCover = body['storeCoverImageType']
             if body['longitude']:
@@ -861,8 +871,8 @@ def addStore(request , userId):
                 # from geopy.point import Point
                 # loc = geolocator.reverse(Point(latitude,longitude) , timeout=None)
                 loc = geolocator.reverse(str(latitude)+","+str(longitude) , timeout=None)
-                print('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
-                print(str(loc))
+                # # print('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
+                # # print(str(loc))
                 if str(loc).rsplit(' ', 2)[1] == 'اللاذقية,':
                     address = 'Lattakia'
                 elif str(loc).rsplit(' ', 2)[1] == 'طرطوس,':
@@ -895,8 +905,8 @@ def addStore(request , userId):
 
             if Store.objects.filter(name=name).exists():
                 return JsonResponse({'message':"This Name Already Exists"})
-            # print(facebook)
-            # print(insta)
+            # # print(facebook)
+            # # print(insta)
 
             store = Store(owner=owner,name=name,description=description,category=category,
                         opening=opening,closing=closing,phone=phone,address=address,facebook=facebook,
@@ -905,24 +915,24 @@ def addStore(request , userId):
                         longitude = longitude, latitude=latitude,
                         rate=rate)
             store.save()
-            # print('test')
-            # print(body['profile_photo'])
-            # print(body['storeProfileImageType'])
-            # print('end')
+            # # print('test')
+            # # print(body['profile_photo'])
+            # # print(body['storeProfileImageType'])
+            # # print('end')
 
-            if body['profile_photo'] != 'noImage':
-                # print('yes')
+            if body['profile_photo'] != 'url':
+                # # print('yes')
                 profile_photo= ContentFile(base64.b64decode(profile_photo), name =str(store.id)+ '.' + typeProfile )
                 store.profile_photo=profile_photo
             else:
-                # print('no')
+                # # print('no')
                 store.profile_photo = static('Pic/profile_photo.jpg')
 
-            if body['cover_photo'] != 'noImage':
+            if body['cover_photo'] != 'url':
                 cover_photo= ContentFile(base64.b64decode(cover_photo),name =str(store.id)+ '.' + typeCover )
                 store.cover_photo=cover_photo
             else:
-                # print('no')
+                # # print('no')
                 store.cover_photo = static('Pic/cover_photo.jpg')
             # if body['longitude']:
             #     store.longitude = longitude
@@ -956,14 +966,14 @@ def addPost(request,storeId):
         title = body['name']
         description = body['description']
         price = body['price']
-        # print('Startphotos')
-        # print(body['photos'])
+        # # print('Startphotos')
+        # # print(body['photos'])
         if body['photos']:
             photos = body['photos']
             type = body['postImageType']
 
-            # print('photos')
-            # print(photos)
+            # # print('photos')
+            # # print(photos)
 
         category = body['category']
 
@@ -980,9 +990,9 @@ def addPost(request,storeId):
                     post.photos = photos
                     post.save()
                     # form = PostForm(request.POST, request.FILES)
-                    # print('1')
+                    # # print('1')
                     # if form.is_valid():
-                    #     print('2')
+                    #     # print('2')
                     #     form.save()
                     return JsonResponse({'message':"Your Post Have Been Added Successfully"},status = 200)
 
@@ -998,27 +1008,27 @@ def addPost(request,storeId):
 @csrf_exempt
 @api_view(['POST'])
 def lookupStores(request , userId):
-    # print('start')
-    # print(userId)
+    # # print('start')
+    # # print(userId)
     body_unicode = request.body.decode()
     body = json.loads(body_unicode)
     id = body['ownerID']
-    # print('bb')
-    # print('1')
+    # # print('bb')
+    # # print('1')
     if(int(id)==userId):
-        # print('2')
+        # # print('2')
 
         user = User.objects.get(id=userId)
         userPro = UserProfile.objects.get(user_id=user.id)
         if(userPro.is_owner):
             store=Store.objects.filter(owner=userPro)
 
-            # print('3')
+            # # print('3')
             # stores1=[
             #         {'shopID':str(store[0].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone , 'shopCategory':store[0].category , 'shopName':store[0].name , 'shopPhoneNumber':store[0].phone , 'location':store[0].address , 'startWorkTime':str(store[0].opening) , 'endWorkTime':str(store[0].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':'test' , 'rate':0 ,'followesNumber':0 },
             #         {'shopID':str(store[1].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,'shopCategory':store[1].category , 'shopName':store[1].name , 'shopPhoneNumber':store[1].phone , 'location':store[1].address , 'startWorkTime':str(store[1].opening) , 'endWorkTime':str(store[1].closing) , 'shopProfileImage':'url' , 'shopCoverImage':'url' , 'shopDescription':'desc' , 'socialUrl':'test' , 'rate':0 , 'followesNumber':0 },
             #     ]
-            # print(len(store))
+            # # print(len(store))
             stores = []
             for i in range(0,len(store)):
                 if store[i].is_active:
@@ -1030,7 +1040,7 @@ def lookupStores(request , userId):
                     x = {'shopID':str(store[i].id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone , 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].cover_photo.url)) , 'shopDescription':store[i].description , 'socialUrl':socialUrl , 'rate':store[i].rate ,'followesNumber':followNum , "is_active" :store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude},
                     stores += x
                 # stores.append(x)
-            # print(
+            # # print(
             #     {
             #     'shops':stores,
             #     'message':"Succeed"}
@@ -1040,10 +1050,10 @@ def lookupStores(request , userId):
                 'message':"Succeed"},status =200)
 
         else:
-            # print('5')
+            # # print('5')
             return JsonResponse({'message':"Access Denied"})
     else:
-        # print('6')
+        # # print('6')
         return JsonResponse({'message':"Access Denied"})
 
 
@@ -1143,38 +1153,63 @@ def savePost(request,userId,postId):
 @csrf_exempt
 @api_view(['POST'])
 def showStores(request , userId):
+    # print("START SHOWING STORES")
+
     body_unicode = request.body.decode()
     body = json.loads(body_unicode)
     id = body['id']
 
     if(int(id)==userId):
+        # print("1")
         if int(id) == 0:
+            # print("2")
             store=Store.objects.all()
         else:
+            # print("3")
+            
             user = User.objects.get(id=userId)
             userPro = UserProfile.objects.get(user_id=user.id)
             store=Store.objects.filter(~Q(owner=userPro))
-
+            # print("4")
         stores = []
 
 
         for i in range(0,len(store)):
+            # print("LOOP")
+            # print(store[i].id)
+            # print(store[i].owner)
             # print(store[i].owner.id)
+            # # print(store[i].owner.id)
+            # print('a')
             user =User.objects.get(id=store[i].owner.user_id)
+            # print('b')
             userPro =UserProfile.objects.get(id=store[i].owner.id)
+            # print('c')
             followNum = len(Followed_Stores.objects.filter(store = store[i]))
             if store[i].facebook or store[i].insta:
                 socialUrl = [ store[i].facebook , store[i].insta ]
             else:
                 socialUrl =[]
+            # print('d')
+            print("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
+            # print(UserProfile.objects.get(user_id=id))
+            # print(store[i])
+            # print(Followed_Stores.objects.filter(user = UserProfile.objects.get(user_id=id) , store = store[i]).exists())
+            # print('EEEENNNNDDDDD')
+            print(store[i].name)
+            print(followNum)
             x = {
                 'shopID':str(store[i].id) ,
                 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
                 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].cover_photo.url)) , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude,
-                'isFollow': Followed_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists(),
-                'isFav': Fav_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists()
+                'isFollow': Followed_Stores.objects.filter(user = UserProfile.objects.get(user_id=id) , store = store[i]).exists(),
+                'isFav': Fav_Stores.objects.filter(user = UserProfile.objects.get(user_id=id) , store = store[i]).exists()
                 },
             stores += x
+            # print('e')
+
+            # # print(stores)
+        # print("END")
         return JsonResponse({"stores":stores , 'message':'Done'},status = 200)
 
 
@@ -1189,14 +1224,17 @@ def showPostsOwner(request , storeId):
 
     id = body['id']
     storeID = body['shopID']
-    print('id' in request.POST)
-    print(request.POST)
+    # visitor = body['visitor']
+    # print('id' in request.POST)
+    # print(request.POST)
     if(int(storeID)==storeId):
         # user = User.objects.get(id=id)
-        userPro = UserProfile.objects.get(user_id=id)
+        # print(id)
+        store = Store.objects.get(id=storeId)
+        userPro = UserProfile.objects.get(id=store.owner.id)
+        
 
         if userPro.is_owner:
-            store = Store.objects.get(id=storeId)
             if store.owner == userPro:
                 posts = []
                 post=Post.objects.filter(owner=storeId)
@@ -1210,7 +1248,14 @@ def showPostsOwner(request , storeId):
                         # photoData = base64.b64encode(photo.read())
                     # ctx["image"] = photoData
                     # photo = base64.b64encode(post[i].photos.getvalue())
-                    # print(str(post[i].photos.url))
+                    # # print(str(post[i].photos.url))
+                    # print('1')
+                    # if visitor!='0':
+                        # print('1')
+                    if int(id) == 0:
+                        like = False
+                    else:
+                        like = Liked_Posts.objects.filter(user = UserProfile.objects.get(user_id = id) , post =post[i]).exists()
                     x = {
                         'postID':str(post[i].id),
                         'title':post[i].title,
@@ -1225,10 +1270,33 @@ def showPostsOwner(request , storeId):
                         'startWorkTime':str(post[i].owner.opening) , 'endWorkTime':str(post[i].owner.closing) ,
                         'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(post[i].owner.profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(post[i].owner.cover_photo.url)) ,
                         'shopDescription':post[i].owner.description , 'socialUrl': socialUrl, 'rate':post[i].owner.rate ,'followesNumber':followNum , 'is_active':post[i].owner.is_active , 'longitude' : post[i].owner.longitude, "latitude":post[i].owner.latitude,
-                        'isLike': Liked_Posts.objects.filter(user = UserProfile.objects.get(user_id=id) , post =post[i]).exists()
+                        'isLike': like
                         },
+                    # else:
+                        # print('2')
+                        # x = {
+                        #     'postID':str(post[i].id),
+                        #     'title':post[i].title,
+                        #     'description':post[i].description,
+                        #     'price':str(post[i].price),
+                        #     'photos':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(post[i].photos.url)),
+                        #     # 'photos':str(base64.b64encode(post[i].photos.read())),
+                        #     # 'postImageType': str(post[i].photos).rsplit('.', 1)[1]
+                        #     'shopID':str(post[i].owner.id) ,
+                        #     'ownerID':str(post[i].owner.owner.user_id) , 'ownerEmail':post[i].owner.owner.user.email , 'ownerName':post[i].owner.owner.user.username ,'ownerPhoneNumber':post[i].owner.owner.phone ,
+                        #     'shopCategory':post[i].owner.category , 'shopName':post[i].owner.name , 'shopPhoneNumber':post[i].owner.phone , 'location':post[i].owner.address ,
+                        #     'startWorkTime':str(post[i].owner.opening) , 'endWorkTime':str(post[i].owner.closing) ,
+                        #     'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(post[i].owner.profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(post[i].owner.cover_photo.url)) ,
+                        #     'shopDescription':post[i].owner.description , 'socialUrl': socialUrl, 'rate':post[i].owner.rate ,'followesNumber':followNum , 'is_active':post[i].owner.is_active , 'longitude' : post[i].owner.longitude, "latitude":post[i].owner.latitude,
+                        #     'isLike': False
+                        #     },
+                    # print('2')
                     posts += x
-                # print(posts)
+                    # print('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
+                    # print(post[i].owner.owner.user_id)
+                    # print(post[i])
+                    # print(Liked_Posts.objects.filter(user = UserProfile.objects.get(user_id=id) , post =post[i]).exists())
+                # # print(posts)
                 return JsonResponse({"posts":sorted(posts, key=lambda a: a["postID"],reverse=True) , 'message':'Done'},status = 200)
             return JsonResponse({'message':'Access Denied'},status = 400)
         return JsonResponse({'message':'Access Denied'},status = 400)
@@ -1253,10 +1321,10 @@ def postsofFollowedStore(request , userId):
         if Followed_Stores.objects.filter(user = userPro):
             followedStore = Followed_Stores.objects.filter(user = userPro)
             posts = []
-            # print('1')
-            # print(len(followedStore))
+            # # print('1')
+            # # print(len(followedStore))
             if len(followedStore) == 0:
-                # print('yes')
+                # # print('yes')
                 return JsonResponse({'message':'You dont have any followed store yet'},status = 200)
 
             for j in range(0,len(followedStore)):
@@ -1269,7 +1337,7 @@ def postsofFollowedStore(request , userId):
                     socialUrl = [ followedStore[j].store.facebook , followedStore[j].store.insta ]
                 else:
                     socialUrl =[]
-                # print(store)
+                # # print(store)
                 for i in range(0,len(post)):
                     x = {
                         'postID':str(post[i].id),
@@ -1287,12 +1355,14 @@ def postsofFollowedStore(request , userId):
                         },
 
                     posts += x
-            # print(posts)
+                    
+                    print(Liked_Posts.objects.filter(user = UserProfile.objects.get(user_id=userId) , post =post[i]).exists())
+            # # print(posts)
             if len(posts) == 0:
-                # print('yes')
+                # # print('yes')
                 return JsonResponse({'message':'You dont have any post to show yet'},status = 200)
             return JsonResponse({"posts":sorted(posts, key=lambda a: a["postID"],reverse=True) , 'message':'Done'},status = 200)
-        print('no')
+        # print('no')
         return JsonResponse({'message':'You dont have any followed store yet'},status = 200)
 
 
@@ -1394,9 +1464,9 @@ def showMyLikedPosts(request,userId):
                     'isLike': Liked_Posts.objects.filter(user = UserProfile.objects.get(user_id=userId) , post =like[i].post).exists()
                     },
                 likes += x
-                
 
-                
+
+
 
             return JsonResponse({'message':"Done" , 'PostsLikedByMe':likes} , status = 200)
         return JsonResponse({'message':"You didnt like any post yet"} , status = 400)
@@ -1422,7 +1492,7 @@ def showStoresFromCategories(request , userId):
         stores = []
 
         for i in range(0,len(store)):
-            # print(store[i].owner.id)
+            # # print(store[i].owner.id)
             user =User.objects.get(id=store[i].owner.user_id)
             userPro =UserProfile.objects.get(id=store[i].owner.id)
             followNum = len(Followed_Stores.objects.filter(store = store[i]))
@@ -1464,9 +1534,10 @@ def filters(request,userId):
                 store=Store.objects.all()
 
         stores = []
+        s = []
 
         for i in range(0,len(store)):
-            # print(store[i].owner.id)
+            # # print(store[i].owner.id)
             user =User.objects.get(id=store[i].owner.user_id)
             userPro =UserProfile.objects.get(id=store[i].owner.id)
             followNum = len(Followed_Stores.objects.filter(store = store[i]))
@@ -1479,14 +1550,17 @@ def filters(request,userId):
                 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
                 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].cover_photo.url)) , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude,
                 'isFollow': Followed_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists(),
-                'isFav': Fav_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists() },
+                'isFav': Fav_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists(),
+                'creation_date':str(store[i].creation_date)
+                },
             stores += x
+
         if type == 'rate':
             return JsonResponse({"stores":sorted(stores, key=lambda a: a["rate"],reverse=True) , 'message':'Done'},status = 200)
         elif type == 'new':
-            return JsonResponse({"stores":sorted(stores, key=lambda a: a["shopID"],reverse=True) , 'message':'Done'},status = 200)
+            return JsonResponse({"stores":sorted(stores, key=lambda a: a["creation_date"],reverse=True) , 'message':'Done'},status = 200)
         elif type == 'old':
-            return JsonResponse({"stores":sorted(stores, key=lambda a: a["shopID"],reverse=False) , 'message':'Done'},status = 200)
+            return JsonResponse({"stores":sorted(stores, key=lambda a: a["creation_date"],reverse=False) , 'message':'Done'},status = 200)
         else:
             return JsonResponse({'message':'STILL WORKING ON IT'},status = 200)
 
@@ -1507,14 +1581,14 @@ def nearestStores(request , userId):
     if int(id)==userId:
         if int(id) == 0:
             store=Store.objects.all()
-            # print(len(store))
+            # # print(len(store))
         else:
             user = User.objects.get(id=userId)
             userPro = UserProfile.objects.get(user_id=user.id)
             store=Store.objects.filter(~Q(owner=userPro))
         stores = []
         for i in range(0,len(store)):
-            # print(store[i].owner.id)
+            # # print(store[i].owner.id)
             user =User.objects.get(id=store[i].owner.user_id)
             userPro =UserProfile.objects.get(id=store[i].owner.id)
             followNum = len(Followed_Stores.objects.filter(store = store[i]))
@@ -1532,7 +1606,7 @@ def nearestStores(request , userId):
                 'distance':geopy.distance.geodesic(c1,c2).km
                 },
             stores += x
-        print(sorted(stores, key=lambda a: a['distance'],reverse=False))
+        # print(sorted(stores, key=lambda a: a['distance'],reverse=False))
         return JsonResponse({"stores":sorted(stores, key=lambda a: a['distance'],reverse=False) , 'message':'Done'},status = 200)
 
     else:
@@ -1557,7 +1631,7 @@ def filterLocation(request , userId):
             store=Store.objects.filter(~Q(owner=userPro) , address = address)
         stores = []
         for i in range(0,len(store)):
-            # print(store[i].owner.id)
+            # # print(store[i].owner.id)
             user =User.objects.get(id=store[i].owner.user_id)
             userPro =UserProfile.objects.get(id=store[i].owner.id)
             followNum = len(Followed_Stores.objects.filter(store = store[i]))
@@ -1594,7 +1668,7 @@ def searchStore(request , userId):
     if int(id)==userId:
         if int(id) == 0:
             store=Store.objects.filter(name__icontains=search)
-            # print(len(store))
+            # # print(len(store))
         else:
             user = User.objects.get(id=userId)
             userPro = UserProfile.objects.get(user_id=user.id)
@@ -1603,7 +1677,7 @@ def searchStore(request , userId):
         stores = []
 
         for i in range(0,len(store)):
-            # print(store[i].owner.id)
+            # # print(store[i].owner.id)
             user =User.objects.get(id=store[i].owner.user_id)
             userPro =UserProfile.objects.get(id=store[i].owner.id)
             followNum = len(Followed_Stores.objects.filter(store = store[i]))
@@ -1732,7 +1806,7 @@ def activation(request,userId):
                     stores += x
 
                 # stores.append(x)
-            # print(
+            # # print(
             #     {
             #     'shops':stores,
             #     'message':"Succeed"}
@@ -1743,3 +1817,40 @@ def activation(request,userId):
 
         return JsonResponse({'message':"Access Denied"} , status = 400)
     return JsonResponse({'message':"Access Denied"} , status = 400)
+
+
+@csrf_exempt
+@api_view(['POST'])
+def storeDetails(request , storeId):
+    # # print('start')
+    # # print(userId)
+    body_unicode = request.body.decode()
+    body = json.loads(body_unicode)
+    storeID = body['shopID']
+    # # print('bb')
+    # # print('1')
+    if(int(storeID)==storeId):
+        # # print('2')
+
+        store=Store.objects.get(id=storeID)
+        user = User.objects.get(id=store.owner.user_id)
+        userPro = UserProfile.objects.get(id=store.owner.id)
+        if(userPro.is_owner):
+
+            if store.is_active:
+                followNum = len(Followed_Stores.objects.filter(store = store))
+                if store.facebook or store.insta:
+                    socialUrl = [ store.facebook , store.insta ]
+                else:
+                    socialUrl =[]
+            return JsonResponse({
+                'shopID':str(store.id) , 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone , 'shopCategory':store.category , 'shopName':store.name , 'shopPhoneNumber':store.phone , 'location':store.address , 'startWorkTime':str(store.opening) , 'endWorkTime':str(store.closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store.profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store.cover_photo.url)) , 'shopDescription':store.description , 'socialUrl':socialUrl , 'rate':store.rate ,'followesNumber':followNum , "is_active" :store.is_active , 'longitude' : store.longitude, "latitude":store.latitude,
+                'message':"Succeed"},status =200)
+
+        else:
+            # # print('5')
+            return JsonResponse({'message':"Access Denied"},status =400)
+    else:
+        # # print('6')
+        return JsonResponse({'message':"Access Denied"},status =400)
+

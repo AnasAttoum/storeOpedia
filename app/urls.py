@@ -72,4 +72,6 @@ urlpatterns=[
     path( 'store/toggleActivation/<int:storeId>' , views.toggleActivation , name='toggleActivation' ), 
     path( 'store/activation/<int:userId>' , views.activation , name='activation' ), 
 
+    path( 'store/details/<int:storeId>' , views.storeDetails , name='storeDetails' ), 
+
 ]
