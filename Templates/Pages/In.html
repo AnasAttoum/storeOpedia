@@ -26,7 +26,15 @@
                     <span class="DONE" >DONE</span>
                     {% endif %}
                     <div class='name'>
-                        <img src="{% static 'Pic/BestStores.jpg' %}" class="prof" alt="...">
+                      {% if inbox.type == 'Error in pages' %}
+                      <img src="{% static 'Pic/Error.jpg' %}" class="prof" alt="...">
+                      {% elif inbox.type == 'Suggestion' %}
+                      <img src="{% static 'Pic/Suggestion.png' %}" class="prof" alt="...">
+                      {% elif inbox.type == 'how to use' %}
+                      <img src="{% static 'Pic/How.png' %}" class="prof" alt="...">
+                      {% else %}
+                      <img src="{% static 'Pic/Other.png' %}" class="prof" alt="...">
+                      {% endif %}
 
                         <h4  style="font-size: 100%;">{{ inbox.owner }}</h4><br/>
                         <small> User Id: &nbsp; {{ inbox.owner.user_id }}</small>
@@ -48,7 +56,9 @@
                              
                               message</p>
                         <p> {{ inbox.description  }}</p>
-                        <p> {{ inbox.reply  }}</p>
+                        {% if inbox.is_done %}
+                        <p><span style="color: #04e762;">Our Reply : </span>{{ inbox.reply  }}</p>
+                        {% endif %}
                         {% if inbox.is_done == 0 %}
                         <textarea required id="story" placeholder="Message to send..." name="message" rows="3" cols="33" style="border-radius: 5px 1em 5px 1em;"></textarea>
                         {%endif%}
