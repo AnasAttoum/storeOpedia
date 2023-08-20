@@ -96,10 +96,10 @@ def Overview(request):
         'Hama' : len(Store.objects.filter(address='Hama')),
         'Homs' : len(Store.objects.filter(address='Homs')),
         'Idlib' : len(Store.objects.filter(address='Idlib')),
-        'Al-hasaka' : len(Store.objects.filter(address='Al-hasaka')),
-        'Dier Alzour' : len(Store.objects.filter(address='Dier Alzour')),
+        'Alhasaka' : len(Store.objects.filter(address='Al-hasaka')),
+        'DierAlzour' : len(Store.objects.filter(address='Dier Alzour')),
         'Swaidaa' : len(Store.objects.filter(address='Swaidaa')),
-        'Al-Qunaitra' : len(Store.objects.filter(address='Al-Qunaitra')),
+        'AlQunaitra' : len(Store.objects.filter(address='Al-Qunaitra')),
         'Daraa' : len(Store.objects.filter(address='Daraa')),
         'Damascus' : len(Store.objects.filter(address='Damascus')),
     }
@@ -218,13 +218,18 @@ def Inboxes(request,userId):
     id = body['id']
     type = body['type']
     description = body['description']
-    if photo:
+    if body['photo'] !='url':
         photo = body['photo']
+        imageType = body['imageType']
 
     if int(id)==userId:
         userPro = UserProfile.objects.get(user_id = userId)
-        inbox = Inbox( owner = userPro , type = type , description = description , photo = photo)
+        inbox = Inbox( owner = userPro , type = type , description = description)
         inbox.save()
+        if body['photos'] !='url':
+            photo= ContentFile(base64.b64decode(photo),name =str(inbox.id)+ '.' + imageType )
+            inbox.photo = photo
+            inbox.save()
         return JsonResponse({'message':'Message sent successfuly. we will reply as soon as possible'}, status = 200)
 
     return JsonResponse({'message':'Access Denied'}, status = 400)
@@ -1198,13 +1203,20 @@ def showStores(request , userId):
             # print('EEEENNNNDDDDD')
             print(store[i].name)
             print(followNum)
+            if int(id) == 0:
+                fav=False
+                foll=False
+            else:
+                foll=Followed_Stores.objects.filter(user = UserProfile.objects.get(user_id=id) , store = store[i]).exists()
+                fav=Fav_Stores.objects.filter(user = UserProfile.objects.get(user_id=id) , store = store[i]).exists()
             x = {
                 'shopID':str(store[i].id) ,
                 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
                 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].cover_photo.url)) , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude,
-                'isFollow': Followed_Stores.objects.filter(user = UserProfile.objects.get(user_id=id) , store = store[i]).exists(),
-                'isFav': Fav_Stores.objects.filter(user = UserProfile.objects.get(user_id=id) , store = store[i]).exists()
+                'isFollow': foll,
+                'isFav': fav
                 },
+            print('3')
             stores += x
             # print('e')
 
@@ -1224,6 +1236,8 @@ def showPostsOwner(request , storeId):
 
     id = body['id']
     storeID = body['shopID']
+    # print(id)
+    # print(storeID)
     # visitor = body['visitor']
     # print('id' in request.POST)
     # print(request.POST)
@@ -1272,6 +1286,8 @@ def showPostsOwner(request , storeId):
                         'shopDescription':post[i].owner.description , 'socialUrl': socialUrl, 'rate':post[i].owner.rate ,'followesNumber':followNum , 'is_active':post[i].owner.is_active , 'longitude' : post[i].owner.longitude, "latitude":post[i].owner.latitude,
                         'isLike': like
                         },
+                    # print('like')
+                    # print(like)
                     # else:
                         # print('2')
                         # x = {
@@ -1460,9 +1476,11 @@ def showMyLikedPosts(request,userId):
                     'startWorkTime':str(like[i].post.owner.opening) , 'endWorkTime':str(like[i].post.owner.closing) ,
                     'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(like[i].post.owner.profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(like[i].post.owner.cover_photo.url)) ,
                     'shopDescription':like[i].post.owner.description , 'socialUrl': socialUrl, 'rate':like[i].post.owner.rate ,'followesNumber':followNum , 'is_active':like[i].post.owner.is_active , 'longitude' : like[i].post.owner.longitude, "latitude":like[i].post.owner.latitude,
-                    'isFav': Fav_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store =like[i].post.owner).exists(),
+                    # 'isFav': Fav_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store =like[i].post.owner).exists(),
                     'isLike': Liked_Posts.objects.filter(user = UserProfile.objects.get(user_id=userId) , post =like[i].post).exists()
                     },
+                # print('sgvsdfvadvasvasvavsavasvsmneknf;anfvlksanlkcansklnkl')
+                # print(Liked_Posts.objects.filter(user = UserProfile.objects.get(user_id=userId) , post =like[i].post).exists())
                 likes += x
 
 
@@ -1483,7 +1501,7 @@ def showStoresFromCategories(request , userId):
 
     if int(id)==userId and cat:
         if int(id) == 0:
-            store=Store.objects.all()
+            store=Store.objects.filter(category=cat)
         else:
             user = User.objects.get(id=userId)
             userPro = UserProfile.objects.get(user_id=user.id)
@@ -1500,13 +1518,24 @@ def showStoresFromCategories(request , userId):
                 socialUrl = [ store[i].facebook , store[i].insta ]
             else:
                 socialUrl =[]
+            print('1')
+            if int(id) == 0:
+                foll=False
+                fav=False
+            else:
+                foll=Followed_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists()
+                fav=Fav_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists()
+            print('2')
+            
             x = {
                 'shopID':str(store[i].id) ,
                 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
                 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].cover_photo.url)) , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude,
-                'isFollow': Followed_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists(),
-                'isFav': Fav_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists()
+                'isFollow': foll,
+                'isFav': fav
                 },
+            print('3')
+            
             stores += x
         return JsonResponse({"stores":stores , 'message':'Done'},status = 200)
 
@@ -1545,12 +1574,18 @@ def filters(request,userId):
                 socialUrl = [ store[i].facebook , store[i].insta ]
             else:
                 socialUrl =[]
+            if int(id) == 0:
+                fav = False
+                foll = False
+            else:
+                fav = Fav_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists()
+                foll = Followed_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists()
             x = {
                 'shopID':str(store[i].id) ,
                 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
                 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].cover_photo.url)) , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude,
-                'isFollow': Followed_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists(),
-                'isFav': Fav_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists(),
+                'isFollow': foll,
+                'isFav': fav,
                 'creation_date':str(store[i].creation_date)
                 },
             stores += x
@@ -1596,13 +1631,19 @@ def nearestStores(request , userId):
                 socialUrl = [ store[i].facebook , store[i].insta ]
             else:
                 socialUrl =[]
+            if int(id) == 0:
+                foll = False
+                fav = False
+            else:
+                foll = Followed_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists()
+                fav = Fav_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists()
             c2=(store[i].latitude,store[i].longitude)
             x = {
                 'shopID':str(store[i].id) ,
                 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
                 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].cover_photo.url)) , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude,
-                'isFollow': Followed_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists(),
-                'isFav': Fav_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists(),
+                'isFollow': foll,
+                'isFav': fav,
                 'distance':geopy.distance.geodesic(c1,c2).km
                 },
             stores += x
@@ -1639,12 +1680,18 @@ def filterLocation(request , userId):
                 socialUrl = [ store[i].facebook , store[i].insta ]
             else:
                 socialUrl =[]
+            if int(id) == 0:
+                foll = False
+                fav = False
+            else:
+                foll = Followed_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists()
+                fav = Fav_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists()
             x = {
                 'shopID':str(store[i].id) ,
                 'ownerID':str(user.id) , 'ownerEmail':user.email , 'ownerName':user.username ,'ownerPhoneNumber':userPro.phone ,
                 'shopCategory':store[i].category , 'shopName':store[i].name , 'shopPhoneNumber':store[i].phone , 'location':store[i].address , 'startWorkTime':str(store[i].opening) , 'endWorkTime':str(store[i].closing) , 'shopProfileImage':'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].profile_photo.url)) , 'shopCoverImage': 'http://anasattoum2023.pythonanywhere.com/' + str(os.path.abspath(store[i].cover_photo.url)) , 'shopDescription':store[i].description , 'socialUrl': socialUrl, 'rate':store[i].rate ,'followesNumber':followNum , 'is_active':store[i].is_active , 'longitude' : store[i].longitude, "latitude":store[i].latitude,
-                'isFollow': Followed_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists(),
-                'isFav': Fav_Stores.objects.filter(user = UserProfile.objects.get(user_id=userId) , store = store[i]).exists()
+                'isFollow': foll,
+                'isFav': fav
                 },
             stores += x
 
